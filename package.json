@@ -1,0 +1,47 @@
+{
+  "name": "nansi",
+  "version": "0.0.1",
+  "description": "Top secret project...",
+  "main": "not-yet.js",
+  "scripts": {
+    "dev": "kotatsu serve app/main.tsx --open"
+  },
+  "kotatsu": {
+    "typescript": true,
+    "sass": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/medialab/nansi.git"
+  },
+  "keywords": [
+    "graph"
+  ],
+  "contributors": [
+    {
+      "name": "Guillaume Plique",
+      "url": "http://github.com/Yomguithereal"
+    },
+    {
+      "name": "Robin De Mourat",
+      "url": "http://github.com/robindemourat"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/medialab/nansi/issues"
+  },
+  "homepage": "https://github.com/medialab/nansi#readme",
+  "devDependencies": {
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "kotatsu": "^0.22.0",
+    "sass": "^1.29.0",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "bulma": "^0.9.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
