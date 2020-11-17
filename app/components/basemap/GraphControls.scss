@@ -1,18 +1,24 @@
-#BasemapControls {
+// Variables
+// TODO: ask rob
+$nansi-light: #c4c4c4;
+$nansi-dark: #2d2d2d;
+
+#GraphControls {
   position: absolute;
   right: 15px;
   top: 15px;
+  z-index: 10;
 
   .control-button {
     width: 42px;
     height: 42px;
     cursor: pointer;
-    background-color: #c4c4c4;
+    background-color: $nansi-light;
     padding-left: 5px;
     padding-top: 5px;
 
     svg {
-      fill: #2d2d2d;
+      fill: $nansi-dark;
     }
 
     margin-bottom: 5px;

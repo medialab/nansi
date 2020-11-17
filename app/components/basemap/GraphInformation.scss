@@ -1,0 +1,15 @@
+// Variables
+// TODO: ask rob
+$nansi-light: #c4c4c4;
+$nansi-dark: #2d2d2d;
+
+#GraphInformation {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  z-index: 10;
+  background-color: $nansi-light;
+  color: $nansi-dark;
+  padding: 15px;
+  min-width: 300px;
+}

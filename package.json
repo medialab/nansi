@@ -4,11 +4,15 @@
   "description": "Top secret project...",
   "main": "not-yet.js",
   "scripts": {
-    "dev": "kotatsu serve app/main.tsx --open",
+    "dev": "kotatsu serve app/main.tsx --open --progress",
     "prettier": "prettier --write './app/**/*.ts' './app/**/*.tsx' && prettier --parser scss --write '**/*.scss'"
   },
   "kotatsu": {
     "index": "./app/index.html",
+    "public": [
+      "/resources",
+      "./resources"
+    ],
     "typescript": true,
     "sass": true
   },
@@ -38,6 +42,7 @@
   "devDependencies": {
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@types/webpack-env": "^1.15.3",
     "@yomguithereal/prettier-config": "^1.1.0",
     "graphology-types": "^0.19.0",
     "kotatsu": "^0.22.0",
@@ -47,11 +52,13 @@
   },
   "dependencies": {
     "bulma": "^0.9.1",
+    "comma-number": "^2.0.1",
     "graphology": "^0.19.2",
     "graphology-gexf": "^0.7.1",
     "material-icons-svg": "^1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "recoil": "^0.1.2"
+    "recoil": "^0.1.2",
+    "sigma": "^2.0.0-alpha40"
   }
 }

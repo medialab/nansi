@@ -3,7 +3,7 @@ import RescaleIcon from 'material-icons-svg/components/baseline/CenterFocusWeak'
 import ZoomInIcon from 'material-icons-svg/components/baseline/ZoomIn';
 import ZoomOutIcon from 'material-icons-svg/components/baseline/ZoomOut';
 
-import './Controls.scss';
+import './GraphControls.scss';
 
 function ControlButton({Icon}) {
   return (
@@ -13,9 +13,9 @@ function ControlButton({Icon}) {
   );
 }
 
-export default function Controls() {
+export default function GraphControls() {
   return (
-    <div id="BasemapControls">
+    <div id="GraphControls">
       <ControlButton Icon={RescaleIcon} />
       <ControlButton Icon={ZoomInIcon} />
       <ControlButton Icon={ZoomOutIcon} />

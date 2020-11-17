@@ -1,11 +1,17 @@
 import React from 'react';
+import {render} from 'react-dom';
+import {useRecoilValue} from 'recoil';
 
-import Basemap from './basemap';
+import * as atoms from '../atoms';
+import BasemapView from './basemap';
+import ImportView from './import';
 
 export default function Application() {
-  return (
-    <div className="container-fluid">
-      <Basemap />
-    </div>
-  );
+  const view = useRecoilValue(atoms.view);
+
+  if (view === 'import') return <ImportView />;
+
+  if (view === 'basemap') return <BasemapView />;
+
+  throw new Error(`nansi.Application: unknown "${view}" view!`);
 }

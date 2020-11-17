@@ -1,3 +1,11 @@
 import {atom} from 'recoil';
 
-export const view = atom({key: 'view', default: 'basemap'});
+/**
+ * View state atoms.
+ */
+export const view = atom({key: 'view', default: 'import'});
+
+/**
+ * Data atoms.
+ */
+export const graph = atom({key: 'graph', default: null});

@@ -1,11 +1,22 @@
 import React from 'react';
+import {useRecoilValue} from 'recoil';
 
-import Controls from './Controls';
+import * as atoms from '../../atoms';
 
-export default function Basemap() {
+import GraphControls from './GraphControls';
+import GraphContainer from './GraphContainer';
+import GraphInformation from './GraphInformation';
+
+import './index.scss';
+
+export default function BasemapView() {
+  const graph = useRecoilValue(atoms.graph);
+
   return (
-    <div>
-      <Controls />
+    <div className="Basemap container-fluid">
+      <GraphContainer />
+      <GraphControls />
+      <GraphInformation graph={graph} />
     </div>
   );
 }

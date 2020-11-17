@@ -2,17 +2,31 @@ import React from 'react';
 import {render} from 'react-dom';
 import {RecoilRoot} from 'recoil';
 
+import Application from './components/Application';
+
 import './style.scss';
 
-import Application from './components/Application';
+let CurrentApplication = Application;
 
 function ApplicationWrapper() {
   return (
     <RecoilRoot>
-      <Application />
+      <CurrentApplication />
     </RecoilRoot>
   );
 }
 
 const container = document.getElementById('app');
-render(<ApplicationWrapper />, container);
+
+function renderApplication() {
+  render(<ApplicationWrapper />, container);
+}
+
+renderApplication();
+
+if (module.hot) {
+  module.hot.accept('./components/Application', () => {
+    CurrentApplication = require('./components/Application').default;
+    renderApplication();
+  });
+}
