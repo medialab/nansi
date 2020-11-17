@@ -18,7 +18,7 @@ export default function ImportView() {
   const setGraph = useSetRecoilState(atoms.graph);
 
   function loadExampleGraph() {
-    fetch('/resources/arctic.gexf')
+    fetch('./resources/arctic.gexf')
       .then(response => response.text())
       .then(text => {
         // TODO: temp, move this elsewhere
