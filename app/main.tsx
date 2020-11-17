@@ -1,10 +1,18 @@
 import React from 'react';
 import {render} from 'react-dom';
+import {RecoilRoot} from 'recoil';
 
 import './style.scss';
 
 import Application from './components/Application';
 
-const container = document.getElementById('app');
+function ApplicationWrapper() {
+  return (
+    <RecoilRoot>
+      <Application />
+    </RecoilRoot>
+  );
+}
 
-render(<Application />, container);
+const container = document.getElementById('app');
+render(<ApplicationWrapper />, container);

@@ -1,0 +1,20 @@
+#BasemapControls {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+
+  .control-button {
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    background-color: #c4c4c4;
+    padding-left: 5px;
+    padding-top: 5px;
+
+    svg {
+      fill: #2d2d2d;
+    }
+
+    margin-bottom: 5px;
+  }
+}

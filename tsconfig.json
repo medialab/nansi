@@ -4,6 +4,7 @@
     "target": "es5",
     "jsx": "react",
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "allowJs": true,
     "lib": ["DOM"]
   }
