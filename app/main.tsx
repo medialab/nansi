@@ -1,9 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-function Application() {
-  return <div>Hello World</div>;
-}
+import './style.scss';
+
+import Application from './components/Application';
 
 const container = document.getElementById('app');
 
