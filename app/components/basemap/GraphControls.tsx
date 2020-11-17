@@ -5,7 +5,7 @@ import ZoomOutIcon from 'material-icons-svg/components/baseline/ZoomOut';
 
 import './GraphControls.scss';
 
-function ControlButton({Icon, onClick}) {
+export function ControlButton({Icon, onClick}) {
   return (
     <div className="control-button" onClick={onClick}>
       <Icon height={32} width={32} />
