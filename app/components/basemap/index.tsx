@@ -3,7 +3,6 @@ import {useRecoilValue} from 'recoil';
 
 import * as atoms from '../../atoms';
 
-import GraphControls from './GraphControls';
 import GraphContainer from './GraphContainer';
 import GraphInformation from './GraphInformation';
 
@@ -14,8 +13,7 @@ export default function BasemapView() {
 
   return (
     <div className="Basemap container-fluid">
-      <GraphContainer />
-      <GraphControls />
+      <GraphContainer graph={graph} />
       <GraphInformation graph={graph} />
     </div>
   );

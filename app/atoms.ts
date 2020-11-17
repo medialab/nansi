@@ -8,4 +8,8 @@ export const view = atom({key: 'view', default: 'import'});
 /**
  * Data atoms.
  */
-export const graph = atom({key: 'graph', default: null});
+export const graph = atom({
+  key: 'graph',
+  default: null,
+  dangerouslyAllowMutability: true
+});
