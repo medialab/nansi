@@ -8,7 +8,7 @@
     "build": "kotatsu build client app/main.tsx --output build --progress --production",
     "deploy": "./scripts/deploy.sh",
     "dev": "kotatsu serve app/main.tsx --open --progress",
-    "prettier": "prettier --write './app/**/*.ts' './app/**/*.tsx' && prettier --parser scss --write '**/*.scss'"
+    "prettier": "prettier --write '**/*.ts' '**/*.tsx' && prettier --parser scss --write '**/*.scss'"
   },
   "kotatsu": {
     "index": "./app/index.html",
@@ -46,6 +46,7 @@
     "@types/classnames": "^2.2.11",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@types/seedrandom": "^2.4.28",
     "@types/webpack-env": "^1.15.3",
     "@yomguithereal/prettier-config": "^1.1.0",
     "gh-pages": "^3.1.0",
@@ -53,6 +54,7 @@
     "kotatsu": "^0.22.0",
     "prettier": "^2.1.2",
     "sass": "^1.29.0",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
   },
   "dependencies": {
@@ -66,6 +68,7 @@
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
     "recoil": "^0.1.2",
+    "seedrandom": "^3.0.5",
     "sigma": "^2.0.0-alpha40"
   }
 }
