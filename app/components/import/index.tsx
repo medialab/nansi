@@ -1,10 +1,10 @@
 import React from 'react';
-import {useSetRecoilState} from 'recoil';
 import Graph from 'graphology';
 import gexf from 'graphology-gexf/browser';
 
 import FileDrop, {DropPayload} from './FileDrop';
 import * as atoms from '../../atoms';
+import {useSetNewGraph} from '../../actions';
 
 function LoadExampleButton({onClick}) {
   return (
@@ -15,8 +15,7 @@ function LoadExampleButton({onClick}) {
 }
 
 export default function ImportView() {
-  const setView = useSetRecoilState(atoms.view);
-  const setGraph = useSetRecoilState(atoms.graph);
+  const setGraph = useSetNewGraph();
 
   function loadExampleGraph() {
     fetch('./resources/arctic.gexf')
@@ -26,7 +25,6 @@ export default function ImportView() {
         const graph = gexf.parse(Graph, text);
 
         setGraph(graph);
-        setView('basemap');
       });
   }
 
@@ -34,7 +32,6 @@ export default function ImportView() {
     const graph = gexf.parse(Graph, payload.text);
 
     setGraph(graph);
-    setView('basemap');
   }
 
   return (
