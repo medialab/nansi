@@ -3,6 +3,7 @@ import {useSetRecoilState} from 'recoil';
 import Graph from 'graphology';
 import gexf from 'graphology-gexf/browser';
 
+import FileDrop, {DropPayload} from './FileDrop';
 import * as atoms from '../../atoms';
 
 function LoadExampleButton({onClick}) {
@@ -29,9 +30,19 @@ export default function ImportView() {
       });
   }
 
+  function onDrop(payload: DropPayload) {
+    const graph = gexf.parse(Graph, payload.text);
+
+    setGraph(graph);
+    setView('basemap');
+  }
+
   return (
     <div className="container" style={{padding: '50px'}}>
       <LoadExampleButton onClick={loadExampleGraph} />
+      <div>
+        <FileDrop onDrop={onDrop} />
+      </div>
     </div>
   );
 }

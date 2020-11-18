@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+
+.FileDrop {
+  cursor: pointer;
+  margin-top: 20px;
+  border: 1px solid $nansi-dark;
+  background-color: $nansi-light;
+  height: 300px;
+  width: 300px;
+  padding: 15px;
+}
