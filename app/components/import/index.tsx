@@ -3,7 +3,6 @@ import Graph from 'graphology';
 import gexf from 'graphology-gexf/browser';
 
 import FileDrop, {DropPayload} from './FileDrop';
-import * as atoms from '../../atoms';
 import {useSetNewGraph} from '../../actions';
 
 function LoadExampleButton({onClick}) {
