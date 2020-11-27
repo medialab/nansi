@@ -1,26 +1,37 @@
 import React from 'react';
 import comma from 'comma-number';
 import density from 'graphology-metrics/density';
+import Graph from 'graphology-types';
+import truncate from 'lodash/truncate';
 
 import Hint from '../misc/Hint';
 
 import './GraphInformation.scss';
 
-function UnderlyingInformation({hint, children}) {
+function UnderlyingInformation({hint, children, raw = false}) {
   return (
     <Hint
       hint={hint}
       size="large"
-      style={{textDecoration: 'underline dotted', cursor: 'pointer'}}>
+      style={
+        !raw
+          ? {textDecoration: 'underline dotted', cursor: 'pointer'}
+          : {cursor: 'pointer'}
+      }>
       {children}
     </Hint>
   );
 }
 
-export default function GraphInformation({graph}) {
+type GraphInformationProps = {
+  graph: Graph;
+};
+
+export default function GraphInformation({graph}: GraphInformationProps) {
   const order = comma(graph.order);
   const size = comma(graph.size);
   const type = graph.type;
+  const attr = graph.getAttributes();
 
   let infos = {
     multi: {label: '', hint: ''},
@@ -51,15 +62,22 @@ export default function GraphInformation({graph}) {
   if (graph.multi) {
     infos.multi.label = 'Multi';
     infos.multi.hint =
-      'Your graph may contains more than a single edge connecting the same pair of nodes.';
+      'Your graph may contains more than a single edge connecting one node to another.';
   } else {
     infos.multi.label = 'Simple';
     infos.multi.hint =
-      'Your graph only accepts a single edge connecting a same pair of nodes.';
+      'Your graph only accepts a single edge connecting one node to another.';
   }
 
   return (
     <div id="GraphInformation">
+      {attr.title && (
+        <UnderlyingInformation raw hint={attr.title}>
+          <strong>
+            <em>«{truncate(attr.title, {length: 40, omission: '…'})}»</em>
+          </strong>
+        </UnderlyingInformation>
+      )}
       <p>
         <UnderlyingInformation hint={infos.multi.hint}>
           {infos.multi.label}
