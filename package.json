@@ -64,6 +64,7 @@
     "graphology": "^0.19.2",
     "graphology-gexf": "^0.7.1",
     "material-icons-svg": "^1.0.0",
+    "pandemonium": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
