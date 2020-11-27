@@ -8,6 +8,9 @@ $modal-background-background-color: rgba(0, 0, 0, 0.05);
 // Importing bulma
 @import '~bulma';
 
+// Importing other third-party stylesheets
+@import '~hint.css/hint.css';
+
 // Global rules
 html,
 body,

@@ -63,6 +63,8 @@
     "comma-number": "^2.0.1",
     "graphology": "^0.19.2",
     "graphology-gexf": "^0.7.1",
+    "graphology-metrics": "^1.14.1",
+    "hint.css": "^2.6.0",
     "material-icons-svg": "^1.0.0",
     "pandemonium": "^2.0.0",
     "react": "^17.0.1",
