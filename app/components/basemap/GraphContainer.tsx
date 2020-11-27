@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {WebGLRenderer} from 'sigma';
 
 import GraphControls from './GraphControls';
@@ -22,21 +22,30 @@ function zoomOut(renderer: WebGLRenderer): void {
 }
 
 export default function GraphContainer({graph}) {
-  const container = useRef(null);
-  let renderer = null;
+  const ref = useRef(null);
+  const rendererRef = useRef(null);
 
-  if (container.current) {
-    renderer = new WebGLRenderer(graph, container.current);
-  }
+  const setRef = useCallback(
+    node => {
+      if (rendererRef.current) {
+        rendererRef.current.kill();
+      }
+
+      if (node) rendererRef.current = new WebGLRenderer(graph, node);
+
+      ref.current = node;
+    },
+    [graph]
+  );
 
   return (
     <div id="GraphContainer">
-      <div ref={container} style={{width: '100%', height: '100%'}}></div>
-      {renderer && (
+      <div ref={setRef} style={{width: '100%', height: '100%'}}></div>
+      {rendererRef.current && (
         <GraphControls
-          rescale={rescale.bind(null, renderer)}
-          zoomIn={zoomIn.bind(null, renderer)}
-          zoomOut={zoomOut.bind(null, renderer)}
+          rescale={rescale.bind(null, rendererRef.current)}
+          zoomIn={zoomIn.bind(null, rendererRef.current)}
+          zoomOut={zoomOut.bind(null, rendererRef.current)}
         />
       )}
     </div>

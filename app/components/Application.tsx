@@ -1,17 +1,22 @@
 import React from 'react';
-import {render} from 'react-dom';
 import {useRecoilValue} from 'recoil';
 
 import * as atoms from '../atoms';
 import BasemapView from './basemap';
-import ImportView from './import';
+import ImportModal from './import/ImportModal';
 
 export default function Application() {
+  const modal = useRecoilValue(atoms.modal);
   const view = useRecoilValue(atoms.view);
 
-  if (view === 'import') return <ImportView />;
+  let viewComponent = null;
 
-  if (view === 'basemap') return <BasemapView />;
+  if (view === 'basemap') viewComponent = <BasemapView />;
 
-  throw new Error(`nansi.Application: unknown "${view}" view!`);
+  return (
+    <>
+      <ImportModal isOpen={modal === 'import'} />
+      {viewComponent}
+    </>
+  );
 }

@@ -1,3 +1,11 @@
+// Overriding bulma variables
+$radius-small: 0px;
+$radius: 0px;
+$radius-large: 0px;
+
+$modal-background-background-color: rgba(0, 0, 0, 0.05);
+
+// Importing bulma
 @import '~bulma';
 
 // Global rules

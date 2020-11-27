@@ -12,6 +12,8 @@ import './index.scss';
 export default function BasemapView() {
   const graph = useRecoilValue(atoms.graph);
 
+  if (!graph) return null;
+
   return (
     <div className="Basemap container-fluid">
       <ToolBox />

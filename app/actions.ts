@@ -8,13 +8,14 @@ import * as atoms from './atoms';
 export function useSetNewGraph() {
   const setView = useSetRecoilState(atoms.view);
   const setGraph = useSetRecoilState(atoms.graph);
+  const setModal = useSetRecoilState(atoms.modal);
 
   return (graph: Graph) => {
-    setView('basemap');
-
     // Graph processing
     straighten(graph);
 
+    setView('basemap');
+    setModal(null);
     setGraph(graph);
   };
 }

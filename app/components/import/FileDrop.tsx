@@ -36,9 +36,13 @@ export default function FileDrop({onDrop}: FileDropProps) {
     <div className="FileDrop" {...getRootProps()}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <div>Just drop here!</div>
+        <div>
+          <em>Drop here!</em>
+        </div>
       ) : (
-        <div>Drop gexf file here...</div>
+        <div>
+          <em>Drop gexf file here...</em>
+        </div>
       )}
     </div>
   );
