@@ -19,3 +19,9 @@ export function useSetNewGraph() {
     setGraph(graph);
   };
 }
+
+export function useOpenModal() {
+  const setModal = useSetRecoilState(atoms.modal);
+
+  return setModal;
+}

@@ -1,19 +1,21 @@
-import React, {ReactChildren, CSSProperties} from 'react';
+import React, {CSSProperties, ReactNode} from 'react';
 import cls from 'classnames';
+
+export type HintPosition =
+  | 'bottom-left'
+  | 'bottom'
+  | 'bottom-right'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top'
+  | 'top-right';
 
 type HintProps = {
   hint: string;
-  children: ReactChildren;
+  children: ReactNode;
   size?: 'small' | 'medium' | 'large';
-  position?:
-    | 'bottom-left'
-    | 'bottom'
-    | 'bottom-right'
-    | 'left'
-    | 'right'
-    | 'top-left'
-    | 'top'
-    | 'top-right';
+  position?: HintPosition;
   style?: CSSProperties;
 };
 

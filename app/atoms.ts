@@ -2,10 +2,16 @@ import Graph from 'graphology-types';
 import {atom} from 'recoil';
 
 /**
+ * Types.
+ */
+type ModalAtomType = 'import';
+type ViewAtomType = 'basemap';
+
+/**
  * View state atoms.
  */
-export const modal = atom<string>({key: 'modal', default: 'import'});
-export const view = atom<string>({key: 'view', default: 'basemap'});
+export const modal = atom<ModalAtomType>({key: 'modal', default: 'import'});
+export const view = atom<ViewAtomType>({key: 'view', default: 'basemap'});
 
 /**
  * Data atoms.
