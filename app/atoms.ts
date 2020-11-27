@@ -16,7 +16,7 @@ export const view = atom<ViewAtomType>({key: 'view', default: 'basemap'});
 /**
  * Data atoms.
  */
-export const graph = atom<Graph>({
+export const graph = atom<Graph | null>({
   key: 'graph',
   default: null,
   dangerouslyAllowMutability: true
