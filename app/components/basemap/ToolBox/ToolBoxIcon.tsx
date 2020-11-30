@@ -1,5 +1,5 @@
 import React, {ComponentType, MouseEventHandler} from 'react';
-import Hint, {HintPosition, HintSize} from '../misc/Hint';
+import Hint, {HintPosition, HintSize} from '../../misc/Hint';
 
 type ToolBoxIconProps = {
   Icon: ComponentType<any>;

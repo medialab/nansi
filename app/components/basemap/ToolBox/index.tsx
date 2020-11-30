@@ -5,12 +5,13 @@ import ToRightIcon from 'material-icons-svg/components/baseline/KeyboardArrowRig
 import NewProjectIcon from 'material-icons-svg/components/baseline/FileCopy';
 import ExportIcon from 'material-icons-svg/components/baseline/SaveAlt';
 
-import {useOpenModal} from '../../hooks';
+import {useOpenModal} from '../../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
+import {NodeVariables} from './variables';
 
 import './ToolBox.scss';
 
-export function ControlButton({Icon, onClick = null}) {
+function ControlButton({Icon, onClick = null}) {
   return (
     <div className="control-button" onClick={onClick}>
       <Icon height={32} width={32} />
@@ -37,7 +38,9 @@ export default function ToolBox() {
           />
         </div>
       </div>
-      <div id="ToolBoxInner"></div>
+      <div id="ToolBoxInner">
+        <NodeVariables />
+      </div>
       <div id="ToolBoxBottom" className="columns">
         <div className="column is-10" />
         <div className="column is-2">
