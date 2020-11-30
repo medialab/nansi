@@ -4,13 +4,16 @@ import {atom} from 'recoil';
 /**
  * Types.
  */
-type ModalAtomType = 'import';
+type ModalAtomType = 'import' | 'export';
 type ViewAtomType = 'basemap';
 
 /**
  * View state atoms.
  */
-export const modal = atom<ModalAtomType>({key: 'modal', default: 'import'});
+export const modal = atom<ModalAtomType | null>({
+  key: 'modal',
+  default: 'import'
+});
 export const view = atom<ViewAtomType>({key: 'view', default: 'basemap'});
 
 /**

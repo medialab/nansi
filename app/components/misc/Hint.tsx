@@ -11,10 +11,12 @@ export type HintPosition =
   | 'top'
   | 'top-right';
 
+export type HintSize = 'small' | 'medium' | 'large';
+
 type HintProps = {
   hint: string;
   children: ReactNode;
-  size?: 'small' | 'medium' | 'large';
+  size?: HintSize;
   position?: HintPosition;
   style?: CSSProperties;
 };

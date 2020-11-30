@@ -1,7 +1,18 @@
-// import Graph from 'graphology';
+import Graph from 'graphology';
+import gexf from 'graphology-gexf/browser';
 
-// type ExportOptions = {
-//   format: 'gexf';
-// };
+import {saveText} from './save';
 
-// export function exportGraph(graph: Graph, options: ExportOptions) {}
+type ExportOptions = {
+  name: string;
+  format: 'gexf';
+};
+
+export function exportGraph(graph: Graph, options: ExportOptions): void {
+  if (options.format === 'gexf') {
+    saveText('graph.gexf', gexf.write(graph), 'application/xml');
+    return;
+  }
+
+  throw new Error('nansi/app/lib/export: unknown export format!');
+}

@@ -1,5 +1,5 @@
 import Graph from 'graphology';
-import gexf from 'graphology-gexf';
+import gexf from 'graphology-gexf/browser';
 
 import straighten from '../../lib/straighten';
 
@@ -28,7 +28,7 @@ function importText(options: ImportOptions, callback: ImportCallback): void {
   if (options.format === 'gexf')
     return callback(null, gexf.parse(Graph, options.text));
 
-  return callback(new Error('unknown text format'));
+  return callback(new Error('nansi/app/lib/import: unknown text format!'));
 }
 
 const importFunctions = {

@@ -3,8 +3,9 @@ import cls from 'classnames';
 import ToLeftIcon from 'material-icons-svg/components/baseline/KeyboardArrowLeft';
 import ToRightIcon from 'material-icons-svg/components/baseline/KeyboardArrowRight';
 import NewProjectIcon from 'material-icons-svg/components/baseline/FileCopy';
+import ExportIcon from 'material-icons-svg/components/baseline/SaveAlt';
 
-import {useOpenModal} from '../../actions';
+import {useOpenModal} from '../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
 
 import './ToolBox.scss';
@@ -37,7 +38,16 @@ export default function ToolBox() {
         </div>
       </div>
       <div id="ToolBoxInner"></div>
-      <div id="ToolBoxBottom"></div>
+      <div id="ToolBoxBottom" className="columns">
+        <div className="column is-10" />
+        <div className="column is-2">
+          <ToolBoxIcon
+            Icon={ExportIcon}
+            hint="Export graph"
+            onClick={() => openModal('export')}
+          />
+        </div>
+      </div>
       <ControlButton
         Icon={expanded ? ToLeftIcon : ToRightIcon}
         onClick={() => setExpanded(!expanded)}

@@ -62,6 +62,7 @@
     "bulma": "^0.9.1",
     "classnames": "^2.2.6",
     "comma-number": "^2.0.1",
+    "file-saver": "^2.0.5",
     "graphology": "^0.19.2",
     "graphology-gexf": "^0.7.1",
     "graphology-metrics": "^1.14.1",

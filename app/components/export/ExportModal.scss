@@ -1,0 +1,16 @@
+@import '../../variables.scss';
+
+#ExportModal {
+  .export-modal-box {
+    background-color: white;
+    padding: 15px;
+    border: 1px solid $nansi-light;
+    min-height: 355px;
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import cls from 'classnames';
 
 import FileDrop, {DropPayload} from './FileDrop';
-import {useSetNewGraph} from '../../actions';
+import {useSetNewGraph} from '../../hooks';
 import {importGraph} from '../../lib/import';
 
 import './ImportModal.scss';

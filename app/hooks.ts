@@ -1,7 +1,13 @@
 import Graph from 'graphology-types';
-import {useSetRecoilState} from 'recoil';
+import {useSetRecoilState, useRecoilValue} from 'recoil';
 
 import * as atoms from './atoms';
+
+export function useGraph() {
+  const graph = useRecoilValue(atoms.graph);
+
+  return graph;
+}
 
 export function useSetNewGraph() {
   const setView = useSetRecoilState(atoms.view);
@@ -19,4 +25,10 @@ export function useOpenModal() {
   const setModal = useSetRecoilState(atoms.modal);
 
   return setModal;
+}
+
+export function useCloseModal() {
+  const setModal = useSetRecoilState(atoms.modal);
+
+  return () => setModal(null);
 }
