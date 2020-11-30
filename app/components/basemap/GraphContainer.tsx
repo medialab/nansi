@@ -4,7 +4,6 @@ import {WebGLRenderer} from 'sigma';
 import GraphControls from './GraphControls';
 
 import './GraphContainer.scss';
-import {render} from 'react-dom';
 
 // Camera controls
 function rescale(renderer: WebGLRenderer): void {
