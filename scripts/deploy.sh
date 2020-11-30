@@ -3,6 +3,7 @@ npm run clean
 
 echo "Building client..."
 npm run build
+echo
 
 echo "Copying assets..."
 cp app/index.html build/index.template.html
