@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import Graph from 'graphology';
-import gexf from 'graphology-gexf/browser';
 import cls from 'classnames';
 
 import FileDrop, {DropPayload} from './FileDrop';
 import {useSetNewGraph} from '../../actions';
+import {importGraph} from '../../lib/import';
 
 import './ImportModal.scss';
 
@@ -35,21 +34,18 @@ export default function ImportModal({isOpen}: ImportModalProps) {
 
   const setGraph = useSetNewGraph();
 
-  function loadExampleGraph() {
-    fetch('./resources/arctic.gexf')
-      .then(response => response.text())
-      .then(text => {
-        // TODO: temp, move this elsewhere
-        const graph = gexf.parse(Graph, text);
+  function doSetGraph(err, graph) {
+    if (err) return console.error(err);
 
-        setGraph(graph);
-      });
+    setGraph(graph);
+  }
+
+  function loadExampleGraph() {
+    importGraph({type: 'example', name: 'arctic'}, doSetGraph);
   }
 
   function onDrop(payload: DropPayload) {
-    const graph = gexf.parse(Graph, payload.text);
-
-    setGraph(graph);
+    importGraph({type: 'text', format: 'gexf', text: payload.text}, doSetGraph);
   }
 
   return (

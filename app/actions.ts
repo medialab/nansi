@@ -1,8 +1,6 @@
 import Graph from 'graphology-types';
 import {useSetRecoilState} from 'recoil';
 
-import straighten from '../lib/straighten';
-
 import * as atoms from './atoms';
 
 export function useSetNewGraph() {
@@ -11,9 +9,6 @@ export function useSetNewGraph() {
   const setModal = useSetRecoilState(atoms.modal);
 
   return (graph: Graph) => {
-    // Graph processing
-    straighten(graph);
-
     setView('basemap');
     setModal(null);
     setGraph(graph);
