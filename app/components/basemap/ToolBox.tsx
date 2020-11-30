@@ -23,7 +23,7 @@ export default function ToolBox() {
 
   return (
     <div id="ToolBox" className={cls(expanded && 'expanded')}>
-      <div className="columns">
+      <div id="ToolBoxTop" className="columns">
         <div className="column is-10">
           <h1>Nansi</h1>
         </div>
@@ -36,6 +36,8 @@ export default function ToolBox() {
           />
         </div>
       </div>
+      <div id="ToolBoxInner"></div>
+      <div id="ToolBoxBottom"></div>
       <ControlButton
         Icon={expanded ? ToLeftIcon : ToRightIcon}
         onClick={() => setExpanded(!expanded)}

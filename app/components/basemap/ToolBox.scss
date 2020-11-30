@@ -8,7 +8,6 @@
   width: 300px;
   height: calc(100vh - 30px);
   z-index: 10;
-  padding: 15px;
   border: 1px solid $nansi-dark;
 
   transition-property: left;
@@ -40,5 +39,21 @@
   h1 {
     font-weight: bold;
     font-size: 1.4em;
+  }
+
+  #ToolBoxTop,
+  #ToolBoxBottom {
+    padding: 15px;
+  }
+
+  #ToolBoxTop {
+    margin-bottom: 0px;
+  }
+
+  #ToolBoxInner {
+    background-color: $nansi-medium;
+    border-top: 1px solid $nansi-dark;
+    border-bottom: 1px solid $nansi-dark;
+    height: calc(100vh - 30px - 80px - 64px);
   }
 }
