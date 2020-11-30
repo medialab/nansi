@@ -11,6 +11,7 @@
     "prettier": "prettier --write '**/*.ts' '**/*.tsx' && prettier --parser scss --write '**/*.scss'"
   },
   "kotatsu": {
+    "config": "./webpack.config.js",
     "index": "./app/index.html",
     "public": [
       "/resources",
