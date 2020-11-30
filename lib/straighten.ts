@@ -16,7 +16,15 @@ function isNumber(value): boolean {
  * Function used to "straighten" a graph by adding missing positions,
  * for instance.
  */
-export default function straighten(graph: Graph): void {
+type GraphModelAttribute = {
+  name: string;
+};
+
+type GraphModel = {
+  nodes: {[key: string]: GraphModelAttribute};
+};
+
+export default function straighten(graph: Graph): GraphModel {
   let minX: number = Infinity;
   let maxX: number = -Infinity;
   let minY: number = Infinity;
@@ -24,7 +32,11 @@ export default function straighten(graph: Graph): void {
 
   let missingPositions = false;
 
-  // Computing extents
+  const model: GraphModel = {
+    nodes: {}
+  };
+
+  // Computing extents & model
   graph.forEachNode((node, attr) => {
     if (isNumber(attr.x)) {
       if (attr.x < minX) minX = attr.x;
@@ -38,6 +50,13 @@ export default function straighten(graph: Graph): void {
       else if (attr.y > maxY) maxY = attr.y;
     } else {
       missingPositions = true;
+    }
+
+    // Attributes inference
+    for (const k in attr) {
+      if (!(k in model.nodes)) {
+        model.nodes[k] = {name: k};
+      }
     }
   });
 
@@ -59,4 +78,6 @@ export default function straighten(graph: Graph): void {
 
       return attr;
     });
+
+  return model;
 }
