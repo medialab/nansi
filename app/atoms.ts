@@ -31,11 +31,17 @@ export const model = atom<GraphModel | null>({
 /**
  * Toolbox state.
  */
-type ToolBoxState = {
-  nodeColor: string;
+export type ToolBoxNodeVariables = {
+  color: string | null;
 };
 
-export const toolboxState = atom<ToolBoxState | null>({
-  key: 'toolboxState',
+export type ToolBoxState = {
+  variables: {
+    nodes: ToolBoxNodeVariables;
+  };
+};
+
+export const toolBoxState = atom<ToolBoxState | null>({
+  key: 'toolBoxState',
   default: null
 });

@@ -46,9 +46,11 @@
   "homepage": "https://github.com/medialab/nansi#readme",
   "devDependencies": {
     "@types/classnames": "^2.2.11",
+    "@types/lodash": "^4.14.165",
     "@types/mocha": "^8.0.4",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-select": "^3.0.26",
     "@types/seedrandom": "^2.4.28",
     "@types/webpack-env": "^1.16.0",
     "@yomguithereal/prettier-config": "^1.1.0",

@@ -95,8 +95,10 @@ type GraphModelAttribute =
   | GraphModelKeyAttribute
   | GraphModelUnknownAttribute;
 
+export type GraphModelDeclaration = {[key: string]: GraphModelAttribute};
+
 export type GraphModel = {
-  nodes: {[key: string]: GraphModelAttribute};
+  nodes: GraphModelDeclaration;
 };
 
 /**
