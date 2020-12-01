@@ -5,7 +5,7 @@
     "jsx": "react",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "allowJs": true,
+    "allowJs": false,
     "lib": ["DOM"]
   }
 }
