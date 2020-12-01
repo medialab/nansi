@@ -142,8 +142,10 @@ export default function straighten(graph: Graph): GraphModel {
       let probableType: GraphModelAttributeType = 'unknown';
 
       if (typeof v === 'number') probableType = 'number';
+      else if (typeof v === 'string') probableType = 'category';
 
-      if (typeof v === 'string') probableType = 'category';
+      if (k === 'color') probableType = 'key';
+      else if (k === 'label') probableType = 'key';
 
       let currentAttribute = model.nodes[k];
 
