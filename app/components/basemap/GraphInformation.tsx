@@ -2,6 +2,7 @@ import React from 'react';
 import comma from 'comma-number';
 import density from 'graphology-metrics/density';
 import Graph from 'graphology-types';
+import inferType from 'graphology-utils/infer-type';
 import truncate from 'lodash/truncate';
 
 import Hint from '../misc/Hint';
@@ -30,26 +31,15 @@ type GraphInformationProps = {
 export default function GraphInformation({graph}: GraphInformationProps) {
   const order = comma(graph.order);
   const size = comma(graph.size);
-  const type = graph.type;
+  const type = inferType(graph);
   const attr = graph.getAttributes();
 
   let infos = {
     multi: {label: '', hint: ''},
-    sparsity: {label: '', hint: ''},
     type: {hint: ''}
   };
 
   const d = density(graph);
-
-  if (d > 0.1) {
-    infos.sparsity.label = 'dense';
-    infos.sparsity.hint =
-      'A large proportion of possible edges is present in your graph.';
-  } else {
-    infos.sparsity.label = 'sparse';
-    infos.sparsity.hint =
-      'Very few of the possible edges exist in your graph. Most of graphs in social network analysis are sparse.';
-  }
 
   if (type === 'directed') {
     infos.type.hint = 'Your graph only contains directed edges.';
@@ -82,9 +72,6 @@ export default function GraphInformation({graph}: GraphInformationProps) {
         <UnderlyingInformation hint={infos.multi.hint}>
           {infos.multi.label}
         </UnderlyingInformation>{' '}
-        <UnderlyingInformation hint={infos.sparsity.hint}>
-          {infos.sparsity.label}
-        </UnderlyingInformation>{' '}
         <UnderlyingInformation hint={infos.type.hint}>
           {type}
         </UnderlyingInformation>{' '}
@@ -94,7 +81,10 @@ export default function GraphInformation({graph}: GraphInformationProps) {
         <strong>{order}</strong> nodes and <strong>{size}</strong> edges
       </p>
       <p>
-        Density: ~<strong>{d.toFixed(4)}</strong>
+        <UnderlyingInformation hint="Proportion of possible edges actually existing in your graph.">
+          Density
+        </UnderlyingInformation>
+        : ~<strong>{d.toFixed(4)}</strong>
       </p>
     </div>
   );
