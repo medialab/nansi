@@ -1,3 +1,7 @@
+const DefinePlugin = require('webpack').DefinePlugin;
+
+const NANSI_BASE_URL = process.env.NANSI_BASE_URL || '/';
+
 module.exports = {
   performance: {
     hints: false
@@ -5,11 +9,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.worker\.js$/,
+        test: /\.worker\.ts$/,
         use: {
           loader: 'worker-loader'
         }
       }
     ]
-  }
+  },
+  plugins: [new DefinePlugin({NANSI_BASE_URL: JSON.stringify(NANSI_BASE_URL)})]
 };

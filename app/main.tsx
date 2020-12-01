@@ -6,6 +6,10 @@ import Application from './components/Application';
 
 import './style.scss';
 
+declare global {
+  const NANSI_BASE_URL: string;
+}
+
 let CurrentApplication = Application;
 
 function ApplicationWrapper() {

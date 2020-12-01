@@ -3,7 +3,7 @@ import cls from 'classnames';
 
 import FileDrop from './FileDrop';
 import {useSetNewGraph} from '../../hooks';
-import {importGraph} from '../../lib/import';
+import workerPool from '../../workers/pool';
 
 import './ImportModal.scss';
 
@@ -25,6 +25,7 @@ type ImportModalProps = {
 
 export default function ImportModal({isOpen}: ImportModalProps) {
   const [activeTab, setActiveTab] = useState('file');
+  const [isLoading, setIsLoading] = useState(false);
 
   const setActiveTabIfDifferent = newActiveTab => {
     if (newActiveTab === activeTab) return;
@@ -34,18 +35,34 @@ export default function ImportModal({isOpen}: ImportModalProps) {
 
   const setGraph = useSetNewGraph();
 
-  function doSetGraph(err, {graph, model}) {
+  function onGraphImported(err, {graph, model}) {
+    setIsLoading(false);
     if (err) return console.error(err);
-    console.log(model);
+
     setGraph(graph, model);
   }
 
   function loadExampleGraph() {
-    importGraph({type: 'example', name: 'arctic'}, doSetGraph);
+    setIsLoading(true);
+    workerPool.import({type: 'example', name: 'arctic'}, onGraphImported);
   }
 
   function onDrop(file: File) {
-    importGraph({type: 'file', file}, doSetGraph);
+    setIsLoading(true);
+    workerPool.import({type: 'file', file}, onGraphImported);
+  }
+
+  let body = null;
+
+  if (isLoading) {
+    body = <progress className="progress is-dark is-large" />;
+  } else {
+    body =
+      activeTab === 'file' ? (
+        <FileDrop onDrop={onDrop} />
+      ) : (
+        <ExampleList onClick={loadExampleGraph} />
+      );
   }
 
   return (
@@ -70,11 +87,7 @@ export default function ImportModal({isOpen}: ImportModalProps) {
               </li>
             </ul>
           </div>
-          {activeTab === 'file' ? (
-            <FileDrop onDrop={onDrop} />
-          ) : (
-            <ExampleList onClick={loadExampleGraph} />
-          )}
+          {body}
         </div>
       </div>
     </div>

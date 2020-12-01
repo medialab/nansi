@@ -1,3 +1,5 @@
+NANSI_BASE_URL=/nansi/
+
 echo "Cleanup..."
 npm run clean
 

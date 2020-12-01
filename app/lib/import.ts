@@ -1,9 +1,9 @@
 import Graph from 'graphology';
-import gexf from 'graphology-gexf/browser';
+import gexf from 'graphology-gexf';
 
 import straighten, {GraphModel} from '../../lib/straighten';
 
-type ImportOptions = {
+export type ImportOptions = {
   type: 'example' | 'file' | 'text';
   format?: 'gexf';
   name?: string;
@@ -13,7 +13,7 @@ type ImportOptions = {
 
 type ImportSubCallback = (err: Error | null, graph?: Graph) => void;
 
-type ImportCallback = (
+export type ImportCallback = (
   err: Error | null,
   result?: {graph: Graph; model: GraphModel}
 ) => void;
@@ -22,7 +22,7 @@ function importExample(
   options: ImportOptions,
   callback: ImportSubCallback
 ): void {
-  const url = `./resources/${options.name}.gexf`;
+  const url = `${NANSI_BASE_URL}resources/${options.name}.gexf`;
 
   fetch(url)
     .then(response => response.text())

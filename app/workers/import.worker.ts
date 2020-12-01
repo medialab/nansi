@@ -6,6 +6,8 @@ ctx.onmessage = event => {
   importGraph(event.data, (err, {graph, model}) => {
     if (err) return ctx.postMessage({error: err});
 
-    return ctx.postMessage({result: {serializedGraph: graph, model}});
+    return ctx.postMessage({result: {serializedGraph: graph.export(), model}});
   });
 };
+
+export default {} as typeof Worker & {new (): Worker};
