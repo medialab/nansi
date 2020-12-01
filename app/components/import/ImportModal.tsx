@@ -12,7 +12,10 @@ function ExampleList({onClick}) {
     <div className="content">
       <ul>
         <li>
-          <a onClick={onClick}>Arctic graph</a>
+          <a onClick={() => onClick('arctic')}>Arctic graph</a>
+        </li>
+        <li>
+          <a onClick={() => onClick('rio')}>RIO graph</a>
         </li>
       </ul>
     </div>
@@ -42,9 +45,9 @@ export default function ImportModal({isOpen}: ImportModalProps) {
     setGraph(graph, model);
   }
 
-  function loadExampleGraph() {
+  function loadExampleGraph(name) {
     setIsLoading(true);
-    workerPool.import({type: 'example', name: 'arctic'}, onGraphImported);
+    workerPool.import({type: 'example', name}, onGraphImported);
   }
 
   function onDrop(file: File) {

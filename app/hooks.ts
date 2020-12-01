@@ -1,3 +1,4 @@
+import {useRef, useEffect} from 'react';
 import Graph from 'graphology-types';
 import {GraphModel} from '../lib/straighten';
 import {useSetRecoilState, useRecoilValue, useRecoilState} from 'recoil';
@@ -5,6 +6,14 @@ import set from 'lodash/fp/set';
 
 import * as atoms from './atoms';
 import {ToolBoxState} from './atoms';
+
+export function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 export function useGraph() {
   const graph = useRecoilValue(atoms.graph);
