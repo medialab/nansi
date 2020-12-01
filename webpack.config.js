@@ -11,7 +11,10 @@ module.exports = {
       {
         test: /\.worker\.ts$/,
         use: {
-          loader: 'worker-loader'
+          loader: 'worker-loader',
+          options: {
+            publicPath: NANSI_BASE_URL
+          }
         }
       }
     ]
