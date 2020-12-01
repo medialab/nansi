@@ -1,9 +1,23 @@
 import Graph from 'graphology-types';
 import seedrandom from 'seedrandom';
 import {createRandomFloat} from 'pandemonium/random-float';
+import MultiSet from 'mnemonist/multi-set';
 
 const RNG = seedrandom('nansi');
 const randomFloat = createRandomFloat(RNG);
+
+/**
+ * Constants.
+ */
+const WELL_KNOWN_NODE_ATTRIBUTES = new Set([
+  'label',
+  'size',
+  'x',
+  'y',
+  'color'
+]);
+const CATEGORY_CUTOFF_RATIO = 0.6;
+const CATEGORY_TOP_VALUES = 15;
 
 /**
  * Helper used to assess whether the given value is truly a number.
@@ -13,17 +27,81 @@ function isNumber(value): boolean {
 }
 
 /**
- * Function used to "straighten" a graph by adding missing positions,
- * for instance.
+ * Types used to represent the inferred model.
  */
-type GraphModelAttribute = {
+type GraphModelAttributeStatus = 'own' | 'well-known' | 'computed';
+type GraphModelAttributeType = 'category' | 'number' | 'key' | 'unknown';
+
+class GraphModelBaseAttribute {
   name: string;
+  status: GraphModelAttributeStatus;
+  type: GraphModelAttributeType;
+  count: number;
+
+  constructor(name: string, status: GraphModelAttributeStatus, count = 0) {
+    this.name = name;
+    this.status = status;
+    this.count = count;
+  }
+
+  // noop
+  finalize() {}
+}
+
+class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
+  type: 'category' = 'category';
+  frequencies?: MultiSet<string> = new MultiSet();
+  cardinality?: number = 0;
+  top?: Array<[string, number]>;
+
+  degradeToKeyAttribute() {
+    return new GraphModelKeyAttribute(this.name, this.status, this.count);
+  }
+
+  finalize() {
+    this.cardinality = this.frequencies.dimension;
+    this.top = this.frequencies.top(CATEGORY_TOP_VALUES);
+
+    delete this.frequencies;
+  }
+}
+
+class GraphModelNumberAttribute extends GraphModelBaseAttribute {
+  type: 'number' = 'number';
+  max: number = -Infinity;
+  min: number = Infinity;
+}
+
+class GraphModelKeyAttribute extends GraphModelBaseAttribute {
+  type: 'key' = 'key';
+}
+
+class GraphModelUnknownAttribute extends GraphModelBaseAttribute {
+  type: 'unknown' = 'unknown';
+}
+
+const attributeClasses = {
+  unknown: GraphModelUnknownAttribute,
+  category: GraphModelCategoryAttribute,
+  key: GraphModelKeyAttribute,
+  number: GraphModelNumberAttribute
 };
+
+type GraphModelAttribute =
+  | GraphModelBaseAttribute
+  | GraphModelCategoryAttribute
+  | GraphModelNumberAttribute
+  | GraphModelKeyAttribute
+  | GraphModelUnknownAttribute;
 
 type GraphModel = {
   nodes: {[key: string]: GraphModelAttribute};
 };
 
+/**
+ * Function used to "straighten" a graph by adding missing positions,
+ * for instance.
+ */
 export default function straighten(graph: Graph): GraphModel {
   let minX: number = Infinity;
   let maxX: number = -Infinity;
@@ -54,8 +132,40 @@ export default function straighten(graph: Graph): GraphModel {
 
     // Attributes inference
     for (const k in attr) {
-      if (!(k in model.nodes)) {
-        model.nodes[k] = {name: k};
+      const v = attr[k];
+
+      let probableType: GraphModelAttributeType = 'unknown';
+
+      if (typeof v === 'number') probableType = 'number';
+
+      if (typeof v === 'string') probableType = 'category';
+
+      let currentAttribute = model.nodes[k];
+
+      if (!currentAttribute) {
+        currentAttribute = new attributeClasses[probableType](
+          k,
+          WELL_KNOWN_NODE_ATTRIBUTES.has(k) ? 'well-known' : 'own'
+        );
+        model.nodes[k] = currentAttribute;
+      }
+
+      currentAttribute.count++;
+
+      // TODO: handle conflicts
+      if (currentAttribute instanceof GraphModelNumberAttribute) {
+        if (v > currentAttribute.max) currentAttribute.max = v;
+        if (v < currentAttribute.min) currentAttribute.min = v;
+      } else if (currentAttribute instanceof GraphModelCategoryAttribute) {
+        currentAttribute.frequencies.add(v);
+
+        // Too much unique values to consider it a category
+        if (
+          currentAttribute.frequencies.dimension >
+          graph.order * CATEGORY_CUTOFF_RATIO
+        ) {
+          model.nodes[k] = currentAttribute.degradeToKeyAttribute();
+        }
       }
     }
   });
@@ -78,6 +188,8 @@ export default function straighten(graph: Graph): GraphModel {
 
       return attr;
     });
+
+  for (const k in model.nodes) model.nodes[k].finalize();
 
   return model;
 }
