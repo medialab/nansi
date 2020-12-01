@@ -1,4 +1,5 @@
-NANSI_BASE_URL=/nansi/
+export NANSI_BASE_URL=/nansi/
+export NODE_ENV=production
 
 echo "Cleanup..."
 npm run clean
