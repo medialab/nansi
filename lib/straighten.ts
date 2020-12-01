@@ -2,6 +2,7 @@ import Graph from 'graphology-types';
 import seedrandom from 'seedrandom';
 import {createRandomFloat} from 'pandemonium/random-float';
 import MultiSet from 'mnemonist/multi-set';
+// import louvain from 'graphology-communities-louvain';
 
 const RNG = seedrandom('nansi');
 const randomFloat = createRandomFloat(RNG);
@@ -114,6 +115,10 @@ export default function straighten(graph: Graph): GraphModel {
     nodes: {}
   };
 
+  // Computing some metrics
+  // if (!graph.multi)
+  //   louvain.assign(graph, {attributes: {community: 'nansi-louvain'}});
+
   // Computing extents & model
   graph.forEachNode((node, attr) => {
     if (isNumber(attr.x)) {
@@ -143,10 +148,13 @@ export default function straighten(graph: Graph): GraphModel {
       let currentAttribute = model.nodes[k];
 
       if (!currentAttribute) {
-        currentAttribute = new attributeClasses[probableType](
-          k,
-          WELL_KNOWN_NODE_ATTRIBUTES.has(k) ? 'wellKnown' : 'own'
-        );
+        let kind: GraphModelAttributeKind = 'own';
+
+        if (WELL_KNOWN_NODE_ATTRIBUTES.has(k)) kind = 'wellKnown';
+
+        if (k.startsWith('nansi-')) kind = 'computed';
+
+        currentAttribute = new attributeClasses[probableType](k, kind);
         model.nodes[k] = currentAttribute;
       }
 

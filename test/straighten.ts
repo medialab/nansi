@@ -1,12 +1,13 @@
 import assert from 'assert';
 import {loadGexfResource} from './utils';
 import straighten from '../lib/straighten';
+import toSimple from 'graphology-operators/to-simple';
 
 const ARCTIC = loadGexfResource('arctic');
 
 describe('straighten', function () {
   it('should return the correct model.', function () {
-    const graph = ARCTIC.copy();
+    const graph = toSimple(ARCTIC);
 
     const model = straighten(graph);
 

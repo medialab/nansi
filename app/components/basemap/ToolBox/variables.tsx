@@ -29,7 +29,7 @@ function pickColorOptions(modelByStatus) {
         }
       ]
     });
-  console.log(modelByStatus.own);
+
   const ownOptions = (modelByStatus.own || [])
     .filter(attr => {
       return attr.type === 'category';
