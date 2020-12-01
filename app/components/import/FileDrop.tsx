@@ -3,29 +3,13 @@ import {useDropzone} from 'react-dropzone';
 
 import './FileDrop.scss';
 
-export type DropPayload = {
-  type: 'gexf';
-  text: string;
-};
-
 type FileDropProps = {
-  onDrop: (payload: DropPayload) => void;
+  onDrop: (file: File) => void;
 };
 
 export default function FileDrop({onDrop}: FileDropProps) {
   const dropCallback = useCallback(acceptedFiles => {
-    const reader = new FileReader();
-
-    reader.onload = e => {
-      const text = e.target.result as string;
-
-      onDrop({
-        type: 'gexf',
-        text
-      });
-    };
-
-    reader.readAsText(acceptedFiles[0]);
+    onDrop(acceptedFiles[0]);
   }, []);
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({

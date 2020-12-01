@@ -8,6 +8,7 @@ type ImportOptions = {
   format?: 'gexf';
   name?: string;
   text?: string;
+  file?: File;
 };
 
 type ImportCallback = (err: Error | null, graph?: Graph) => void;
@@ -31,9 +32,22 @@ function importText(options: ImportOptions, callback: ImportCallback): void {
   return callback(new Error('nansi/app/lib/import: unknown text format!'));
 }
 
+function importFile(options: ImportOptions, callback: ImportCallback): void {
+  const reader = new FileReader();
+
+  reader.onload = e => {
+    const text = e.target.result as string;
+
+    return importText({type: 'text', text, format: 'gexf'}, callback);
+  };
+
+  reader.readAsText(options.file);
+}
+
 const importFunctions = {
   example: importExample,
-  text: importText
+  text: importText,
+  file: importFile
 };
 
 export function importGraph(

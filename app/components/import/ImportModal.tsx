@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import cls from 'classnames';
 
-import FileDrop, {DropPayload} from './FileDrop';
+import FileDrop from './FileDrop';
 import {useSetNewGraph} from '../../hooks';
 import {importGraph} from '../../lib/import';
 
@@ -44,8 +44,8 @@ export default function ImportModal({isOpen}: ImportModalProps) {
     importGraph({type: 'example', name: 'arctic'}, doSetGraph);
   }
 
-  function onDrop(payload: DropPayload) {
-    importGraph({type: 'text', format: 'gexf', text: payload.text}, doSetGraph);
+  function onDrop(file: File) {
+    importGraph({type: 'file', file}, doSetGraph);
   }
 
   return (
