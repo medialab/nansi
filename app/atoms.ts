@@ -1,5 +1,6 @@
 import Graph from 'graphology-types';
 import {atom} from 'recoil';
+import {GraphModel} from '../lib/straighten';
 
 /**
  * Types.
@@ -23,4 +24,9 @@ export const graph = atom<Graph | null>({
   key: 'graph',
   default: null,
   dangerouslyAllowMutability: true
+});
+
+export const model = atom<GraphModel | null>({
+  key: 'model',
+  default: null
 });

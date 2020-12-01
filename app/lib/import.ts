@@ -1,7 +1,7 @@
 import Graph from 'graphology';
 import gexf from 'graphology-gexf/browser';
 
-import straighten from '../../lib/straighten';
+import straighten, {GraphModel} from '../../lib/straighten';
 
 type ImportOptions = {
   type: 'example' | 'file' | 'text';
@@ -11,9 +11,17 @@ type ImportOptions = {
   file?: File;
 };
 
-type ImportCallback = (err: Error | null, graph?: Graph) => void;
+type ImportSubCallback = (err: Error | null, graph?: Graph) => void;
 
-function importExample(options: ImportOptions, callback: ImportCallback): void {
+type ImportCallback = (
+  err: Error | null,
+  result?: {graph: Graph; model: GraphModel}
+) => void;
+
+function importExample(
+  options: ImportOptions,
+  callback: ImportSubCallback
+): void {
   const url = `./resources/${options.name}.gexf`;
 
   fetch(url)
@@ -25,14 +33,14 @@ function importExample(options: ImportOptions, callback: ImportCallback): void {
     });
 }
 
-function importText(options: ImportOptions, callback: ImportCallback): void {
+function importText(options: ImportOptions, callback: ImportSubCallback): void {
   if (options.format === 'gexf')
     return callback(null, gexf.parse(Graph, options.text));
 
   return callback(new Error('nansi/app/lib/import: unknown text format!'));
 }
 
-function importFile(options: ImportOptions, callback: ImportCallback): void {
+function importFile(options: ImportOptions, callback: ImportSubCallback): void {
   const reader = new FileReader();
 
   reader.onload = e => {
@@ -62,8 +70,8 @@ export function importGraph(
     if (err) return callback(err);
 
     // Common graph processing
-    straighten(graph);
+    const model = straighten(graph);
 
-    return callback(null, graph);
+    return callback(null, {graph, model});
   });
 }

@@ -34,10 +34,10 @@ export default function ImportModal({isOpen}: ImportModalProps) {
 
   const setGraph = useSetNewGraph();
 
-  function doSetGraph(err, graph) {
+  function doSetGraph(err, {graph, model}) {
     if (err) return console.error(err);
-
-    setGraph(graph);
+    console.log(model);
+    setGraph(graph, model);
   }
 
   function loadExampleGraph() {

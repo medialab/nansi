@@ -94,7 +94,7 @@ type GraphModelAttribute =
   | GraphModelKeyAttribute
   | GraphModelUnknownAttribute;
 
-type GraphModel = {
+export type GraphModel = {
   nodes: {[key: string]: GraphModelAttribute};
 };
 
