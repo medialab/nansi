@@ -3,14 +3,11 @@ import {atom} from 'recoil';
 import {GraphModel} from '../lib/straighten';
 
 /**
- * Types.
+ * View state atoms.
  */
 type ModalAtomType = 'import' | 'export';
 type ViewAtomType = 'basemap';
 
-/**
- * View state atoms.
- */
 export const modal = atom<ModalAtomType | null>({
   key: 'modal',
   default: 'import'
@@ -28,5 +25,17 @@ export const graph = atom<Graph | null>({
 
 export const model = atom<GraphModel | null>({
   key: 'model',
+  default: null
+});
+
+/**
+ * Toolbox state.
+ */
+type ToolBoxState = {
+  nodeColor: string;
+};
+
+export const toolboxState = atom<ToolBoxState | null>({
+  key: 'toolboxState',
   default: null
 });

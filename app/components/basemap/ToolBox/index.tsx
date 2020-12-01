@@ -5,7 +5,7 @@ import ToRightIcon from 'material-icons-svg/components/baseline/KeyboardArrowRig
 import NewProjectIcon from 'material-icons-svg/components/baseline/FileCopy';
 import ExportIcon from 'material-icons-svg/components/baseline/SaveAlt';
 
-import {useOpenModal} from '../../../hooks';
+import {useOpenModal, useModel} from '../../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
 import {NodeVariables} from './variables';
 
@@ -22,6 +22,7 @@ function ControlButton({Icon, onClick = null}) {
 export default function ToolBox() {
   const [expanded, setExpanded] = useState(true);
   const openModal = useOpenModal();
+  const model = useModel();
 
   return (
     <div id="ToolBox" className={cls(expanded && 'expanded')}>
@@ -39,7 +40,7 @@ export default function ToolBox() {
         </div>
       </div>
       <div id="ToolBoxInner">
-        <NodeVariables />
+        {model && <NodeVariables model={model.nodes} />}
       </div>
       <div id="ToolBoxBottom" className="columns">
         <div className="column is-10" />

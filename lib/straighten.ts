@@ -29,18 +29,18 @@ function isNumber(value): boolean {
 /**
  * Types used to represent the inferred model.
  */
-type GraphModelAttributeStatus = 'own' | 'well-known' | 'computed';
+type GraphModelAttributeKind = 'own' | 'wellKnown' | 'computed';
 type GraphModelAttributeType = 'category' | 'number' | 'key' | 'unknown';
 
 class GraphModelBaseAttribute {
   name: string;
-  status: GraphModelAttributeStatus;
+  kind: GraphModelAttributeKind;
   type: GraphModelAttributeType;
   count: number;
 
-  constructor(name: string, status: GraphModelAttributeStatus, count = 0) {
+  constructor(name: string, kind: GraphModelAttributeKind, count = 0) {
     this.name = name;
-    this.status = status;
+    this.kind = kind;
     this.count = count;
   }
 
@@ -55,7 +55,7 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   top?: Array<[string, number]>;
 
   degradeToKeyAttribute() {
-    return new GraphModelKeyAttribute(this.name, this.status, this.count);
+    return new GraphModelKeyAttribute(this.name, this.kind, this.count);
   }
 
   finalize() {
@@ -145,7 +145,7 @@ export default function straighten(graph: Graph): GraphModel {
       if (!currentAttribute) {
         currentAttribute = new attributeClasses[probableType](
           k,
-          WELL_KNOWN_NODE_ATTRIBUTES.has(k) ? 'well-known' : 'own'
+          WELL_KNOWN_NODE_ATTRIBUTES.has(k) ? 'wellKnown' : 'own'
         );
         model.nodes[k] = currentAttribute;
       }

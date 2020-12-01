@@ -14,19 +14,19 @@ describe('straighten', function () {
       label: {
         type: 'key',
         name: 'label',
-        status: 'well-known',
+        kind: 'wellKnown',
         count: 1715
       },
       nodedef: {
         type: 'key',
         name: 'nodedef',
-        status: 'own',
+        kind: 'own',
         count: 1715
       },
       occurrences: {
         type: 'number',
         name: 'occurrences',
-        status: 'own',
+        kind: 'own',
         count: 1694,
         max: 209,
         min: 1
@@ -34,7 +34,7 @@ describe('straighten', function () {
       color: {
         type: 'category',
         name: 'color',
-        status: 'well-known',
+        kind: 'wellKnown',
         count: 1715,
         cardinality: 18,
         top: [
@@ -58,7 +58,7 @@ describe('straighten', function () {
       size: {
         type: 'number',
         name: 'size',
-        status: 'well-known',
+        kind: 'wellKnown',
         count: 1715,
         max: 14,
         min: 3.6
@@ -66,7 +66,7 @@ describe('straighten', function () {
       x: {
         type: 'number',
         name: 'x',
-        status: 'well-known',
+        kind: 'wellKnown',
         count: 1715,
         max: 336.5227,
         min: -417.67944
@@ -74,7 +74,7 @@ describe('straighten', function () {
       y: {
         type: 'number',
         name: 'y',
-        status: 'well-known',
+        kind: 'wellKnown',
         count: 1715,
         max: 377.86423,
         min: -283.31226
@@ -82,7 +82,7 @@ describe('straighten', function () {
       z: {
         type: 'number',
         name: 'z',
-        status: 'own',
+        kind: 'own',
         count: 1715,
         max: 0,
         min: 0

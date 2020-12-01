@@ -10,6 +10,12 @@ export function useGraph() {
   return graph;
 }
 
+export function useModel() {
+  const model = useRecoilValue(atoms.model);
+
+  return model;
+}
+
 export function useSetNewGraph() {
   const setView = useSetRecoilState(atoms.view);
   const setGraph = useSetRecoilState(atoms.graph);
