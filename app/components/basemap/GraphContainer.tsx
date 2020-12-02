@@ -42,7 +42,7 @@ export default function GraphContainer({
   nodeColor
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
-  console.log(nodeColor);
+
   const nodeReducer = function (key, attr) {
     const renderedNode: RenderedNode = {
       x: attr.x,
@@ -51,6 +51,7 @@ export default function GraphContainer({
       size: attr.size
     };
 
+    // Color
     if (!nodeColor) {
       renderedNode.color = attr.color || '#999';
     }
