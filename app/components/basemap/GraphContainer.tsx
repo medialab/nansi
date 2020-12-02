@@ -53,9 +53,17 @@ export default function GraphContainer({
   const previousNodeColor = usePrevious(nodeColor);
   const previousNodeSize = usePrevious(nodeSize);
 
-  const nodeSizeScale = scaleLinear()
-    .domain([extents.nodeSize.min, extents.nodeSize.max])
-    .range(DEFAULT_NODE_SIZE_RANGE);
+  let nodeSizeScale = null;
+
+  if (!nodeSize) {
+    nodeSizeScale = scaleLinear()
+      .domain([extents.nodeSize.min, extents.nodeSize.max])
+      .range(DEFAULT_NODE_SIZE_RANGE);
+  } else {
+    nodeSizeScale = scaleLinear()
+      .domain([nodeSize.min, nodeSize.max])
+      .range(DEFAULT_NODE_SIZE_RANGE);
+  }
 
   const nodeReducer = function (key, attr) {
     const renderedNode: RenderedNode = {
@@ -75,6 +83,9 @@ export default function GraphContainer({
     // Size
     if (!nodeSize) {
       renderedNode.size = nodeSizeScale(attr.size || 1);
+    } else {
+      let v = attr[nodeSize.name];
+      renderedNode.size = nodeSizeScale(typeof v === 'number' ? v : 1);
     }
 
     return renderedNode;
