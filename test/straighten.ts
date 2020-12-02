@@ -12,6 +12,13 @@ describe('straighten', function () {
 
     const model = straighten(graph);
 
+    assert.deepStrictEqual(model.extents, {
+      nodeSize: {
+        min: 3.6,
+        max: 14
+      }
+    });
+
     assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
       label: {name: 'label', kind: 'wellKnown', count: 1715, type: 'key'},
       nodedef: {name: 'nodedef', kind: 'own', count: 1715, type: 'key'},
@@ -104,6 +111,10 @@ describe('straighten', function () {
     const graph = RIO.copy();
 
     const model = straighten(graph);
+
+    assert.deepStrictEqual(model.extents, {
+      nodeSize: {min: 1, max: 20}
+    });
 
     assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
       label: {name: 'label', kind: 'wellKnown', count: 366, type: 'key'},

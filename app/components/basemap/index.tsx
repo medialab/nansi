@@ -11,13 +11,18 @@ import './index.scss';
 export default function BasemapView() {
   const graph = useGraph();
   const variables = useGraphVariables();
-
+  console.log('render');
   if (!graph || !variables) return null;
 
   return (
     <div className="Basemap container-fluid">
       <ToolBox />
-      <GraphContainer graph={graph} nodeColor={variables.nodeColor} />
+      <GraphContainer
+        graph={graph}
+        nodeColor={variables.nodeColor}
+        nodeSize={variables.nodeSize}
+        extents={variables.extents}
+      />
       <GraphInformation graph={graph} />
     </div>
   );

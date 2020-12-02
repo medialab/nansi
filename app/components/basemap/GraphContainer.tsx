@@ -1,14 +1,17 @@
 import React, {useCallback, useRef, useState} from 'react';
 import Graph from 'graphology';
 import {WebGLRenderer} from 'sigma';
+import {scaleLinear} from 'd3-scale';
 
 import {usePrevious} from '../../hooks';
 import GraphControls from './GraphControls';
+import {GraphModelExtents} from '../../../lib/straighten';
 
 import './GraphContainer.scss';
 
 // Defaults
 const DEFAULT_NODE_COLOR = '#999';
+const DEFAULT_NODE_SIZE_RANGE = [2, 15];
 
 // Camera controls
 function rescale(renderer: WebGLRenderer): void {
@@ -29,28 +32,36 @@ function zoomOut(renderer: WebGLRenderer): void {
 type GraphContainerProps = {
   graph: Graph;
   nodeColor: any;
+  nodeSize: any;
+  extents: GraphModelExtents;
 };
 
 type RenderedNode = {
   x: number;
   y: number;
   label: string;
-  size: number;
+  size?: number;
   color?: string;
 };
 
 export default function GraphContainer({
   graph,
-  nodeColor
+  nodeColor,
+  nodeSize,
+  extents
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
+  const previousNodeSize = usePrevious(nodeSize);
+
+  const nodeSizeScale = scaleLinear()
+    .domain([extents.nodeSize.min, extents.nodeSize.max])
+    .range(DEFAULT_NODE_SIZE_RANGE);
 
   const nodeReducer = function (key, attr) {
     const renderedNode: RenderedNode = {
       x: attr.x,
       y: attr.y,
-      label: attr.label,
-      size: attr.size
+      label: attr.label
     };
 
     // Color
@@ -61,6 +72,11 @@ export default function GraphContainer({
         nodeColor.palette[attr[nodeColor.name]] || DEFAULT_NODE_COLOR;
     }
 
+    // Size
+    if (!nodeSize) {
+      renderedNode.size = nodeSizeScale(attr.size || 1);
+    }
+
     return renderedNode;
   };
 
@@ -69,7 +85,7 @@ export default function GraphContainer({
 
   // Should we refresh?
   if (renderer) {
-    if (previousNodeColor !== nodeColor) {
+    if (previousNodeColor !== nodeColor || previousNodeSize !== nodeSize) {
       console.log('Refreshing sigma');
 
       // TODO: use upcoming #.setNodeReducer

@@ -107,8 +107,16 @@ export type GraphModelAttribute =
 
 export type GraphModelDeclaration = {[key: string]: GraphModelAttribute};
 
+export type GraphModelExtents = {
+  nodeSize: {
+    min: number;
+    max: number;
+  };
+};
+
 export type GraphModel = {
   nodes: GraphModelDeclaration;
+  extents?: GraphModelExtents;
 };
 
 /**
@@ -120,6 +128,8 @@ export default function straighten(graph: Graph): GraphModel {
   let maxX: number = -Infinity;
   let minY: number = Infinity;
   let maxY: number = -Infinity;
+  let minSize: number = Infinity;
+  let maxSize: number = -Infinity;
 
   let missingPositions = false;
 
@@ -135,16 +145,21 @@ export default function straighten(graph: Graph): GraphModel {
   graph.forEachNode((node, attr) => {
     if (isNumber(attr.x)) {
       if (attr.x < minX) minX = attr.x;
-      else if (attr.x > maxX) maxX = attr.x;
+      if (attr.x > maxX) maxX = attr.x;
     } else {
       missingPositions = true;
     }
 
     if (isNumber(attr.y)) {
       if (attr.y < minY) minY = attr.y;
-      else if (attr.y > maxY) maxY = attr.y;
+      if (attr.y > maxY) maxY = attr.y;
     } else {
       missingPositions = true;
+    }
+
+    if (isNumber(attr.size)) {
+      if (attr.size < minSize) minSize = attr.size;
+      if (attr.size > maxSize) maxSize = attr.size;
     }
 
     // Attributes inference
@@ -213,6 +228,13 @@ export default function straighten(graph: Graph): GraphModel {
     });
 
   for (const k in model.nodes) model.nodes[k].finalize();
+
+  model.extents = {
+    nodeSize: {
+      min: minSize === Infinity ? 1 : minSize,
+      max: maxSize === -Infinity ? 1 : maxSize
+    }
+  };
 
   return model;
 }

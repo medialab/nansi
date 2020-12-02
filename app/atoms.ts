@@ -1,6 +1,10 @@
 import Graph from 'graphology-types';
 import {atom, selector} from 'recoil';
-import {GraphModel, GraphModelAttribute} from '../lib/straighten';
+import {
+  GraphModel,
+  GraphModelAttribute,
+  GraphModelExtents
+} from '../lib/straighten';
 
 /**
  * View state atoms.
@@ -33,6 +37,7 @@ export const model = atom<GraphModel | null>({
  */
 export type ToolBoxNodeVariables = {
   color: string | null;
+  size: string | null;
 };
 
 export type ToolBoxState = {
@@ -51,6 +56,8 @@ export const toolBoxState = atom<ToolBoxState | null>({
  */
 export type GraphVariables = {
   nodeColor: GraphModelAttribute | null;
+  nodeSize: GraphModelAttribute | null;
+  extents: GraphModelExtents;
 };
 
 export const graphVariables = selector<GraphVariables | null>({
@@ -64,7 +71,11 @@ export const graphVariables = selector<GraphVariables | null>({
     return {
       nodeColor: state.variables.nodes.color
         ? currentModel.nodes[state.variables.nodes.color]
-        : null
+        : null,
+      nodeSize: state.variables.nodes.size
+        ? currentModel.nodes[state.variables.nodes.size]
+        : null,
+      extents: currentModel.extents
     };
   }
 });
