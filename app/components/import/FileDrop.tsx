@@ -21,11 +21,16 @@ export default function FileDrop({onDrop}: FileDropProps) {
       <input {...getInputProps()} />
       {isDragActive ? (
         <div>
-          <em>Drop here!</em>
+          <em>Drop the file here!</em>
         </div>
       ) : (
         <div>
-          <em>Drop gexf file here...</em>
+          <em>
+            Click to upload a file or drop the file here.
+            <br />
+            We currently accept only <strong>.gexf</strong> and{' '}
+            <strong>.graphml</strong> files.
+          </em>
         </div>
       )}
     </div>

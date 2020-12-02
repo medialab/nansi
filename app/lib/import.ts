@@ -1,11 +1,14 @@
 import Graph from 'graphology';
 import gexf from 'graphology-gexf';
+import graphml from 'graphology-graphml';
 
 import straighten, {GraphModel} from '../../lib/straighten';
 
+export type ImportFormat = 'gexf' | 'graphml';
+
 export type ImportOptions = {
   type: 'example' | 'file' | 'text';
-  format?: 'gexf';
+  format?: ImportFormat;
   name?: string;
   text?: string;
   file?: File;
@@ -37,6 +40,9 @@ function importText(options: ImportOptions, callback: ImportSubCallback): void {
   if (options.format === 'gexf')
     return callback(null, gexf.parse(Graph, options.text));
 
+  if (options.format === 'graphml')
+    return callback(null, graphml.parse(Graph, options.text));
+
   return callback(new Error('nansi/app/lib/import: unknown text format!'));
 }
 
@@ -46,7 +52,16 @@ function importFile(options: ImportOptions, callback: ImportSubCallback): void {
   reader.onload = e => {
     const text = e.target.result as string;
 
-    return importText({type: 'text', text, format: 'gexf'}, callback);
+    const name = options.file.name;
+
+    let format: ImportFormat | null = null;
+
+    if (name.endsWith('.gexf')) format = 'gexf';
+    else if (name.endsWith('.graphml')) format = 'graphml';
+
+    if (!format) return callback(new Error('unknown format'));
+
+    return importText({type: 'text', text, format}, callback);
   };
 
   reader.readAsText(options.file);
