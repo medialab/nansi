@@ -202,6 +202,13 @@ export default function straighten(graph: Graph): GraphModel {
       if (attr.size > maxSize) maxSize = attr.size;
     }
 
+    attr['nansi-degree'] = graph.degree(node);
+
+    if (graph.type !== 'undirected') {
+      attr['nansi-indegree'] = graph.inDegree(node);
+      attr['nansi-outdegree'] = graph.outDegree(node);
+    }
+
     // Attributes inference
     for (const k in attr) {
       const v = attr[k];

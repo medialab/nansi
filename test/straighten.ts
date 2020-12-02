@@ -110,6 +110,14 @@ describe('straighten', function () {
         count: 1715,
         max: 0.216792832820432,
         min: 0
+      },
+      'nansi-degree': {
+        count: 1715,
+        kind: 'computed',
+        max: 212,
+        min: 1,
+        name: 'nansi-degree',
+        type: 'number'
       }
     });
   });
@@ -312,6 +320,30 @@ describe('straighten', function () {
         count: 366,
         max: 0.022883737267298917,
         min: 0
+      },
+      'nansi-degree': {
+        count: 366,
+        kind: 'computed',
+        max: 60,
+        min: 0,
+        name: 'nansi-degree',
+        type: 'number'
+      },
+      'nansi-indegree': {
+        count: 366,
+        kind: 'computed',
+        max: 48,
+        min: 0,
+        name: 'nansi-indegree',
+        type: 'number'
+      },
+      'nansi-outdegree': {
+        count: 366,
+        kind: 'computed',
+        max: 47,
+        min: 0,
+        name: 'nansi-outdegree',
+        type: 'number'
       }
     });
   });
