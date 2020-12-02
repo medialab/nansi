@@ -42,6 +42,7 @@ export type ToolBoxNodeVariables = {
 
 export type ToolBoxLabelVariables = {
   text: string | null;
+  density: number;
 };
 
 export type ToolBoxState = {
@@ -63,6 +64,7 @@ export type GraphVariables = {
   nodeColor: GraphModelAttribute | null;
   nodeSize: GraphModelAttribute | null;
   nodeLabel: GraphModelAttribute | null;
+  labelDensity: number;
   extents: GraphModelExtents;
 };
 
@@ -84,6 +86,7 @@ export const graphVariables = selector<GraphVariables | null>({
       nodeLabel: state.variables.labels.text
         ? currentModel.nodes[state.variables.labels.text]
         : null,
+      labelDensity: state.variables.labels.density,
       extents: currentModel.extents
     };
   }

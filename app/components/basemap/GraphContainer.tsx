@@ -12,6 +12,11 @@ import './GraphContainer.scss';
 // Defaults
 const DEFAULT_NODE_COLOR = '#999';
 const DEFAULT_NODE_SIZE_RANGE = [2, 15];
+const CELL_HEIGHT_RANGE = [200, 10];
+const CELL_WIDTH_RANGE = [300, 30];
+
+const CELL_HEIGHT_SCALE = scaleLinear().domain([0, 1]).range(CELL_HEIGHT_RANGE);
+const CELL_WIDTH_SCALE = scaleLinear().domain([0, 1]).range(CELL_WIDTH_RANGE);
 
 // Camera controls
 function rescale(renderer: WebGLRenderer): void {
@@ -34,6 +39,7 @@ type GraphContainerProps = {
   nodeColor: any;
   nodeSize: any;
   nodeLabel: any;
+  labelDensity: number;
   extents: GraphModelExtents;
 };
 
@@ -50,11 +56,13 @@ export default function GraphContainer({
   nodeColor,
   nodeSize,
   nodeLabel,
+  labelDensity,
   extents
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
   const previousNodeSize = usePrevious(nodeSize);
   const previousNodeLabel = usePrevious(nodeLabel);
+  const previousLabelDensity = usePrevious(labelDensity);
 
   let nodeSizeScale = null;
 
@@ -105,6 +113,8 @@ export default function GraphContainer({
 
   // Should we refresh?
   if (renderer) {
+    let needToRefresh = false;
+
     if (
       previousNodeColor !== nodeColor ||
       previousNodeSize !== nodeSize ||
@@ -114,8 +124,21 @@ export default function GraphContainer({
 
       // TODO: use upcoming #.setNodeReducer
       renderer.settings.nodeReducer = nodeReducer;
-      renderer.refresh();
+      needToRefresh = true;
     }
+
+    if (previousLabelDensity !== labelDensity) {
+      renderer.settings.labelGrid.cell = {
+        width: CELL_WIDTH_SCALE(labelDensity),
+        height: CELL_HEIGHT_SCALE(labelDensity)
+      };
+
+      // TODO: we can improve sigma to handle this
+      renderer.displayedLabels = new Set();
+      needToRefresh = true;
+    }
+
+    if (needToRefresh) renderer.refresh();
   }
 
   const setContainer = useCallback(

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Slider from 'rc-slider';
 import groupBy from 'lodash/groupBy';
+import debounce from 'lodash/debounce';
 
 import ThemedSelect from '../../misc/ThemedSelect';
 import {ToolBoxLabelVariables} from '../../../atoms';
@@ -32,6 +34,31 @@ function pickTextOptions(modelByStatus) {
   return optgroups;
 }
 
+const SLIDER_MARKS = {
+  '0.25': 'default'
+};
+
+function DebouncedSlider({defaultValue, onChange}) {
+  const [value, setValue] = useState(defaultValue);
+
+  const onSliderChange = newValue => {
+    setValue(newValue);
+    onChange(newValue);
+  };
+
+  return (
+    <Slider
+      min={0}
+      max={1}
+      step={0.01}
+      defaultValue={defaultValue}
+      value={value}
+      onChange={onSliderChange}
+      marks={SLIDER_MARKS}
+    />
+  );
+}
+
 type NodeVariablesProps = {
   model: GraphModelDeclaration;
   variables: ToolBoxLabelVariables;
@@ -58,6 +85,15 @@ export default function NodeVariables({
             value={variables.text}
             isDisabled={textOptions.length < 2}
             onChange={option => actions.setNodeLabel(option.value)}
+          />
+        </div>
+      </div>
+      <div className="columns">
+        <div className="column is-3">density</div>
+        <div className="column is-9">
+          <DebouncedSlider
+            defaultValue={variables.density}
+            onChange={debounce(actions.setLabelDensity, 300)}
           />
         </div>
       </div>

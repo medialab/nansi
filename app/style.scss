@@ -12,8 +12,11 @@ $modal-background-background-color: rgba(0, 0, 0, 0.5);
 
 // Importing other third-party stylesheets
 @import '~hint.css/hint.css';
+@import '~rc-slider/assets/index.css';
 
 // Global rules
+@import './variables.scss';
+
 html,
 body,
 #app {
@@ -23,4 +26,17 @@ body,
 
 .modal-background {
   cursor: pointer;
+}
+
+// Overriding rc-slider default styles
+.rc-slider-handle,
+.rc-slider-handle:hover,
+.rc-slider-handle-click-focused,
+.rc-slider-dot,
+.rc-slider-dot-active {
+  border: 1px solid $nansi-medium !important;
+}
+
+.rc-slider-track {
+  background-color: $nansi-medium;
 }

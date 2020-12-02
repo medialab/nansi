@@ -36,6 +36,7 @@ export type ToolBoxActions = {
   setNodeColor(color: string): void;
   setNodeSize(size: string): void;
   setNodeLabel(label: string): void;
+  setLabelDensity(density: number): void;
 };
 
 export function useToolBoxState(): [ToolBoxState, ToolBoxActions] {
@@ -49,7 +50,9 @@ export function useToolBoxState(): [ToolBoxState, ToolBoxActions] {
       setNodeSize: nodeSize =>
         setToolBoxState(set(['variables', 'nodes', 'size'], nodeSize)),
       setNodeLabel: nodeLabel =>
-        setToolBoxState(set(['variables', 'labels', 'text'], nodeLabel))
+        setToolBoxState(set(['variables', 'labels', 'text'], nodeLabel)),
+      setLabelDensity: density =>
+        setToolBoxState(set(['variables', 'labels', 'density'], density))
     }
   ];
 }
@@ -71,7 +74,8 @@ export function useSetNewGraph() {
             size: null
           },
           labels: {
-            text: null
+            text: null,
+            density: 0.25
           }
         }
       };
