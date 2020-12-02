@@ -32,7 +32,7 @@ function pickColorOptions(modelByStatus) {
     options: [
       {
         value: null,
-        label: 'Node default color'
+        label: 'Default color'
       }
     ]
   });
@@ -40,16 +40,6 @@ function pickColorOptions(modelByStatus) {
   const ownOptions = collectOptionByType(modelByStatus.own, 'category');
 
   if (ownOptions.length > 0) {
-    const delta = modelByStatus.own.length - ownOptions.length;
-
-    if (delta > 0) {
-      ownOptions.push({
-        value: null,
-        disabled: true,
-        label: `${delta} hidden unfit attributes...`
-      });
-    }
-
     optgroups.push({
       label: 'Categorical attributes',
       options: ownOptions
@@ -60,6 +50,36 @@ function pickColorOptions(modelByStatus) {
     modelByStatus.computed,
     'category'
   );
+
+  if (computedOptions.length > 0)
+    optgroups.push({label: 'Computed categories', options: computedOptions});
+
+  return optgroups;
+}
+
+function pickSizeOptions(modelByStatus) {
+  const optgroups = [];
+
+  optgroups.push({
+    label: 'Defaults',
+    options: [
+      {
+        value: null,
+        label: 'Default size'
+      }
+    ]
+  });
+
+  const ownOptions = collectOptionByType(modelByStatus.own, 'number');
+
+  if (ownOptions.length > 0) {
+    optgroups.push({
+      label: 'Numerical attributes',
+      options: ownOptions
+    });
+  }
+
+  const computedOptions = collectOptionByType(modelByStatus.computed, 'number');
 
   if (computedOptions.length > 0)
     optgroups.push({label: 'Computed categories', options: computedOptions});
@@ -81,6 +101,7 @@ export default function NodeVariables({
   const modelByStatus = groupBy(model, 'kind');
 
   const colorOptions = pickColorOptions(modelByStatus);
+  const sizeOptions = pickSizeOptions(modelByStatus);
 
   return (
     <div className="variables-block">
@@ -91,7 +112,19 @@ export default function NodeVariables({
           <ThemedSelect
             options={colorOptions}
             value={variables.color}
+            isDisabled={colorOptions.length < 2}
             onChange={option => actions.setNodeColor(option.value)}
+          />
+        </div>
+      </div>
+      <div className="columns">
+        <div className="column is-3">size</div>
+        <div className="column is-9">
+          <ThemedSelect
+            options={sizeOptions}
+            value={variables.size}
+            isDisabled={sizeOptions.length < 2}
+            onChange={option => actions.setNodeSize(option.value)}
           />
         </div>
       </div>

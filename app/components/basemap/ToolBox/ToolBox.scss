@@ -66,6 +66,12 @@ $nansi-toolbox-width: 350px;
 
       h2 {
         font-weight: bold;
+        margin-bottom: 10px;
+        border-bottom: 1px solid $nansi-dark;
+      }
+
+      .columns {
+        margin-bottom: 0px;
       }
     }
   }
