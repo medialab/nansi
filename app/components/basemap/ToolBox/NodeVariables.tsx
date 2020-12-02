@@ -82,7 +82,7 @@ function pickSizeOptions(modelByStatus) {
   const computedOptions = collectOptionByType(modelByStatus.computed, 'number');
 
   if (computedOptions.length > 0)
-    optgroups.push({label: 'Computed categories', options: computedOptions});
+    optgroups.push({label: 'Computed metrics', options: computedOptions});
 
   return optgroups;
 }
