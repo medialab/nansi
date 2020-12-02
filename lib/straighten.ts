@@ -3,6 +3,7 @@ import seedrandom from 'seedrandom';
 import {createRandomFloat} from 'pandemonium/random-float';
 import MultiSet from 'mnemonist/multi-set';
 import louvain from 'graphology-communities-louvain';
+import inferType from 'graphology-utils/infer-type';
 import betweenness from 'graphology-metrics/centrality/betweenness';
 
 import {generatePalette} from './palettes';
@@ -175,7 +176,7 @@ export default function straighten(graph: Graph): GraphModel {
   };
 
   // Computing some metrics
-  if (!graph.multi && !graph.mixed)
+  if (!graph.multi && inferType(graph) !== 'mixed')
     louvain.assign(graph, {attributes: {community: 'nansi-louvain'}, rng: RNG});
 
   betweenness.assign(graph, {attributes: {centrality: 'nansi-betweenness'}});
