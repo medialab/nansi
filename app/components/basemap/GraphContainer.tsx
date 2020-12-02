@@ -3,7 +3,7 @@ import Graph from 'graphology';
 import {WebGLRenderer} from 'sigma';
 import {scaleLinear} from 'd3-scale';
 
-import {usePrevious} from '../../hooks';
+import {usePrevious, useRenderer} from '../../hooks';
 import GraphControls from './GraphControls';
 import {GraphModelExtents} from '../../../lib/straighten';
 
@@ -109,7 +109,7 @@ export default function GraphContainer({
   };
 
   const container = useRef(null);
-  const [renderer, setRenderer] = useState(null);
+  const [renderer, setRenderer] = useRenderer();
 
   // Should we refresh?
   if (renderer) {
@@ -145,10 +145,12 @@ export default function GraphContainer({
     node => {
       if (renderer && renderer.graph !== graph) {
         renderer.kill();
+        setRenderer(null);
       }
 
       if (node && graph) {
-        setRenderer(new WebGLRenderer(graph, node, {nodeReducer}));
+        const newRenderer = new WebGLRenderer(graph, node, {nodeReducer});
+        setRenderer(newRenderer);
       }
 
       container.current = node;

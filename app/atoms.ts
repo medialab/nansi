@@ -1,4 +1,5 @@
 import Graph from 'graphology-types';
+import {WebGLRenderer} from 'sigma';
 import {atom, selector} from 'recoil';
 import {
   GraphModel,
@@ -19,10 +20,16 @@ export const modal = atom<ModalAtomType | null>({
 export const view = atom<ViewAtomType>({key: 'view', default: 'basemap'});
 
 /**
- * Data atoms.
+ * Graph atoms.
  */
 export const graph = atom<Graph | null>({
   key: 'graph',
+  default: null,
+  dangerouslyAllowMutability: true
+});
+
+export const renderer = atom<WebGLRenderer | null>({
+  key: 'renderer',
   default: null,
   dangerouslyAllowMutability: true
 });

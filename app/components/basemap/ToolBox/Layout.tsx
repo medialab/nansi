@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import Graph from 'graphology';
+import {WebGLRenderer} from 'sigma';
 import {Button} from 'bloomer';
 import PlayIcon from 'material-icons-svg/components/baseline/PlayArrow';
 import PauseIcon from 'material-icons-svg/components/baseline/Pause';
@@ -7,17 +7,17 @@ import fa2Layout from 'graphology-layout-forceatlas2';
 import FA2LayoutSupervisor from 'graphology-layout-forceatlas2/worker';
 
 type LayoutProps = {
-  graph: Graph;
+  renderer: WebGLRenderer;
 };
 
-export default function Layout({graph}: LayoutProps) {
+export default function Layout({renderer}: LayoutProps) {
   const fa2 = useRef(null);
   const [isFA2Working, setIsFA2Working] = useState(false);
 
   useEffect(() => {
-    if (graph)
-      fa2.current = new FA2LayoutSupervisor(graph, {
-        settings: fa2Layout.inferSettings(graph)
+    if (renderer)
+      fa2.current = new FA2LayoutSupervisor(renderer.graph, {
+        settings: fa2Layout.inferSettings(renderer.graph)
       });
 
     return () => {
@@ -26,7 +26,7 @@ export default function Layout({graph}: LayoutProps) {
         fa2.current.kill();
       }
     };
-  }, [graph]);
+  }, [renderer]);
 
   function startFA2() {
     if (isFA2Working || !fa2.current) return;

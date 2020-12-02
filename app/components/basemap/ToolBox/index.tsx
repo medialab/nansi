@@ -9,7 +9,7 @@ import {
   useOpenModal,
   useModel,
   useToolBoxState,
-  useGraph
+  useRenderer
 } from '../../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
 import Layout from './Layout';
@@ -30,7 +30,7 @@ export default function ToolBox() {
   const [expanded, setExpanded] = useState(true);
   const openModal = useOpenModal();
   const model = useModel();
-  const graph = useGraph();
+  const [renderer] = useRenderer();
   const [toolBoxState, toolBoxActions] = useToolBoxState();
 
   return (
@@ -51,7 +51,7 @@ export default function ToolBox() {
       <div id="ToolBoxInner">
         {model && (
           <>
-            <Layout graph={graph} />
+            <Layout renderer={renderer} />
             <NodeVariables
               model={model.nodes}
               variables={toolBoxState.variables.nodes}

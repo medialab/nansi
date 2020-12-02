@@ -26,6 +26,10 @@ export function useGraph() {
   return graph;
 }
 
+export function useRenderer() {
+  return useRecoilState(atoms.renderer);
+}
+
 export function useModel() {
   const model = useRecoilValue(atoms.model);
 
