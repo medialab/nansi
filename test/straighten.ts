@@ -103,6 +103,14 @@ describe('straighten', function () {
           '14': '#c27dae',
           '16': '#d37794'
         }
+      },
+      'nansi-betweenness': {
+        name: 'nansi-betweenness',
+        kind: 'computed',
+        type: 'number',
+        count: 1715,
+        max: 0.216792832820432,
+        min: 0
       }
     });
   });
@@ -322,6 +330,14 @@ describe('straighten', function () {
           '14': '#9c89c8',
           '15': '#ff9983'
         }
+      },
+      'nansi-betweenness': {
+        name: 'nansi-betweenness',
+        kind: 'computed',
+        type: 'number',
+        count: 366,
+        max: 0.022883737267298917,
+        min: 0
       }
     });
   });

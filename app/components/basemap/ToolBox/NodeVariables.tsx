@@ -7,7 +7,8 @@ import {ToolBoxActions} from '../../../hooks';
 import {GraphModelDeclaration} from '../../../../lib/straighten';
 
 const COMPUTED_METRICS_LABELS = {
-  'nansi-louvain': 'Louvain communities'
+  'nansi-louvain': 'Louvain communities',
+  'nansi-betweenness': 'Betweenness centrality'
 };
 
 function collectOptionByType(list, type) {
