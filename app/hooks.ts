@@ -1,7 +1,12 @@
 import {useRef, useEffect} from 'react';
 import Graph from 'graphology-types';
 import {GraphModel} from '../lib/straighten';
-import {useSetRecoilState, useRecoilValue, useRecoilState} from 'recoil';
+import {
+  useSetRecoilState,
+  useRecoilValue,
+  useRecoilState,
+  useRecoilCallback
+} from 'recoil';
 import set from 'lodash/fp/set';
 
 import * as atoms from './atoms';
@@ -53,28 +58,27 @@ export function useGraphVariables() {
 }
 
 export function useSetNewGraph() {
-  const setView = useSetRecoilState(atoms.view);
-  const setGraph = useSetRecoilState(atoms.graph);
-  const setModal = useSetRecoilState(atoms.modal);
-  const setModel = useSetRecoilState(atoms.model);
-  const setToolBoxState = useSetRecoilState(atoms.toolBoxState);
-
-  return (graph: Graph, model: GraphModel) => {
-    const toolBoxState: ToolBoxState = {
-      variables: {
-        nodes: {
-          color: null,
-          size: null
+  return useRecoilCallback(
+    ({set}) => (graph: Graph, model: GraphModel) => {
+      // Initializing toolbox state
+      const toolBoxState: ToolBoxState = {
+        variables: {
+          nodes: {
+            color: null,
+            size: null
+          }
         }
-      }
-    };
+      };
 
-    setView('basemap');
-    setModal(null);
-    setGraph(graph);
-    setModel(model);
-    setToolBoxState(toolBoxState);
-  };
+      // Batch updates
+      set(atoms.view, 'basemap');
+      set(atoms.modal, null);
+      set(atoms.graph, graph);
+      set(atoms.model, model);
+      set(atoms.toolBoxState, toolBoxState);
+    },
+    []
+  );
 }
 
 export function useOpenModal() {
