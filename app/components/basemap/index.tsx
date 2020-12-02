@@ -11,7 +11,7 @@ import './index.scss';
 export default function BasemapView() {
   const graph = useGraph();
   const variables = useGraphVariables();
-  console.log('render');
+
   if (!graph || !variables) return null;
 
   return (
