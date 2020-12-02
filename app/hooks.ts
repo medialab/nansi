@@ -43,6 +43,12 @@ export function useToolBoxState(): [ToolBoxState, ToolBoxActions] {
   ];
 }
 
+export function useGraphVariables() {
+  const variables = useRecoilValue(atoms.graphVariables);
+
+  return variables;
+}
+
 export function useSetNewGraph() {
   const setView = useSetRecoilState(atoms.view);
   const setGraph = useSetRecoilState(atoms.graph);

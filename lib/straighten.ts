@@ -88,7 +88,7 @@ const attributeClasses = {
   number: GraphModelNumberAttribute
 };
 
-type GraphModelAttribute =
+export type GraphModelAttribute =
   | GraphModelBaseAttribute
   | GraphModelCategoryAttribute
   | GraphModelNumberAttribute

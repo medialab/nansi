@@ -1,6 +1,6 @@
 import Graph from 'graphology-types';
-import {atom} from 'recoil';
-import {GraphModel} from '../lib/straighten';
+import {atom, selector} from 'recoil';
+import {GraphModel, GraphModelAttribute} from '../lib/straighten';
 
 /**
  * View state atoms.
@@ -44,4 +44,27 @@ export type ToolBoxState = {
 export const toolBoxState = atom<ToolBoxState | null>({
   key: 'toolBoxState',
   default: null
+});
+
+/**
+ * Selectors.
+ */
+export type GraphVariables = {
+  nodeColor: GraphModelAttribute | null;
+};
+
+export const graphVariables = selector<GraphVariables | null>({
+  key: 'graphSelector',
+  get: ({get}) => {
+    const state = get(toolBoxState);
+    const currentModel = get(model);
+
+    if (!state || !currentModel) return null;
+
+    return {
+      nodeColor: state.variables.nodes.color
+        ? currentModel.nodes[state.variables.nodes.color]
+        : null
+    };
+  }
 });

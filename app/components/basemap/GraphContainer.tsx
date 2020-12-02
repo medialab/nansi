@@ -4,6 +4,7 @@ import {WebGLRenderer} from 'sigma';
 
 import {usePrevious} from '../../hooks';
 import GraphControls from './GraphControls';
+import {GraphModelAttribute} from '../../../lib/straighten';
 
 import './GraphContainer.scss';
 
@@ -25,7 +26,7 @@ function zoomOut(renderer: WebGLRenderer): void {
 
 type GraphContainerProps = {
   graph: Graph;
-  nodeColor: string | null;
+  nodeColor: GraphModelAttribute | null;
 };
 
 type RenderedNode = {
@@ -41,7 +42,7 @@ export default function GraphContainer({
   nodeColor
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
-
+  console.log(nodeColor);
   const nodeReducer = function (key, attr) {
     const renderedNode: RenderedNode = {
       x: attr.x,

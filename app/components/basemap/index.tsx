@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useGraph, useToolBoxState} from '../../hooks';
+import {useGraph, useGraphVariables} from '../../hooks';
 
 import GraphContainer from './GraphContainer';
 import GraphInformation from './GraphInformation';
@@ -10,17 +10,14 @@ import './index.scss';
 
 export default function BasemapView() {
   const graph = useGraph();
-  const [toolBoxState] = useToolBoxState();
+  const variables = useGraphVariables();
 
-  if (!graph || !toolBoxState) return null;
+  if (!graph || !variables) return null;
 
   return (
     <div className="Basemap container-fluid">
       <ToolBox />
-      <GraphContainer
-        graph={graph}
-        nodeColor={toolBoxState.variables.nodes.color}
-      />
+      <GraphContainer graph={graph} nodeColor={variables.nodeColor} />
       <GraphInformation graph={graph} />
     </div>
   );
