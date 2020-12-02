@@ -2,7 +2,8 @@ import Graph from 'graphology-types';
 import seedrandom from 'seedrandom';
 import {createRandomFloat} from 'pandemonium/random-float';
 import MultiSet from 'mnemonist/multi-set';
-// import louvain from 'graphology-communities-louvain';
+import louvain from 'graphology-communities-louvain';
+import {generatePalette} from './palettes';
 
 const RNG = seedrandom('nansi');
 const randomFloat = createRandomFloat(RNG);
@@ -54,6 +55,7 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   frequencies?: MultiSet<string> = new MultiSet();
   cardinality?: number = 0;
   top?: Array<[string, number]>;
+  palette?: {[key: string]: string};
 
   degradeToKeyAttribute() {
     return new GraphModelKeyAttribute(this.name, this.kind, this.count);
@@ -62,6 +64,14 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   finalize() {
     this.cardinality = this.frequencies.dimension;
     this.top = this.frequencies.top(CATEGORY_TOP_VALUES);
+
+    const palette = generatePalette(this.name, this.top.length);
+
+    this.palette = {};
+
+    palette.forEach((color, i) => {
+      this.palette[this.top[i][0]] = color;
+    });
 
     delete this.frequencies;
   }
@@ -118,8 +128,8 @@ export default function straighten(graph: Graph): GraphModel {
   };
 
   // Computing some metrics
-  // if (!graph.multi)
-  //   louvain.assign(graph, {attributes: {community: 'nansi-louvain'}});
+  if (!graph.multi)
+    louvain.assign(graph, {attributes: {community: 'nansi-louvain'}, rng: RNG});
 
   // Computing extents & model
   graph.forEachNode((node, attr) => {
@@ -148,6 +158,7 @@ export default function straighten(graph: Graph): GraphModel {
 
       if (k === 'color') probableType = 'key';
       else if (k === 'label') probableType = 'key';
+      else if (k === 'nansi-louvain') probableType = 'category';
 
       let currentAttribute = model.nodes[k];
 

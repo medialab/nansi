@@ -13,63 +13,89 @@ describe('straighten', function () {
     const model = straighten(graph);
 
     assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
-      label: {
-        type: 'key',
-        name: 'label',
-        kind: 'wellKnown',
-        count: 1715
-      },
-      nodedef: {
-        type: 'key',
-        name: 'nodedef',
-        kind: 'own',
-        count: 1715
-      },
+      label: {name: 'label', kind: 'wellKnown', count: 1715, type: 'key'},
+      nodedef: {name: 'nodedef', kind: 'own', count: 1715, type: 'key'},
       occurrences: {
-        type: 'number',
         name: 'occurrences',
         kind: 'own',
         count: 1694,
+        type: 'number',
         max: 209,
         min: 1
       },
-      color: {
-        type: 'key',
-        name: 'color',
-        kind: 'wellKnown',
-        count: 1715
-      },
+      color: {name: 'color', kind: 'wellKnown', count: 1715, type: 'key'},
       size: {
-        type: 'number',
         name: 'size',
         kind: 'wellKnown',
         count: 1715,
+        type: 'number',
         max: 14,
         min: 3.6
       },
       x: {
-        type: 'number',
         name: 'x',
         kind: 'wellKnown',
         count: 1715,
+        type: 'number',
         max: 336.5227,
         min: -417.67944
       },
       y: {
-        type: 'number',
         name: 'y',
         kind: 'wellKnown',
         count: 1715,
+        type: 'number',
         max: 377.86423,
         min: -283.31226
       },
       z: {
-        type: 'number',
         name: 'z',
         kind: 'own',
         count: 1715,
+        type: 'number',
         max: 0,
         min: 0
+      },
+      'nansi-louvain': {
+        name: 'nansi-louvain',
+        kind: 'computed',
+        count: 1715,
+        type: 'category',
+        cardinality: 22,
+        top: [
+          [7, 291],
+          [3, 213],
+          [8, 202],
+          [5, 123],
+          [0, 119],
+          [4, 101],
+          [6, 101],
+          [11, 96],
+          [14, 73],
+          [10, 68],
+          [16, 66],
+          [13, 65],
+          [1, 61],
+          [2, 46],
+          [12, 39]
+        ],
+        palette: {
+          '0': '#bccc60',
+          '1': '#9c89c8',
+          '2': '#a2935d',
+          '3': '#ffb5fa',
+          '4': '#e49c4b',
+          '5': '#5196f7',
+          '6': '#86e997',
+          '7': '#00c697',
+          '8': '#61af58',
+          '10': '#34fdfe',
+          '11': '#63c1ff',
+          '12': '#00c5bc',
+          '13': '#ff9983',
+          '14': '#c27dae',
+          '16': '#d37794'
+        }
       }
     });
   });
@@ -80,18 +106,8 @@ describe('straighten', function () {
     const model = straighten(graph);
 
     assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
-      label: {
-        name: 'label',
-        kind: 'wellKnown',
-        count: 366,
-        type: 'key'
-      },
-      Label2: {
-        name: 'Label2',
-        kind: 'own',
-        count: 366,
-        type: 'key'
-      },
+      label: {name: 'label', kind: 'wellKnown', count: 366, type: 'key'},
+      Label2: {name: 'Label2', kind: 'own', count: 366, type: 'key'},
       'Nature of institution:': {
         name: 'Nature of institution:',
         kind: 'own',
@@ -110,7 +126,20 @@ describe('straighten', function () {
           ['Business', 9],
           ['Religious', 6],
           ['Politic', 1]
-        ]
+        ],
+        palette: {
+          NGO: '#ffafa2',
+          'Trans-institutional': '#76fdc7',
+          Individual: '#e6a7ff',
+          Educational: '#7dbd5f',
+          'Social Movement': '#f3ce66',
+          Event: '#ff94a3',
+          Media: '#d07a87',
+          Governmental: '#4aa37f',
+          Business: '#b58d44',
+          Religious: '#66e8ff',
+          Politic: '#c3837e'
+        }
       },
       Category: {
         name: 'Category',
@@ -124,7 +153,14 @@ describe('straighten', function () {
           ['Deep Ecology', 85],
           ['New Ecologism', 20],
           ['Others', 7]
-        ]
+        ],
+        palette: {
+          'Social Ecology': '#da89e2',
+          'Green-economy': '#a3f9ac',
+          'Deep Ecology': '#d2d96b',
+          'New Ecologism': '#02f1e9',
+          Others: '#ffb492'
+        }
       },
       'Latest Six Posts Frequency': {
         name: 'Latest Six Posts Frequency',
@@ -135,7 +171,8 @@ describe('straighten', function () {
         top: [
           ['Undefined', 223],
           ['Dially', 143]
-        ]
+        ],
+        palette: {Undefined: '#f09c54', Dially: '#3ff6c9'}
       },
       Language: {
         name: 'Language',
@@ -149,7 +186,14 @@ describe('straighten', function () {
           ['All', 63],
           ['Spanish', 18],
           ['French', 12]
-        ]
+        ],
+        palette: {
+          English: '#cfbf53',
+          Portuguese: '#00c9ff',
+          All: '#ea6b72',
+          Spanish: '#7cc164',
+          French: '#ab8f5c'
+        }
       },
       'Information Resources': {
         name: 'Information Resources',
@@ -162,7 +206,13 @@ describe('straighten', function () {
           ['No', 16],
           ['Multi-Wiki', 3],
           ['Multiwiki', 1]
-        ]
+        ],
+        palette: {
+          Multimedia: '#d27b74',
+          No: '#00a5f2',
+          'Multi-Wiki': '#c1d367',
+          Multiwiki: '#ffc0e3'
+        }
       },
       indegree: {
         name: 'indegree',
@@ -188,12 +238,7 @@ describe('straighten', function () {
         max: 60,
         min: 2
       },
-      color: {
-        name: 'color',
-        kind: 'wellKnown',
-        count: 366,
-        type: 'key'
-      },
+      color: {name: 'color', kind: 'wellKnown', count: 366, type: 'key'},
       size: {
         name: 'size',
         kind: 'wellKnown',
@@ -225,6 +270,47 @@ describe('straighten', function () {
         type: 'number',
         max: 0,
         min: 0
+      },
+      'nansi-louvain': {
+        name: 'nansi-louvain',
+        kind: 'computed',
+        count: 366,
+        type: 'category',
+        cardinality: 19,
+        top: [
+          [0, 90],
+          [6, 56],
+          [3, 49],
+          [4, 48],
+          [5, 43],
+          [2, 19],
+          [8, 12],
+          [1, 9],
+          [9, 7],
+          [10, 6],
+          [7, 6],
+          [15, 4],
+          [14, 4],
+          [13, 3],
+          [12, 3]
+        ],
+        palette: {
+          '0': '#00c697',
+          '1': '#63c1ff',
+          '2': '#e49c4b',
+          '3': '#61af58',
+          '4': '#5196f7',
+          '5': '#bccc60',
+          '6': '#ffb5fa',
+          '7': '#d37794',
+          '8': '#86e997',
+          '9': '#c27dae',
+          '10': '#34fdfe',
+          '12': '#00c5bc',
+          '13': '#a2935d',
+          '14': '#9c89c8',
+          '15': '#ff9983'
+        }
       }
     });
   });
