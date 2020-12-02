@@ -4,9 +4,11 @@ import {WebGLRenderer} from 'sigma';
 
 import {usePrevious} from '../../hooks';
 import GraphControls from './GraphControls';
-import {GraphModelAttribute} from '../../../lib/straighten';
 
 import './GraphContainer.scss';
+
+// Defaults
+const DEFAULT_NODE_COLOR = '#999';
 
 // Camera controls
 function rescale(renderer: WebGLRenderer): void {
@@ -26,7 +28,7 @@ function zoomOut(renderer: WebGLRenderer): void {
 
 type GraphContainerProps = {
   graph: Graph;
-  nodeColor: GraphModelAttribute | null;
+  nodeColor: any;
 };
 
 type RenderedNode = {
@@ -53,7 +55,10 @@ export default function GraphContainer({
 
     // Color
     if (!nodeColor) {
-      renderedNode.color = attr.color || '#999';
+      renderedNode.color = attr.color || DEFAULT_NODE_COLOR;
+    } else {
+      renderedNode.color =
+        nodeColor.palette[attr[nodeColor.name]] || DEFAULT_NODE_COLOR;
     }
 
     return renderedNode;
@@ -66,6 +71,9 @@ export default function GraphContainer({
   if (renderer) {
     if (previousNodeColor !== nodeColor) {
       console.log('Refreshing sigma');
+
+      // TODO: use upcoming #.setNodeReducer
+      renderer.settings.nodeReducer = nodeReducer;
       renderer.refresh();
     }
   }

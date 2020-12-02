@@ -31,8 +31,8 @@ function isNumber(value): boolean {
 /**
  * Types used to represent the inferred model.
  */
-type GraphModelAttributeKind = 'own' | 'wellKnown' | 'computed';
-type GraphModelAttributeType = 'category' | 'number' | 'key' | 'unknown';
+export type GraphModelAttributeKind = 'own' | 'wellKnown' | 'computed';
+export type GraphModelAttributeType = 'category' | 'number' | 'key' | 'unknown';
 
 class GraphModelBaseAttribute {
   name: string;

@@ -6,6 +6,10 @@ import {ToolBoxNodeVariables} from '../../../atoms';
 import {ToolBoxActions} from '../../../hooks';
 import {GraphModelDeclaration} from '../../../../lib/straighten';
 
+const COMPUTED_METRICS_LABELS = {
+  'nansi-louvain': 'Louvain communities'
+};
+
 function collectOptionByType(list, type) {
   return (list || [])
     .filter(attr => {
@@ -14,7 +18,7 @@ function collectOptionByType(list, type) {
     .map(attr => {
       return {
         value: attr.name,
-        label: attr.name
+        label: COMPUTED_METRICS_LABELS[attr.name] || attr.name
       };
     });
 }
