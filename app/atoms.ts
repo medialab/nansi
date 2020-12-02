@@ -40,9 +40,14 @@ export type ToolBoxNodeVariables = {
   size: string | null;
 };
 
+export type ToolBoxLabelVariables = {
+  text: string | null;
+};
+
 export type ToolBoxState = {
   variables: {
     nodes: ToolBoxNodeVariables;
+    labels: ToolBoxLabelVariables;
   };
 };
 
@@ -57,6 +62,7 @@ export const toolBoxState = atom<ToolBoxState | null>({
 export type GraphVariables = {
   nodeColor: GraphModelAttribute | null;
   nodeSize: GraphModelAttribute | null;
+  nodeLabel: GraphModelAttribute | null;
   extents: GraphModelExtents;
 };
 
@@ -74,6 +80,9 @@ export const graphVariables = selector<GraphVariables | null>({
         : null,
       nodeSize: state.variables.nodes.size
         ? currentModel.nodes[state.variables.nodes.size]
+        : null,
+      nodeLabel: state.variables.labels.text
+        ? currentModel.nodes[state.variables.labels.text]
         : null,
       extents: currentModel.extents
     };

@@ -33,13 +33,14 @@ type GraphContainerProps = {
   graph: Graph;
   nodeColor: any;
   nodeSize: any;
+  nodeLabel: any;
   extents: GraphModelExtents;
 };
 
 type RenderedNode = {
   x: number;
   y: number;
-  label: string;
+  label?: string;
   size?: number;
   color?: string;
 };
@@ -48,10 +49,12 @@ export default function GraphContainer({
   graph,
   nodeColor,
   nodeSize,
+  nodeLabel,
   extents
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
   const previousNodeSize = usePrevious(nodeSize);
+  const previousNodeLabel = usePrevious(nodeLabel);
 
   let nodeSizeScale = null;
 
@@ -68,8 +71,7 @@ export default function GraphContainer({
   const nodeReducer = function (key, attr) {
     const renderedNode: RenderedNode = {
       x: attr.x,
-      y: attr.y,
-      label: attr.label
+      y: attr.y
     };
 
     // Color
@@ -88,6 +90,13 @@ export default function GraphContainer({
       renderedNode.size = nodeSizeScale(typeof v === 'number' ? v : 1);
     }
 
+    // Label
+    if (!nodeLabel) {
+      renderedNode.label = attr.label || key;
+    } else {
+      renderedNode.label = attr[nodeLabel.name] || '<no-label>';
+    }
+
     return renderedNode;
   };
 
@@ -96,7 +105,11 @@ export default function GraphContainer({
 
   // Should we refresh?
   if (renderer) {
-    if (previousNodeColor !== nodeColor || previousNodeSize !== nodeSize) {
+    if (
+      previousNodeColor !== nodeColor ||
+      previousNodeSize !== nodeSize ||
+      previousNodeLabel !== nodeLabel
+    ) {
       console.log('Refreshing sigma');
 
       // TODO: use upcoming #.setNodeReducer

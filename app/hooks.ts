@@ -35,6 +35,7 @@ export function useModel() {
 export type ToolBoxActions = {
   setNodeColor(color: string): void;
   setNodeSize(size: string): void;
+  setNodeLabel(label: string): void;
 };
 
 export function useToolBoxState(): [ToolBoxState, ToolBoxActions] {
@@ -46,7 +47,9 @@ export function useToolBoxState(): [ToolBoxState, ToolBoxActions] {
       setNodeColor: nodeColor =>
         setToolBoxState(set(['variables', 'nodes', 'color'], nodeColor)),
       setNodeSize: nodeSize =>
-        setToolBoxState(set(['variables', 'nodes', 'size'], nodeSize))
+        setToolBoxState(set(['variables', 'nodes', 'size'], nodeSize)),
+      setNodeLabel: nodeLabel =>
+        setToolBoxState(set(['variables', 'labels', 'text'], nodeLabel))
     }
   ];
 }
@@ -66,6 +69,9 @@ export function useSetNewGraph() {
           nodes: {
             color: null,
             size: null
+          },
+          labels: {
+            text: null
           }
         }
       };

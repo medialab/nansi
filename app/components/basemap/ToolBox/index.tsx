@@ -8,6 +8,7 @@ import ExportIcon from 'material-icons-svg/components/baseline/SaveAlt';
 import {useOpenModal, useModel, useToolBoxState} from '../../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
 import NodeVariables from './NodeVariables';
+import LabelVariables from './LabelVariables';
 
 import './ToolBox.scss';
 
@@ -42,11 +43,18 @@ export default function ToolBox() {
       </div>
       <div id="ToolBoxInner">
         {model && (
-          <NodeVariables
-            model={model.nodes}
-            variables={toolBoxState.variables.nodes}
-            actions={toolBoxActions}
-          />
+          <>
+            <NodeVariables
+              model={model.nodes}
+              variables={toolBoxState.variables.nodes}
+              actions={toolBoxActions}
+            />
+            <LabelVariables
+              model={model.nodes}
+              variables={toolBoxState.variables.labels}
+              actions={toolBoxActions}
+            />
+          </>
         )}
       </div>
       <div id="ToolBoxBottom" className="columns">

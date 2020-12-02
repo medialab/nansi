@@ -5,24 +5,7 @@ import ThemedSelect from '../../misc/ThemedSelect';
 import {ToolBoxNodeVariables} from '../../../atoms';
 import {ToolBoxActions} from '../../../hooks';
 import {GraphModelDeclaration} from '../../../../lib/straighten';
-
-const COMPUTED_METRICS_LABELS = {
-  'nansi-louvain': 'Louvain communities',
-  'nansi-betweenness': 'Betweenness centrality'
-};
-
-function collectOptionByType(list, type) {
-  return (list || [])
-    .filter(attr => {
-      return attr.type === type;
-    })
-    .map(attr => {
-      return {
-        value: attr.name,
-        label: COMPUTED_METRICS_LABELS[attr.name] || attr.name
-      };
-    });
-}
+import {collectOptionByType} from './utils';
 
 function pickColorOptions(modelByStatus) {
   const optgroups = [];

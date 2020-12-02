@@ -58,11 +58,14 @@ $nansi-toolbox-width: 350px;
     border-bottom: 1px solid $nansi-dark;
     height: calc(100vh - 30px - 80px - 64px);
     padding: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     .variables-block {
       padding: 5px;
       background-color: $nansi-light;
       border: 1px solid $nansi-dark;
+      margin-bottom: 5px;
 
       h2 {
         font-weight: bold;

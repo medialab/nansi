@@ -21,6 +21,7 @@ export default function BasemapView() {
         graph={graph}
         nodeColor={variables.nodeColor}
         nodeSize={variables.nodeSize}
+        nodeLabel={variables.nodeLabel}
         extents={variables.extents}
       />
       <GraphInformation graph={graph} />
