@@ -90,8 +90,8 @@ export default function NodeVariables({
     <div className="variables-block">
       <h2>Nodes</h2>
       <div className="columns">
-        <div className="column is-3">color</div>
-        <div className="column is-9">
+        <div className="column is-4">color</div>
+        <div className="column is-8">
           <ThemedSelect
             options={colorOptions}
             value={variables.color}
@@ -101,8 +101,8 @@ export default function NodeVariables({
         </div>
       </div>
       <div className="columns">
-        <div className="column is-3">size</div>
-        <div className="column is-9">
+        <div className="column is-4">size</div>
+        <div className="column is-8">
           <ThemedSelect
             options={sizeOptions}
             value={variables.size}

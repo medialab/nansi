@@ -78,8 +78,8 @@ export default function NodeVariables({
     <div className="variables-block">
       <h2>Labels</h2>
       <div className="columns">
-        <div className="column is-3">text</div>
-        <div className="column is-9">
+        <div className="column is-4">text</div>
+        <div className="column is-8">
           <ThemedSelect
             options={textOptions}
             value={variables.text}
@@ -89,8 +89,8 @@ export default function NodeVariables({
         </div>
       </div>
       <div className="columns">
-        <div className="column is-3">density</div>
-        <div className="column is-9">
+        <div className="column is-4">density</div>
+        <div className="column is-8">
           <DebouncedSlider
             defaultValue={variables.density}
             onChange={debounce(actions.setLabelDensity, 300)}

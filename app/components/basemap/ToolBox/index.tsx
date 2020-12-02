@@ -5,8 +5,14 @@ import ToRightIcon from 'material-icons-svg/components/baseline/KeyboardArrowRig
 import NewProjectIcon from 'material-icons-svg/components/baseline/FileCopy';
 import ExportIcon from 'material-icons-svg/components/baseline/SaveAlt';
 
-import {useOpenModal, useModel, useToolBoxState} from '../../../hooks';
+import {
+  useOpenModal,
+  useModel,
+  useToolBoxState,
+  useGraph
+} from '../../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
+import Layout from './Layout';
 import NodeVariables from './NodeVariables';
 import LabelVariables from './LabelVariables';
 
@@ -24,6 +30,7 @@ export default function ToolBox() {
   const [expanded, setExpanded] = useState(true);
   const openModal = useOpenModal();
   const model = useModel();
+  const graph = useGraph();
   const [toolBoxState, toolBoxActions] = useToolBoxState();
 
   return (
@@ -44,6 +51,7 @@ export default function ToolBox() {
       <div id="ToolBoxInner">
         {model && (
           <>
+            <Layout graph={graph} />
             <NodeVariables
               model={model.nodes}
               variables={toolBoxState.variables.nodes}
