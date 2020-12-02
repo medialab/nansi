@@ -34,7 +34,12 @@ function isNumber(value): boolean {
  * Types used to represent the inferred model.
  */
 export type GraphModelAttributeKind = 'own' | 'wellKnown' | 'computed';
-export type GraphModelAttributeType = 'category' | 'number' | 'key' | 'unknown';
+export type GraphModelAttributeType =
+  | 'category'
+  | 'number'
+  | 'key'
+  | 'unknown'
+  | 'constant';
 
 class GraphModelBaseAttribute {
   name: string;
@@ -63,6 +68,18 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
     return new GraphModelKeyAttribute(this.name, this.kind, this.count);
   }
 
+  degradeToConstant() {
+    const replacement = new GraphModelConstantAttribute(
+      this.name,
+      this.kind,
+      this.count
+    );
+
+    replacement.value = this.frequencies.top(1)[0][0];
+
+    return replacement;
+  }
+
   finalize() {
     this.cardinality = this.frequencies.dimension;
     this.top = this.frequencies.top(CATEGORY_TOP_VALUES);
@@ -83,6 +100,18 @@ class GraphModelNumberAttribute extends GraphModelBaseAttribute {
   type: 'number' = 'number';
   max: number = -Infinity;
   min: number = Infinity;
+
+  degradeToConstant() {
+    const replacement = new GraphModelConstantAttribute(
+      this.name,
+      this.kind,
+      this.count
+    );
+
+    replacement.value = this.min;
+
+    return replacement;
+  }
 }
 
 class GraphModelKeyAttribute extends GraphModelBaseAttribute {
@@ -91,6 +120,11 @@ class GraphModelKeyAttribute extends GraphModelBaseAttribute {
 
 class GraphModelUnknownAttribute extends GraphModelBaseAttribute {
   type: 'unknown' = 'unknown';
+}
+
+class GraphModelConstantAttribute extends GraphModelBaseAttribute {
+  type: 'constant' = 'constant';
+  value: string | number;
 }
 
 const attributeClasses = {
@@ -105,6 +139,7 @@ export type GraphModelAttribute =
   | GraphModelCategoryAttribute
   | GraphModelNumberAttribute
   | GraphModelKeyAttribute
+  | GraphModelConstantAttribute
   | GraphModelUnknownAttribute;
 
 export type GraphModelDeclaration = {[key: string]: GraphModelAttribute};
@@ -179,34 +214,31 @@ export default function straighten(graph: Graph): GraphModel {
       else if (k === 'label') probableType = 'key';
       else if (k === 'nansi-louvain') probableType = 'category';
 
-      let currentAttribute = model.nodes[k];
+      let spec = model.nodes[k];
 
-      if (!currentAttribute) {
+      if (!spec) {
         let kind: GraphModelAttributeKind = 'own';
 
         if (WELL_KNOWN_NODE_ATTRIBUTES.has(k)) kind = 'wellKnown';
 
         if (k.startsWith('nansi-')) kind = 'computed';
 
-        currentAttribute = new attributeClasses[probableType](k, kind);
-        model.nodes[k] = currentAttribute;
+        spec = new attributeClasses[probableType](k, kind);
+        model.nodes[k] = spec;
       }
 
-      currentAttribute.count++;
+      spec.count++;
 
       // TODO: handle conflicts
-      if (currentAttribute instanceof GraphModelNumberAttribute) {
-        if (v > currentAttribute.max) currentAttribute.max = v;
-        if (v < currentAttribute.min) currentAttribute.min = v;
-      } else if (currentAttribute instanceof GraphModelCategoryAttribute) {
-        currentAttribute.frequencies.add(v);
+      if (spec instanceof GraphModelNumberAttribute) {
+        if (v > spec.max) spec.max = v;
+        if (v < spec.min) spec.min = v;
+      } else if (spec instanceof GraphModelCategoryAttribute) {
+        spec.frequencies.add(v);
 
         // Too much unique values to consider it a category
-        if (
-          currentAttribute.frequencies.dimension >
-          graph.order * CATEGORY_CUTOFF_RATIO
-        ) {
-          model.nodes[k] = currentAttribute.degradeToKeyAttribute();
+        if (spec.frequencies.dimension > graph.order * CATEGORY_CUTOFF_RATIO) {
+          model.nodes[k] = spec.degradeToKeyAttribute();
         }
       }
     }
@@ -231,7 +263,19 @@ export default function straighten(graph: Graph): GraphModel {
       return attr;
     });
 
-  for (const k in model.nodes) model.nodes[k].finalize();
+  for (const k in model.nodes) {
+    const spec = model.nodes[k];
+
+    if (
+      (spec instanceof GraphModelCategoryAttribute &&
+        spec.frequencies.dimension === 1) ||
+      (spec instanceof GraphModelNumberAttribute && spec.min === spec.max)
+    ) {
+      model.nodes[k] = spec.degradeToConstant();
+    } else {
+      spec.finalize();
+    }
+  }
 
   model.extents = {
     nodeSize: {

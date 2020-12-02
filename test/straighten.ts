@@ -58,10 +58,9 @@ describe('straighten', function () {
       z: {
         name: 'z',
         kind: 'own',
+        type: 'constant',
         count: 1715,
-        type: 'number',
-        max: 0,
-        min: 0
+        value: 0
       },
       'nansi-louvain': {
         name: 'nansi-louvain',
@@ -286,9 +285,8 @@ describe('straighten', function () {
         name: 'z',
         kind: 'own',
         count: 366,
-        type: 'number',
-        max: 0,
-        min: 0
+        type: 'constant',
+        value: 0
       },
       'nansi-louvain': {
         name: 'nansi-louvain',
