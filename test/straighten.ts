@@ -126,8 +126,8 @@ describe('straighten', function () {
     assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
       label: {name: 'label', kind: 'wellKnown', count: 366, type: 'key'},
       Label2: {name: 'Label2', kind: 'own', count: 366, type: 'key'},
-      'Nature of institution:': {
-        name: 'Nature of institution:',
+      'Nature of institution': {
+        name: 'Nature of institution',
         kind: 'own',
         count: 366,
         type: 'category',
@@ -146,17 +146,17 @@ describe('straighten', function () {
           ['Politic', 1]
         ],
         palette: {
-          NGO: '#ffafa2',
-          'Trans-institutional': '#76fdc7',
-          Individual: '#e6a7ff',
-          Educational: '#7dbd5f',
-          'Social Movement': '#f3ce66',
-          Event: '#ff94a3',
-          Media: '#d07a87',
-          Governmental: '#4aa37f',
-          Business: '#b58d44',
-          Religious: '#66e8ff',
-          Politic: '#c3837e'
+          NGO: '#a7915b',
+          'Trans-institutional': '#5493f1',
+          Individual: '#f7d56c',
+          Educational: '#879c32',
+          'Social Movement': '#fcabff',
+          Event: '#baf4aa',
+          Media: '#00ab8d',
+          Governmental: '#01aadc',
+          Business: '#ff95c0',
+          Religious: '#ffd099',
+          Politic: '#ff9080'
         }
       },
       Category: {
@@ -231,30 +231,6 @@ describe('straighten', function () {
           'Multi-Wiki': '#c1d367',
           Multiwiki: '#ffc0e3'
         }
-      },
-      indegree: {
-        name: 'indegree',
-        kind: 'own',
-        count: 366,
-        type: 'number',
-        max: 51,
-        min: 0
-      },
-      outdegree: {
-        name: 'outdegree',
-        kind: 'own',
-        count: 366,
-        type: 'number',
-        max: 47,
-        min: 0
-      },
-      degree: {
-        name: 'degree',
-        kind: 'own',
-        count: 366,
-        type: 'number',
-        max: 60,
-        min: 2
       },
       color: {name: 'color', kind: 'wellKnown', count: 366, type: 'key'},
       size: {
