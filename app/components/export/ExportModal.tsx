@@ -18,6 +18,10 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
     exportGraph(graph, {name: 'graph.gexf', format: 'gexf'});
   }
 
+  function exportJson() {
+    exportGraph(graph, {name: 'graph.json', format: 'json'});
+  }
+
   return (
     <div id="ExportModal" className={cls('modal', isOpen && 'is-active')}>
       <div className="modal-background" onClick={close} />
@@ -25,9 +29,12 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
         <div className="export-modal-box">
           <h2>Export</h2>
           <div className="columns">
-            <div className="column is-4">
+            <div className="column is-12">
               <button className="button" onClick={exportGexf}>
                 As a gexf file
+              </button>
+              <button className="button" onClick={exportJson}>
+                As a json file
               </button>
             </div>
           </div>

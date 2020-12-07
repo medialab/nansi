@@ -28,8 +28,8 @@ export default function FileDrop({onDrop}: FileDropProps) {
           <em>
             Click to upload a file or drop the file here.
             <br />
-            We currently accept only <strong>.gexf</strong> and{' '}
-            <strong>.graphml</strong> files.
+            We currently accept only <strong>.json</strong>,{' '}
+            <strong>.gexf</strong> and <strong>.graphml</strong> files.
           </em>
         </div>
       )}
