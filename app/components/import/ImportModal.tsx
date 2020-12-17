@@ -24,9 +24,10 @@ function ExampleList({onClick}) {
 
 type ImportModalProps = {
   isOpen: boolean;
+  close: () => void;
 };
 
-export default function ImportModal({isOpen}: ImportModalProps) {
+export default function  ImportModal({isOpen, close}: ImportModalProps) {
   const [activeTab, setActiveTab] = useState('file');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,7 +71,7 @@ export default function ImportModal({isOpen}: ImportModalProps) {
 
   return (
     <div id="ImportModal" className={cls('modal', isOpen && 'is-active')}>
-      <div className="modal-background" />
+      <div className="modal-background" onClick={close} />
       <div className="modal-content">
         <div className="import-modal-box">
           <h2>New project</h2>
