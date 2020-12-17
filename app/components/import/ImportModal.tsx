@@ -24,9 +24,11 @@ function ExampleList({onClick}) {
 
 type ImportModalProps = {
   isOpen: boolean;
+  disableClose: boolean;
+  close: () => void;
 };
 
-export default function ImportModal({isOpen}: ImportModalProps) {
+export default function  v({isOpen, close, disableClose}: ImportModalProps) {
   const [activeTab, setActiveTab] = useState('file');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,6 +57,12 @@ export default function ImportModal({isOpen}: ImportModalProps) {
     workerPool.import({type: 'file', file}, onGraphImported);
   }
 
+  function handleCloseAttempt() {
+    if (!disableClose) {
+      close();
+    }
+  }
+
   let body = null;
 
   if (isLoading) {
@@ -70,7 +78,7 @@ export default function ImportModal({isOpen}: ImportModalProps) {
 
   return (
     <div id="ImportModal" className={cls('modal', isOpen && 'is-active')}>
-      <div className="modal-background" />
+      <div className="modal-background" onClick={handleCloseAttempt} />
       <div className="modal-content">
         <div className="import-modal-box">
           <h2>New project</h2>
