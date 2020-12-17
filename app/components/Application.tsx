@@ -19,7 +19,7 @@ export default function Application() {
 
   return (
     <>
-      <ImportModal isOpen={modal === 'import'} disableClose={graph === null} close={closeModal} />
+      <ImportModal isOpen={modal === 'import'} close={graph !== null ? closeModal : null} />
       <ExportModal isOpen={modal === 'export'} close={closeModal} />
       {viewComponent}
     </>
