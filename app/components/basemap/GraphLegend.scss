@@ -1,0 +1,28 @@
+@import '../../variables.scss';
+
+#GraphLegend {
+  position: absolute;
+  right: 15px;
+  bottom: 15px + 104px + 5px;
+  z-index: 10;
+  background-color: white;
+  color: $nansi-dark;
+  padding: 5px;
+  width: 150px;
+  border: 1px solid $nansi-dark;
+  font-size: 0.8em;
+
+  h2 {
+    border-bottom: 1px solid $nansi-dark;
+    margin-bottom: 5px;
+  }
+
+  ul {
+    max-height: 200px;
+    overflow-y: auto;
+
+    li {
+      text-overflow: ellipsis;
+    }
+  }
+}

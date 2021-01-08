@@ -4,6 +4,7 @@ import {useGraph, useGraphVariables} from '../../hooks';
 
 import GraphContainer from './GraphContainer';
 import GraphInformation from './GraphInformation';
+import GraphLegend from './GraphLegend';
 import ToolBox from './ToolBox';
 
 import './index.scss';
@@ -25,6 +26,7 @@ export default function BasemapView() {
         labelDensity={variables.labelDensity}
         extents={variables.extents}
       />
+      <GraphLegend attribute={variables.nodeColor} />
       <GraphInformation graph={graph} />
     </div>
   );
