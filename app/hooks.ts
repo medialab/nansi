@@ -1,6 +1,7 @@
 import {useRef, useEffect} from 'react';
 import Graph from 'graphology-types';
 import {GraphModel} from '../lib/straighten';
+import {exportLayout, applyLayout} from '../lib/utils';
 import {
   useSetRecoilState,
   useRecoilValue,
@@ -90,9 +91,27 @@ export function useSetNewGraph() {
       set(atoms.graph, graph);
       set(atoms.model, model);
       set(atoms.toolBoxState, toolBoxState);
+      set(atoms.collaterals, {
+        initialLayout: exportLayout(graph)
+      });
     },
     []
   );
+}
+
+export function useResetLayout() {
+  const collaterals = useRecoilValue(atoms.collaterals);
+  const graph = useRecoilValue(atoms.graph);
+  const renderer = useRecoilValue(atoms.renderer);
+
+  return () => {
+    if (!collaterals) return;
+
+    applyLayout(graph, collaterals.initialLayout);
+
+    // TODO: drop this later when batch updates are supported in sigma
+    renderer.refresh();
+  };
 }
 
 export function useOpenModal() {

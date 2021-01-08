@@ -69,9 +69,10 @@ function LayoutLoader({hidden = false}) {
 
 type LayoutProps = {
   renderer: WebGLRenderer;
+  reset: () => void;
 };
 
-export default function Layout({renderer}: LayoutProps) {
+export default function Layout({renderer, reset}: LayoutProps) {
   const fa2Ref = useRef(null);
   const noverlapRef = useRef(null);
   const [isFA2Working, setIsFA2Working] = useState(false);
@@ -135,7 +136,8 @@ export default function Layout({renderer}: LayoutProps) {
               <Button
                 isSize="small"
                 style={{width: '30px', padding: '0px'}}
-                onClick={null}>
+                disabled={isFA2Working || isNoverlapWorking}
+                onClick={reset}>
                 <ResetIcon width={20} height={20} />
               </Button>
             </p>

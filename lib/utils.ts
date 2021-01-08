@@ -12,3 +12,22 @@ export function exportLayout(graph: Graph): Float64Array {
 
   return pos;
 }
+
+export function applyLayout(graph: Graph, layout: Float64Array) {
+  if (layout.length !== graph.order * 2)
+    throw new Error(
+      'nansi/lib/utils/applyLayout: layout length is not consistent with graph order!'
+    );
+
+  let i = 0;
+
+  graph.updateEachNodeAttributes(
+    (node, attr) => {
+      attr.x = layout[i++];
+      attr.y = layout[i++];
+
+      return attr;
+    },
+    {attributes: ['x', 'y']}
+  );
+}

@@ -9,7 +9,8 @@ import {
   useOpenModal,
   useModel,
   useToolBoxState,
-  useRenderer
+  useRenderer,
+  useResetLayout
 } from '../../../hooks';
 import ToolBoxIcon from './ToolBoxIcon';
 import Layout from './Layout';
@@ -32,6 +33,7 @@ export default function ToolBox() {
   const model = useModel();
   const [renderer] = useRenderer();
   const [toolBoxState, toolBoxActions] = useToolBoxState();
+  const resetLayout = useResetLayout();
 
   return (
     <div id="ToolBox" className={cls(expanded && 'expanded')}>
@@ -51,7 +53,7 @@ export default function ToolBox() {
       <div id="ToolBoxInner">
         {model && (
           <>
-            <Layout renderer={renderer} />
+            <Layout renderer={renderer} reset={resetLayout} />
             <NodeVariables
               model={model.nodes}
               variables={toolBoxState.variables.nodes}
