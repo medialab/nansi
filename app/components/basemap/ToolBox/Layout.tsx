@@ -3,6 +3,7 @@ import {Camera, WebGLRenderer} from 'sigma';
 import {Button} from 'bloomer';
 import PlayIcon from 'material-icons-svg/components/baseline/PlayArrow';
 import PauseIcon from 'material-icons-svg/components/baseline/Pause';
+import ResetIcon from 'material-icons-svg/components/baseline/SettingsBackupRestore';
 import fa2Layout from 'graphology-layout-forceatlas2';
 import FA2LayoutSupervisor from 'graphology-layout-forceatlas2/worker';
 import NoverlapLayoutSupervisor from 'graphology-layout-noverlap/worker';
@@ -126,6 +127,21 @@ export default function Layout({renderer}: LayoutProps) {
   return (
     <div className="variables-block">
       <h2>Layout</h2>
+      <div className="columns">
+        <div className="column is-4">Reset</div>
+        <div className="column is-8">
+          <div className="field has-addons">
+            <p className="control">
+              <Button
+                isSize="small"
+                style={{width: '30px', padding: '0px'}}
+                onClick={null}>
+                <ResetIcon width={20} height={20} />
+              </Button>
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="columns">
         <div className="column is-4">ForceAtlas2</div>
         <div className="column is-8">

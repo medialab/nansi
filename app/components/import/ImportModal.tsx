@@ -27,7 +27,7 @@ type ImportModalProps = {
   close: () => void;
 };
 
-export default function  ImportModal({isOpen, close}: ImportModalProps) {
+export default function ImportModal({isOpen, close}: ImportModalProps) {
   const [activeTab, setActiveTab] = useState('file');
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {loadGexfResource} from './utils';
+import {loadGexfResource} from './test-utils';
 import straighten from '../lib/straighten';
 import toSimple from 'graphology-operators/to-simple';
 

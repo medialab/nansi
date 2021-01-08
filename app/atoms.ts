@@ -39,6 +39,16 @@ export const model = atom<GraphModel | null>({
   default: null
 });
 
+type GraphCollaterals = {
+  initialLayout: Float64Array;
+};
+
+export const collaterals = atom<GraphCollaterals | null>({
+  key: 'collaterals',
+  default: null,
+  dangerouslyAllowMutability: true
+});
+
 /**
  * Toolbox state.
  */

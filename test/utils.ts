@@ -1,17 +1,18 @@
+import assert from 'assert';
 import Graph from 'graphology';
-import gexf from 'graphology-gexf';
-import fs from 'fs';
-import {join} from 'path';
+import {exportLayout} from '../lib/utils';
 
-import {inspect} from 'util';
+describe('utils', function () {
+  describe('#.exportLayout', function () {
+    it('should export layout correctly.', function () {
+      const graph = new Graph();
 
-inspect.defaultOptions.depth = 5;
+      graph.addNode('John', {x: 23, y: 45});
+      graph.addNode('Mary', {x: -4, y: 7.6});
 
-export function loadGexfResource(name) {
-  const text = fs.readFileSync(
-    join(__dirname, '..', 'resources', `${name}.gexf`),
-    'utf-8'
-  );
+      const layout = exportLayout(graph);
 
-  return gexf.parse(Graph, text);
-}
+      assert.deepStrictEqual(layout, new Float64Array([23, 45, -4, 7.6]));
+    });
+  });
+});
