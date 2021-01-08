@@ -48,6 +48,24 @@ function instantiateNoverlap(renderer: WebGLRenderer, onConverged: () => void) {
   return noverlapSupervisor;
 }
 
+function LayoutLoader({hidden = false}) {
+  return (
+    <p className="control">
+      <Button
+        style={{
+          width: '30px',
+          padding: '0px',
+          border: 'none',
+          background: 'none',
+          display: hidden ? 'none' : 'block'
+        }}
+        isSize="small"
+        isColor="white"
+        isLoading></Button>
+    </p>
+  );
+}
+
 type LayoutProps = {
   renderer: WebGLRenderer;
 };
@@ -81,36 +99,28 @@ export default function Layout({renderer}: LayoutProps) {
     };
   }, [renderer]);
 
-  function startFA2() {
-    if (isFA2Working || !fa2Ref.current) return;
+  function toggleFA2() {
+    if (!fa2Ref.current) return;
 
-    fa2Ref.current.start();
-
-    setIsFA2Working(true);
+    if (!isFA2Working) {
+      fa2Ref.current.start();
+      setIsFA2Working(true);
+    } else {
+      fa2Ref.current.stop();
+      setIsFA2Working(false);
+    }
   }
 
-  function stopFA2() {
-    if (!isFA2Working || !fa2Ref.current) return;
+  function toggleNoverlap() {
+    if (!noverlapRef.current) return;
 
-    fa2Ref.current.stop();
-
-    setIsFA2Working(false);
-  }
-
-  function startNoverlap() {
-    if (isNoverlapWorking || !noverlapRef.current) return;
-
-    noverlapRef.current.start();
-
-    setIsNoverlapWorking(true);
-  }
-
-  function stopNoverlap() {
-    if (!isNoverlapWorking || !noverlapRef.current) return;
-
-    noverlapRef.current.stop();
-
-    setIsNoverlapWorking(false);
+    if (!isNoverlapWorking) {
+      noverlapRef.current.start();
+      setIsNoverlapWorking(true);
+    } else {
+      noverlapRef.current.stop();
+      setIsNoverlapWorking(false);
+    }
   }
 
   return (
@@ -125,20 +135,15 @@ export default function Layout({renderer}: LayoutProps) {
                 isSize="small"
                 style={{width: '30px', padding: '0px'}}
                 disabled={isNoverlapWorking}
-                isLoading={isFA2Working}
-                onClick={startFA2}>
-                {!isFA2Working ? <PlayIcon width={20} height={20} /> : null}
+                onClick={toggleFA2}>
+                {!isFA2Working ? (
+                  <PlayIcon width={20} height={20} />
+                ) : (
+                  <PauseIcon width={20} height={20} />
+                )}
               </Button>
             </p>
-            <p className="control">
-              <Button
-                isSize="small"
-                style={{width: '30px', padding: '0px'}}
-                disabled={!isFA2Working || isNoverlapWorking}
-                onClick={stopFA2}>
-                <PauseIcon width={20} height={20} />
-              </Button>
-            </p>
+            <LayoutLoader hidden={!isFA2Working} />
           </div>
         </div>
       </div>
@@ -150,23 +155,16 @@ export default function Layout({renderer}: LayoutProps) {
               <Button
                 isSize="small"
                 style={{width: '30px', padding: '0px'}}
-                isLoading={isNoverlapWorking}
                 disabled={isFA2Working}
-                onClick={startNoverlap}>
+                onClick={toggleNoverlap}>
                 {!isNoverlapWorking ? (
                   <PlayIcon width={20} height={20} />
-                ) : null}
+                ) : (
+                  <PauseIcon width={20} height={20} />
+                )}
               </Button>
             </p>
-            <p className="control">
-              <Button
-                isSize="small"
-                style={{width: '30px', padding: '0px'}}
-                disabled={!isNoverlapWorking || isFA2Working}
-                onClick={stopNoverlap}>
-                <PauseIcon width={20} height={20} />
-              </Button>
-            </p>
+            <LayoutLoader hidden={!isNoverlapWorking} />
           </div>
         </div>
       </div>
