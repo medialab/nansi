@@ -74,7 +74,7 @@
     "comma-number": "^2.0.1",
     "d3-scale": "^3.2.3",
     "file-saver": "^2.0.5",
-    "graphology": "^0.19.2",
+    "graphology": "^0.19.3",
     "graphology-communities-louvain": "^1.4.0",
     "graphology-gexf": "^0.7.2",
     "graphology-graphml": "^0.3.0",
