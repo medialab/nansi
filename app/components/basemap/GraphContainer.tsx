@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useRef} from 'react';
 import Graph from 'graphology';
 import {WebGLRenderer} from 'sigma';
 import {scaleLinear} from 'd3-scale';
@@ -6,15 +6,13 @@ import {scaleLinear} from 'd3-scale';
 import {usePrevious, useRenderer} from '../../hooks';
 import GraphControls from './GraphControls';
 import {GraphModelExtents} from '../../../lib/straighten';
+import {createNodeReducer} from '../../lib/reducers';
 
 import './GraphContainer.scss';
 
 // Defaults
-const DEFAULT_NODE_COLOR = '#999';
-const DEFAULT_NODE_SIZE_RANGE = [2, 15];
 const CELL_HEIGHT_RANGE = [200, 10];
 const CELL_WIDTH_RANGE = [300, 30];
-
 const CELL_HEIGHT_SCALE = scaleLinear().domain([0, 1]).range(CELL_HEIGHT_RANGE);
 const CELL_WIDTH_SCALE = scaleLinear().domain([0, 1]).range(CELL_WIDTH_RANGE);
 
@@ -43,14 +41,6 @@ type GraphContainerProps = {
   extents: GraphModelExtents;
 };
 
-type RenderedNode = {
-  x: number;
-  y: number;
-  label?: string;
-  size?: number;
-  color?: string;
-};
-
 export default function GraphContainer({
   graph,
   nodeColor,
@@ -64,49 +54,12 @@ export default function GraphContainer({
   const previousNodeLabel = usePrevious(nodeLabel);
   const previousLabelDensity = usePrevious(labelDensity);
 
-  let nodeSizeScale = null;
-
-  if (!nodeSize) {
-    nodeSizeScale = scaleLinear()
-      .domain([extents.nodeSize.min, extents.nodeSize.max])
-      .range(DEFAULT_NODE_SIZE_RANGE);
-  } else {
-    nodeSizeScale = scaleLinear()
-      .domain([nodeSize.min, nodeSize.max])
-      .range(DEFAULT_NODE_SIZE_RANGE);
-  }
-
-  const nodeReducer = function (key, attr) {
-    const renderedNode: RenderedNode = {
-      x: attr.x,
-      y: attr.y
-    };
-
-    // Color
-    if (!nodeColor) {
-      renderedNode.color = attr.color || DEFAULT_NODE_COLOR;
-    } else {
-      renderedNode.color =
-        nodeColor.palette[attr[nodeColor.name]] || DEFAULT_NODE_COLOR;
-    }
-
-    // Size
-    if (!nodeSize) {
-      renderedNode.size = nodeSizeScale(attr.size || 1);
-    } else {
-      let v = attr[nodeSize.name];
-      renderedNode.size = nodeSizeScale(typeof v === 'number' ? v : 1);
-    }
-
-    // Label
-    if (!nodeLabel) {
-      renderedNode.label = attr.label || key;
-    } else {
-      renderedNode.label = attr[nodeLabel.name] || '<no-label>';
-    }
-
-    return renderedNode;
-  };
+  const nodeReducer = createNodeReducer({
+    nodeColor,
+    nodeSize,
+    nodeLabel,
+    extents
+  });
 
   const container = useRef(null);
   const [renderer, setRenderer] = useRenderer();
