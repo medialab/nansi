@@ -40,3 +40,8 @@ body,
 .rc-slider-track {
   background-color: $nansi-medium;
 }
+
+// Extending hints
+.hint--custom:after {
+  width: attr(data-hint-width px, 0);
+}

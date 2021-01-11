@@ -76,6 +76,12 @@ $nansi-toolbox-width: 350px;
       .columns {
         margin-bottom: 0px;
       }
+
+      #layout-reset {
+        &.inactive {
+          fill: $nansi-medium;
+        }
+      }
     }
   }
 }

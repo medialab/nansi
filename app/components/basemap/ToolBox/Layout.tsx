@@ -8,6 +8,8 @@ import fa2Layout from 'graphology-layout-forceatlas2';
 import FA2LayoutSupervisor from 'graphology-layout-forceatlas2/worker';
 import NoverlapLayoutSupervisor from 'graphology-layout-noverlap/worker';
 
+import Hint from '../../misc/Hint';
+
 const DEFAULT_NOVERLAP_SETTINGS = {
   margin: 3,
   ratio: 1
@@ -125,25 +127,40 @@ export default function Layout({renderer, reset}: LayoutProps) {
     }
   }
 
+  function safeReset() {
+    if (isFA2Working || isNoverlapWorking) return;
+
+    reset();
+  }
+
   return (
     <div className="variables-block">
-      <h2>Layout</h2>
-      <div className="columns">
-        <div className="column is-4">Reset</div>
-        <div className="column is-8">
-          <div className="field has-addons">
-            <p className="control">
-              <Button
-                isSize="small"
-                style={{width: '30px', padding: '0px'}}
-                disabled={isFA2Working || isNoverlapWorking}
-                onClick={reset}>
-                <ResetIcon width={20} height={20} />
-              </Button>
-            </p>
+      <h2>
+        <div className="columns">
+          <div className="column is-10" style={{paddingBottom: '0px'}}>
+            Layout
+          </div>
+          <div
+            className="column is-2"
+            style={{
+              paddingBottom: '0px',
+              textAlign: 'right',
+              cursor: 'pointer'
+            }}>
+            <Hint hint="Reset layout" position="left" width={20} size="custom">
+              <ResetIcon
+                id="layout-reset"
+                width={19}
+                height={19}
+                onClick={safeReset}
+                className={
+                  isFA2Working || isNoverlapWorking ? 'inactive' : 'active'
+                }
+              />
+            </Hint>
           </div>
         </div>
-      </div>
+      </h2>
       <div className="columns">
         <div className="column is-4">ForceAtlas2</div>
         <div className="column is-8">
