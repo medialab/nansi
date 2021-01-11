@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import cls from 'classnames';
 import {Button} from 'bloomer';
+import {render as renderGraphToCanvas} from 'graphology-canvas';
 
 import {exportGraph} from '../../lib/export';
-import {useGraph} from '../../hooks';
+import {useGraph, useCanvas} from '../../hooks';
 
 import './ExportModal.scss';
 
@@ -12,7 +13,7 @@ type ExportModalProps = {
   close: () => void;
 };
 
-function ExportGexfPanel({save}) {
+function ExportGexfPanel({graph, save}) {
   const [name, setName] = useState('graph.gexf');
 
   return (
@@ -31,7 +32,9 @@ function ExportGexfPanel({save}) {
       <br />
       <br />
       <div>
-        <Button onClick={() => save({name, format: 'gexf'})} isColor="black">
+        <Button
+          onClick={() => save(graph, {name, format: 'gexf'})}
+          isColor="black">
           Download
         </Button>
       </div>
@@ -39,7 +42,7 @@ function ExportGexfPanel({save}) {
   );
 }
 
-function ExportJsonPanel({save}) {
+function ExportJsonPanel({graph, save}) {
   const [name, setName] = useState('graph.json');
   const [minify, setMinify] = useState(false);
 
@@ -71,7 +74,7 @@ function ExportJsonPanel({save}) {
       <br />
       <div>
         <Button
-          onClick={() => save({name, format: 'json', minify})}
+          onClick={() => save(graph, {name, format: 'json', minify})}
           isColor="black">
           Download
         </Button>
@@ -80,8 +83,70 @@ function ExportJsonPanel({save}) {
   );
 }
 
-function ExportImagePanel() {
-  return <div>todo...</div>;
+function ExportImagePanel({graph, save}) {
+  const [name, setName] = useState('graph.png');
+  const [size, setSize] = useState(2048);
+
+  const ref = useCanvas(
+    (canvas, ctx) => {
+      if (!size) return;
+
+      canvas.setAttribute('width', size);
+      canvas.setAttribute('height', size);
+      ctx.clearRect(0, 0, size, size);
+      renderGraphToCanvas(graph, ctx, {width: size});
+    },
+    [size]
+  );
+
+  return (
+    <div className="columns">
+      <div className="column is-4">
+        <div className="field">
+          <label className="label">File name</label>
+          <div className="control"></div>
+          <input
+            className="input"
+            type="text"
+            placeholder="e.g. graph.png"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+        </div>
+        <div className="field">
+          <label className="label">Size in pixels</label>
+          <div className="control"></div>
+          <input
+            className="input"
+            type="number"
+            min={100}
+            step={100}
+            value={size}
+            onChange={e => setSize(+e.target.value)}
+          />
+        </div>
+        <br />
+        <br />
+        <div>
+          <Button
+            onClick={() => console.log('Not implemented!')}
+            isColor="black">
+            Download
+          </Button>
+        </div>
+      </div>
+      <div
+        className="column is-8"
+        style={{
+          padding: '15px',
+          textAlign: 'center'
+        }}>
+        <div style={{height: '450px', width: '450px', margin: '0 auto'}}>
+          <canvas ref={ref} style={{width: '100%', margin: '0 auto'}} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const PANELS = {
@@ -102,12 +167,17 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
 
   const PanelComponent = PANELS[activeTab];
 
-  const save = exportGraph.bind(null, graph);
+  const isLarge = activeTab === 'image';
+
+  const modalContentStyle = {
+    width: isLarge ? '75%' : null,
+    transition: 'width 0.2s'
+  };
 
   return (
     <div id="ExportModal" className={cls('modal', isOpen && 'is-active')}>
       <div className="modal-background" onClick={close} />
-      <div className="modal-content">
+      <div className="modal-content" style={modalContentStyle}>
         <div className="export-modal-box">
           <h2>Export</h2>
           <div className="tabs">
@@ -133,7 +203,7 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
               </li>
             </ul>
           </div>
-          <PanelComponent save={save} />
+          <PanelComponent graph={graph} save={exportGraph} />
         </div>
       </div>
     </div>

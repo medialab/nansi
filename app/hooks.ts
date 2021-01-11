@@ -125,3 +125,15 @@ export function useCloseModal() {
 
   return () => setModal(null);
 }
+
+export function useCanvas(callback, deps = []) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    callback(canvas, ctx);
+  }, deps);
+
+  return canvasRef;
+}
