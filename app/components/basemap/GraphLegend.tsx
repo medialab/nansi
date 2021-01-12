@@ -15,7 +15,7 @@ export default function GraphLegend({attribute}) {
       <ul>
         {attribute.top.map(([label]) => {
           return (
-            <li>
+            <li key={label}>
               <LegendCircle color={attribute.palette[label]} /> {label}
             </li>
           );
