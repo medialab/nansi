@@ -129,7 +129,11 @@ function ExportImagePanel({graph, save}) {
         <br />
         <div>
           <Button
-            onClick={() => console.log('Not implemented!')}
+            onClick={() => {
+              if (!ref.current) return;
+
+              save(graph, {name, format: 'png', canvas: ref.current});
+            }}
             isColor="black">
             Download
           </Button>
