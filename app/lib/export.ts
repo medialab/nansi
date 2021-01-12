@@ -5,11 +5,21 @@ import {saveText} from './save';
 
 export type ExportFormat = 'gexf' | 'json';
 
-type ExportOptions = {
+interface BaseExportOptions {
   name: string;
   format: ExportFormat;
+}
+
+interface GexfExportOptions extends BaseExportOptions {
+  format: 'gexf';
+}
+
+interface JsonExportOptions extends BaseExportOptions {
+  format: 'json';
   minify?: boolean;
-};
+}
+
+type ExportOptions = GexfExportOptions | JsonExportOptions;
 
 export function exportGraph(graph: Graph, options: ExportOptions): void {
   if (options.format === 'gexf') {
