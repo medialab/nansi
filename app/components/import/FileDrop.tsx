@@ -3,6 +3,8 @@ import {useDropzone} from 'react-dropzone';
 
 import './FileDrop.scss';
 
+const ACCEPT = '.json,.gexf,.graphml,application/json';
+
 type FileDropProps = {
   onDrop: (file: File) => void;
 };
@@ -18,7 +20,7 @@ export default function FileDrop({onDrop}: FileDropProps) {
 
   return (
     <div className="FileDrop" {...getRootProps()}>
-      <input {...getInputProps()} />
+      <input {...getInputProps()} accept={ACCEPT} />
       {isDragActive ? (
         <div>
           <em>Drop the file here!</em>
