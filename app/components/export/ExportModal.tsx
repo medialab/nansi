@@ -83,6 +83,14 @@ function ExportJsonPanel({graph, save}) {
   );
 }
 
+const SIZE_TEMPLATES = [
+  {size: 512, name: 'tiny'},
+  {size: 1024, name: 'small'},
+  {size: 2048, name: 'medium'},
+  {size: 4096, name: 'large'},
+  {size: 8192, name: 'gigantic'}
+];
+
 function ExportImagePanel({graph, save}) {
   const [name, setName] = useState('graph.png');
   const [size, setSize] = useState(2048);
@@ -114,17 +122,31 @@ function ExportImagePanel({graph, save}) {
           />
         </div>
         <div className="field">
-          <label className="label">Size in pixels</label>
-          <div className="control"></div>
-          <input
-            className="input"
-            type="number"
-            min={100}
-            step={100}
-            value={size}
-            onChange={e => setSize(+e.target.value)}
-          />
+          <label className="label">Size</label>
         </div>
+        <div className="field has-addons">
+          {SIZE_TEMPLATES.map(t => {
+            return (
+              <p className="control" key={t.name}>
+                <Button
+                  isSize="small"
+                  isColor={size === t.size ? 'black' : null}
+                  onClick={() => {
+                    if (size === t.size) return;
+
+                    setSize(t.size);
+                  }}>
+                  {t.name}
+                </Button>
+              </p>
+            );
+          })}
+        </div>
+        <p>
+          <em style={{fontSize: '0.8em'}}>
+            Currently {size} x {size} pixels
+          </em>
+        </p>
         <br />
         <br />
         <div>
