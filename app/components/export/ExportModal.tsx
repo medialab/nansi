@@ -4,7 +4,8 @@ import {Button} from 'bloomer';
 import {render as renderGraphToCanvas} from 'graphology-canvas';
 
 import {exportGraph} from '../../lib/export';
-import {useGraph, useCanvas} from '../../hooks';
+import {useGraph, useGraphVariables, useCanvas} from '../../hooks';
+import {createNodeReducer} from '../../lib/reducers';
 
 import './ExportModal.scss';
 
@@ -91,7 +92,7 @@ const SIZE_TEMPLATES = [
   {size: 8192, name: 'gigantic'}
 ];
 
-function ExportImagePanel({graph, save}) {
+function ExportImagePanel({graph, variables, save}) {
   const [name, setName] = useState('graph.png');
   const [size, setSize] = useState(2048);
 
@@ -99,12 +100,25 @@ function ExportImagePanel({graph, save}) {
     (canvas, ctx) => {
       if (!size) return;
 
+      const nodeReducer = createNodeReducer({
+        nodeColor: variables.nodeColor,
+        nodeSize: variables.nodeSize,
+        extents: variables.extents
+      });
+
       canvas.setAttribute('width', size);
       canvas.setAttribute('height', size);
       ctx.clearRect(0, 0, size, size);
-      renderGraphToCanvas(graph, ctx, {width: size});
+      renderGraphToCanvas(graph, ctx, {
+        width: size,
+        nodes: {
+          reducer: (settings, node, attr) => {
+            return nodeReducer(node, attr);
+          }
+        }
+      });
     },
-    [size]
+    [graph, variables, size]
   );
 
   return (
@@ -183,6 +197,7 @@ const PANELS = {
 
 export default function ExportModal({isOpen, close}: ExportModalProps) {
   const graph = useGraph();
+  const variables = useGraphVariables();
   const [activeTab, setActiveTab] = useState('gexf');
 
   const setActiveTabIfDifferent = newActiveTab => {
@@ -229,7 +244,11 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
               </li>
             </ul>
           </div>
-          <PanelComponent graph={graph} save={exportGraph} />
+          <PanelComponent
+            graph={graph}
+            variables={variables}
+            save={exportGraph}
+          />
         </div>
       </div>
     </div>

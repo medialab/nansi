@@ -9,11 +9,25 @@ export type RenderedNode = {
   color?: string;
 };
 
+export type CreateNodeReducerOptions = {
+  nodeColor?: any;
+  nodeSize?: any;
+  nodeLabel?: any;
+  nodeSizeFactor?: number;
+  extents: any;
+};
+
 // Defaults
 const DEFAULT_NODE_COLOR = '#999';
 const DEFAULT_NODE_SIZE_RANGE = [2, 15];
 
-export function createNodeReducer({nodeColor, nodeSize, nodeLabel, extents}) {
+export function createNodeReducer({
+  nodeColor,
+  nodeSize,
+  nodeLabel,
+  nodeSizeFactor = 1,
+  extents
+}: CreateNodeReducerOptions) {
   let nodeSizeScale = null;
 
   // Creating scales
@@ -44,11 +58,15 @@ export function createNodeReducer({nodeColor, nodeSize, nodeLabel, extents}) {
 
     // Size
     if (!nodeSize) {
-      renderedNode.size = nodeSizeScale(attr.size || 1);
+      let v = attr.size || 1;
+      renderedNode.size = nodeSizeScale(v);
     } else {
       let v = attr[nodeSize.name];
-      renderedNode.size = nodeSizeScale(typeof v === 'number' ? v : 1);
+      v = typeof v === 'number' ? v : 1;
+      renderedNode.size = nodeSizeScale(v);
     }
+
+    renderedNode.size *= nodeSizeFactor;
 
     // Label
     if (!nodeLabel) {
