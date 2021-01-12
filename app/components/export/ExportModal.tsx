@@ -4,7 +4,7 @@ import {Button} from 'bloomer';
 import {render as renderGraphToCanvas} from 'graphology-canvas';
 
 import {exportGraph} from '../../lib/export';
-import {useGraph, useGraphVariables, useCanvas} from '../../hooks';
+import {useGraph, useGraphVariables, useCanvas, useRenderer} from '../../hooks';
 import {createNodeReducer} from '../../lib/reducers';
 
 import './ExportModal.scss';
@@ -92,7 +92,7 @@ const SIZE_TEMPLATES = [
   {size: 8192, name: 'gigantic'}
 ];
 
-function ExportImagePanel({graph, variables, save}) {
+function ExportImagePanel({graph, variables, rendererSize, save}) {
   const [name, setName] = useState('graph.png');
   const [size, setSize] = useState(2048);
 
@@ -100,10 +100,13 @@ function ExportImagePanel({graph, variables, save}) {
     (canvas, ctx) => {
       if (!size) return;
 
+      const nodeSizeFactor = size / rendererSize;
+
       const nodeReducer = createNodeReducer({
         nodeColor: variables.nodeColor,
         nodeSize: variables.nodeSize,
-        extents: variables.extents
+        extents: variables.extents,
+        nodeSizeFactor
       });
 
       canvas.setAttribute('width', size);
@@ -111,6 +114,7 @@ function ExportImagePanel({graph, variables, save}) {
       ctx.clearRect(0, 0, size, size);
       renderGraphToCanvas(graph, ctx, {
         width: size,
+        margin: size * 0.1,
         nodes: {
           reducer: (settings, node, attr) => {
             return nodeReducer(node, attr);
@@ -197,8 +201,11 @@ const PANELS = {
 
 export default function ExportModal({isOpen, close}: ExportModalProps) {
   const graph = useGraph();
+  const [renderer] = useRenderer();
   const variables = useGraphVariables();
   const [activeTab, setActiveTab] = useState('gexf');
+
+  if (!graph || !renderer || !variables) return null;
 
   const setActiveTabIfDifferent = newActiveTab => {
     if (newActiveTab === activeTab) return;
@@ -214,6 +221,8 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
     width: isLarge ? '75%' : null,
     transition: 'width 0.2s'
   };
+
+  const rendererSize = Math.min(renderer.width, renderer.height);
 
   return (
     <div id="ExportModal" className={cls('modal', isOpen && 'is-active')}>
@@ -247,6 +256,7 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
           <PanelComponent
             graph={graph}
             variables={variables}
+            rendererSize={rendererSize}
             save={exportGraph}
           />
         </div>
