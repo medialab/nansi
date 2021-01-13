@@ -176,7 +176,7 @@ export default function straighten(graph: Graph): GraphModel {
   };
 
   // Computing some metrics
-  if (!graph.multi && inferType(graph) !== 'mixed')
+  if (inferType(graph) !== 'mixed')
     louvain.assign(graph, {attributes: {community: 'nansi-louvain'}, rng: RNG});
 
   betweenness.assign(graph, {attributes: {centrality: 'nansi-betweenness'}});
