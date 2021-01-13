@@ -7,14 +7,23 @@ import {useGraph, useGraphVariables, useRenderer} from '../../hooks';
 import ExportGexfPanel from './ExportGexfPanel';
 import ExportJsonPanel from './ExportJsonPanel';
 import ExportImagePanel from './ExportImagePanel';
+import ExportSvgPanel from './ExportSvgPanel';
 
 import './ExportModal.scss';
 
 const PANELS = {
   gexf: ExportGexfPanel,
   json: ExportJsonPanel,
-  image: ExportImagePanel
+  image: ExportImagePanel,
+  svg: ExportSvgPanel
 };
+
+const TABS = [
+  {label: 'as a GEXF file', tab: 'gexf'},
+  {label: 'as a JSON file', tab: 'json'},
+  {label: 'as a SVG file', tab: 'svg'},
+  {label: 'as a raster image', tab: 'image'}
+];
 
 type ExportModalProps = {
   isOpen: boolean;
@@ -54,25 +63,16 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
           <h2>Export</h2>
           <div className="tabs">
             <ul>
-              <li
-                className={cls(activeTab === 'gexf' && 'is-active')}
-                onClick={setActiveTabIfDifferent.bind(null, 'gexf')}>
-                <a>as a GEXF file</a>
-              </li>
-            </ul>
-            <ul>
-              <li
-                className={cls(activeTab === 'json' && 'is-active')}
-                onClick={setActiveTabIfDifferent.bind(null, 'json')}>
-                <a>as a JSON file</a>
-              </li>
-            </ul>
-            <ul>
-              <li
-                className={cls(activeTab === 'image' && 'is-active')}
-                onClick={setActiveTabIfDifferent.bind(null, 'image')}>
-                <a>as a raster image</a>
-              </li>
+              {TABS.map(item => {
+                return (
+                  <li
+                    key={item.tab}
+                    className={cls(activeTab === item.tab && 'is-active')}
+                    onClick={setActiveTabIfDifferent.bind(null, item.tab)}>
+                    <a>{item.label}</a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <PanelComponent

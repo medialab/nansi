@@ -83,6 +83,7 @@
     "graphology-layout-noverlap": "^0.3.0",
     "graphology-metrics": "^1.14.2",
     "graphology-operators": "^1.4.0",
+    "graphology-svg": "^0.1.2",
     "graphology-utils": "^2.0.0",
     "hint.css": "^2.6.0",
     "iwanthue": "^1.4.2",
