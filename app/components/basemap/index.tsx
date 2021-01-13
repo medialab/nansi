@@ -26,7 +26,10 @@ export default function BasemapView() {
         labelDensity={variables.labelDensity}
         extents={variables.extents}
       />
-      <GraphLegend attribute={variables.nodeColor} />
+      <GraphLegend
+        attribute={variables.nodeColor}
+        graphHasTitle={graph.hasAttribute('title')}
+      />
       <GraphInformation graph={graph} />
     </div>
   );

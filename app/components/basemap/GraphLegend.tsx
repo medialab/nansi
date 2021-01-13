@@ -1,4 +1,5 @@
 import React from 'react';
+import cls from 'classnames';
 
 import './GraphLegend.scss';
 
@@ -6,11 +7,11 @@ function LegendCircle({color}) {
   return <span style={{color}}>●</span>;
 }
 
-export default function GraphLegend({attribute}) {
+export default function GraphLegend({attribute, graphHasTitle = false}) {
   if (!attribute || attribute.type !== 'category') return null;
 
   return (
-    <div id="GraphLegend">
+    <div id="GraphLegend" className={cls(graphHasTitle && 'graph-has-title')}>
       <h2>{attribute.name}</h2>
       <ul>
         {attribute.top.map(([label]) => {

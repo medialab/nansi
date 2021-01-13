@@ -12,6 +12,10 @@
   border: 1px solid $nansi-dark;
   font-size: 0.8em;
 
+  &.graph-has-title {
+    bottom: 15px + 128px + 5px;
+  }
+
   h2 {
     border-bottom: 1px solid $nansi-dark;
     margin-bottom: 5px;
