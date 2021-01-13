@@ -8,6 +8,7 @@ import ExportGexfPanel from './ExportGexfPanel';
 import ExportJsonPanel from './ExportJsonPanel';
 import ExportImagePanel from './ExportImagePanel';
 import ExportSvgPanel from './ExportSvgPanel';
+import ExportMinivanPanel from './ExportMinivanPanel';
 
 import './ExportModal.scss';
 
@@ -15,14 +16,16 @@ const PANELS = {
   gexf: ExportGexfPanel,
   json: ExportJsonPanel,
   image: ExportImagePanel,
-  svg: ExportSvgPanel
+  svg: ExportSvgPanel,
+  minivan: ExportMinivanPanel
 };
 
 const TABS = [
   {label: 'as a GEXF file', tab: 'gexf'},
   {label: 'as a JSON file', tab: 'json'},
   {label: 'as a SVG file', tab: 'svg'},
-  {label: 'as a raster image', tab: 'image'}
+  {label: 'as a raster image', tab: 'image'},
+  {label: 'as a minivan bundle', tab: 'minivan'}
 ];
 
 type ExportModalProps = {
@@ -46,19 +49,12 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
 
   const PanelComponent = PANELS[activeTab];
 
-  const isLarge = activeTab === 'image';
-
-  const modalContentStyle = {
-    width: isLarge ? '75%' : null,
-    transition: 'width 0.2s'
-  };
-
   const rendererSize = Math.min(renderer.width, renderer.height);
 
   return (
     <div id="ExportModal" className={cls('modal', isOpen && 'is-active')}>
       <div className="modal-background" onClick={close} />
-      <div className="modal-content" style={modalContentStyle}>
+      <div className="modal-content" style={{width: '75%'}}>
         <div className="export-modal-box">
           <h2>Export</h2>
           <div className="tabs">
