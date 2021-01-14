@@ -41,6 +41,8 @@ export default function ThemedSelect({options, value, ...props}) {
     <Select
       theme={themeOverride}
       isOptionDisabled={isOptionDisabled}
+      menuPlacement="auto"
+      menuPosition="fixed"
       options={options}
       value={value}
       {...props}
