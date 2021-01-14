@@ -19,6 +19,11 @@ export const modal = atom<ModalAtomType | null>({
 });
 export const view = atom<ViewAtomType>({key: 'view', default: 'basemap'});
 
+export const isPreloadingGraph = atom<boolean>({
+  key: 'preloadingGraph',
+  default: false
+});
+
 /**
  * Graph atoms.
  */

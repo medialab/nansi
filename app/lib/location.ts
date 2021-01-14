@@ -15,3 +15,9 @@ export function clearGraphFromQuery(): void {
 
   window.history.pushState({}, null, currentUrl.href);
 }
+
+export function getGraphInQuery(): string | null {
+  const currentUrl = new URL(window.location.href);
+
+  return currentUrl.searchParams.get('graph');
+}

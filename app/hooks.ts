@@ -126,6 +126,10 @@ export function useCloseModal() {
   return () => setModal(null);
 }
 
+export function useIsPreloadingGraph() {
+  return useRecoilState(atoms.isPreloadingGraph);
+}
+
 export function useCanvas(callback, deps = []) {
   const canvasRef = useRef(null);
 

@@ -4,7 +4,7 @@ import {Button} from 'bloomer';
 
 import {setGraphInQuery, clearGraphFromQuery} from '../../lib/location';
 import FileDrop from './FileDrop';
-import {useSetNewGraph} from '../../hooks';
+import {useSetNewGraph, useIsPreloadingGraph} from '../../hooks';
 import workerPool from '../../workers/pool';
 
 import './ImportModal.scss';
@@ -70,8 +70,13 @@ type ImportModalProps = {
 };
 
 export default function ImportModal({isOpen, close}: ImportModalProps) {
-  const [activeTab, setActiveTab] = useState('file');
+  let [activeTab, setActiveTab] = useState('file');
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreloadingGraph] = useIsPreloadingGraph();
+
+  if (isPreloadingGraph) {
+    activeTab = 'url';
+  }
 
   const setActiveTabIfDifferent = newActiveTab => {
     if (newActiveTab === activeTab) return;
@@ -108,7 +113,7 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
 
   let body = null;
 
-  if (isLoading) {
+  if (isLoading || isPreloadingGraph) {
     body = <progress className="progress is-dark is-large" />;
   } else {
     if (activeTab === 'file') body = <FileDrop onDrop={onDrop} />;
