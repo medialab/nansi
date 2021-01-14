@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import cls from 'classnames';
 import {Button} from 'bloomer';
 
+import {setGraphInQuery, clearGraphFromQuery} from '../../lib/location';
 import FileDrop from './FileDrop';
 import {useSetNewGraph} from '../../hooks';
 import workerPool from '../../workers/pool';
@@ -80,9 +81,12 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
 
   const setGraph = useSetNewGraph();
 
-  function onGraphImported(err, {graph, model}) {
+  function onGraphImported(err, {graph, model, options}) {
     setIsLoading(false);
     if (err) return console.error(err);
+
+    if (options.type === 'url') setGraphInQuery(options.url);
+    else clearGraphFromQuery();
 
     setGraph(graph, model);
   }
@@ -94,7 +98,7 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
 
   function loadUrl(url) {
     setIsLoading(true);
-    workerPool.import({type: 'url', url}, onGraphImported);
+    workerPool.import({type: 'url', url: url.trim()}, onGraphImported);
   }
 
   function onDrop(file: File) {

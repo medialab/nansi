@@ -20,7 +20,7 @@ type ImportSubCallback = (err: Error | null, graph?: Graph) => void;
 
 export type ImportCallback = (
   err: Error | null,
-  result?: {graph: Graph; model: GraphModel}
+  result?: {graph: Graph; model: GraphModel; options: ImportOptions}
 ) => void;
 
 function inferFormatFromFilename(filename: string): ImportFormat | null {
@@ -114,6 +114,6 @@ export function importGraph(
     // Common graph processing
     const model = straighten(graph);
 
-    return callback(null, {graph, model});
+    return callback(null, {graph, model, options});
   });
 }

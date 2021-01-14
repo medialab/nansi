@@ -15,7 +15,8 @@ class WorkerPool {
 
       return callback(null, {
         graph: Graph.from(result.serializedGraph),
-        model: result.model
+        model: result.model,
+        options: options
       });
     };
 
