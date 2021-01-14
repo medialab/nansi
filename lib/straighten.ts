@@ -111,15 +111,12 @@ class GraphModelCategoryAttribute extends BaseGraphModelAttribute {
   }
 
   degradeToConstant() {
-    const replacement = new GraphModelConstantAttribute(
+    return new GraphModelConstantAttribute(
       this.name,
       this.kind,
-      this.count
+      this.count,
+      this.frequencies.top(1)[0][0]
     );
-
-    replacement.value = this.frequencies.top(1)[0][0];
-
-    return replacement;
   }
 
   serialize(): SerializedGraphModelCategoryAttribute {
@@ -161,15 +158,12 @@ class GraphModelBooleanAttribute extends BaseGraphModelAttribute {
   }
 
   degradeToConstant() {
-    const replacement = new GraphModelConstantAttribute(
+    return new GraphModelConstantAttribute(
       this.name,
       this.kind,
-      this.count
+      this.count,
+      this.frequencies[0] ? false : true
     );
-
-    replacement.value = this.frequencies[0] ? false : true;
-
-    return replacement;
   }
 
   serialize(): SerializedGraphModelBooleanAttribute {
@@ -228,15 +222,12 @@ class GraphModelNumberAttribute extends BaseGraphModelAttribute {
   }
 
   degradeToConstant() {
-    const replacement = new GraphModelConstantAttribute(
+    return new GraphModelConstantAttribute(
       this.name,
       this.kind,
-      this.count
+      this.count,
+      this.min
     );
-
-    replacement.value = this.min;
-
-    return replacement;
   }
 
   serialize(): SerializedGraphModelNumberAttribute {
@@ -267,6 +258,16 @@ interface SerializedGraphModelConstantAttribute
 class GraphModelConstantAttribute extends BaseGraphModelAttribute {
   type: 'constant' = 'constant';
   value: string | number | boolean;
+
+  constructor(
+    name: string,
+    kind: GraphModelAttributeKind,
+    count: number,
+    value: string | number | boolean
+  ) {
+    super(name, kind, count);
+    this.value = value;
+  }
 
   serialize(): SerializedGraphModelConstantAttribute {
     const serialized = super.serialize.call(this);
