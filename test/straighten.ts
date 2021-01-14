@@ -2,11 +2,21 @@ import assert from 'assert';
 import {loadGexfResource} from './test-utils';
 import straighten from '../lib/straighten';
 import toSimple from 'graphology-operators/to-simple';
+import {constSelector} from 'recoil';
 
 const ARCTIC = loadGexfResource('arctic');
 const RIO = loadGexfResource('rio');
+const BASIC = loadGexfResource('basic');
 
 describe('straighten', function () {
+  it('should return the correct model with basic.', function () {
+    const graph = BASIC.copy();
+
+    const model = straighten(graph);
+
+    assert.deepStrictEqual(model.extents, {nodeSize: {min: 34, max: 103}});
+  });
+
   it('should return the correct model with arctic.', function () {
     const graph = toSimple(ARCTIC);
 

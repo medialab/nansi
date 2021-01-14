@@ -37,6 +37,7 @@ function isNumber(value): boolean {
 export type GraphModelAttributeKind = 'own' | 'wellKnown' | 'computed';
 export type GraphModelAttributeType =
   | 'category'
+  | 'boolean'
   | 'number'
   | 'key'
   | 'unknown'
@@ -60,13 +61,17 @@ class GraphModelBaseAttribute {
 
 class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   type: 'category' = 'category';
-  frequencies?: MultiSet<string> = new MultiSet();
-  cardinality?: number = 0;
+  frequencies: MultiSet<string> = new MultiSet();
+  cardinality: number = 0;
   top?: Array<[string, number]>;
   palette?: {[key: string]: string};
 
   degradeToKeyAttribute() {
     return new GraphModelKeyAttribute(this.name, this.kind, this.count);
+  }
+
+  isConstant() {
+    return this.frequencies.dimension === 1;
   }
 
   degradeToConstant() {
@@ -97,10 +102,20 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   }
 }
 
+// class GraphModelBooleanAttribute extends GraphModelBaseAttribute {
+//   type: 'boolean' = 'boolean';
+//   frequencies: [number, number] = [0, 0];
+//   cardinality: number = 0;
+// }
+
 class GraphModelNumberAttribute extends GraphModelBaseAttribute {
   type: 'number' = 'number';
   max: number = -Infinity;
   min: number = Infinity;
+
+  isConstant() {
+    return this.min === this.max;
+  }
 
   degradeToConstant() {
     const replacement = new GraphModelConstantAttribute(
@@ -167,9 +182,9 @@ class GraphModelAttributes {
     else if (name === 'label') probableType = 'key';
     else if (name === 'nansi-louvain') probableType = 'category';
 
-    let spec = this.attributes[name];
+    let attr = this.attributes[name];
 
-    if (!spec) {
+    if (!attr) {
       let kind: GraphModelAttributeKind = 'own';
 
       if (this.type === 'node' && WELL_KNOWN_NODE_ATTRIBUTES.has(name))
@@ -177,37 +192,37 @@ class GraphModelAttributes {
 
       if (name.startsWith('nansi-')) kind = 'computed';
 
-      spec = new attributeClasses[probableType](name, kind);
-      this.attributes[name] = spec;
+      attr = new attributeClasses[probableType](name, kind);
+      this.attributes[name] = attr;
     }
 
-    spec.count++;
+    attr.count++;
 
-    if (spec instanceof GraphModelNumberAttribute) {
-      if (value > spec.max) spec.max = value;
-      if (value < spec.min) spec.min = value;
-    } else if (spec instanceof GraphModelCategoryAttribute) {
-      spec.frequencies.add(value);
+    if (attr instanceof GraphModelNumberAttribute) {
+      if (value > attr.max) attr.max = value;
+      if (value < attr.min) attr.min = value;
+    } else if (attr instanceof GraphModelCategoryAttribute) {
+      attr.frequencies.add(value);
 
       // Too much unique values to consider it a category
-      if (spec.frequencies.dimension > this.cutoff) {
-        this.attributes[name] = spec.degradeToKeyAttribute();
+      if (attr.frequencies.dimension > this.cutoff) {
+        this.attributes[name] = attr.degradeToKeyAttribute();
       }
     }
   }
 
   finalize(): GraphModelDeclaration {
     for (const name in this.attributes) {
-      const spec = this.attributes[name];
+      const attr = this.attributes[name];
 
       if (
-        (spec instanceof GraphModelCategoryAttribute &&
-          spec.frequencies.dimension === 1) ||
-        (spec instanceof GraphModelNumberAttribute && spec.min === spec.max)
+        (attr instanceof GraphModelCategoryAttribute ||
+          attr instanceof GraphModelNumberAttribute) &&
+        attr.isConstant()
       ) {
-        this.attributes[name] = spec.degradeToConstant();
+        this.attributes[name] = attr.degradeToConstant();
       } else {
-        spec.finalize();
+        attr.finalize();
       }
     }
 
