@@ -3,8 +3,6 @@ import {scaleLinear} from 'd3-scale';
 /**
  * Nodes.
  */
-
-// TODO: should be provided by sigma?
 export type RenderedNode = {
   x: number;
   y: number;
@@ -88,8 +86,6 @@ export function createNodeReducer({
 /**
  * Edges.
  */
-
-// TODO: should be provided by sigma?
 export type RenderedEdge = {
   color?: string;
   size?: number;
