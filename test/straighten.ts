@@ -15,6 +15,19 @@ describe('straighten', function () {
     const model = straighten(graph);
 
     assert.deepStrictEqual(model.extents, {nodeSize: {min: 34, max: 103}});
+
+    assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes.male)), {
+      name: 'male',
+      kind: 'own',
+      count: 2,
+      type: 'boolean',
+      cardinality: 2,
+      top: [
+        [true, 1],
+        [false, 1]
+      ],
+      palette: {true: '#b68f2b', false: '#01a8e5'}
+    });
   });
 
   it('should return the correct model with arctic.', function () {

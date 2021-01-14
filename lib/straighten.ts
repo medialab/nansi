@@ -7,6 +7,7 @@ import inferType from 'graphology-utils/infer-type';
 import betweenness from 'graphology-metrics/centrality/betweenness';
 
 import {generatePalette} from './palettes';
+import {values} from 'lodash';
 
 const RNG = seedrandom('nansi');
 const randomFloat = createRandomFloat(RNG);
@@ -55,7 +56,8 @@ class GraphModelBaseAttribute {
     this.count = count;
   }
 
-  // noop
+  // noops
+  add(value: any) {}
   finalize() {}
 }
 
@@ -65,6 +67,10 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   cardinality: number = 0;
   top?: Array<[string, number]>;
   palette?: {[key: string]: string};
+
+  add(value: string) {
+    this.frequencies.add(value);
+  }
 
   degradeToKeyAttribute() {
     return new GraphModelKeyAttribute(this.name, this.kind, this.count);
@@ -102,16 +108,67 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
   }
 }
 
-// class GraphModelBooleanAttribute extends GraphModelBaseAttribute {
-//   type: 'boolean' = 'boolean';
-//   frequencies: [number, number] = [0, 0];
-//   cardinality: number = 0;
-// }
+class GraphModelBooleanAttribute extends GraphModelBaseAttribute {
+  type: 'boolean' = 'boolean';
+  frequencies: [number, number] = [0, 0];
+  cardinality: number = 0;
+  top?: Array<[boolean, number]>;
+  palette?: {[key: string]: string};
+
+  add(value: boolean) {
+    this.frequencies[+value] += 1;
+  }
+
+  isConstant() {
+    return !this.frequencies[0] || !this.frequencies[1];
+  }
+
+  degradeToConstant() {
+    const replacement = new GraphModelConstantAttribute(
+      this.name,
+      this.kind,
+      this.count
+    );
+
+    replacement.value = this.frequencies[0] ? false : true;
+
+    return replacement;
+  }
+
+  finalize() {
+    this.cardinality = 2;
+    this.top =
+      this.frequencies[0] > this.frequencies[1]
+        ? [
+            [false, this.frequencies[0]],
+            [true, this.frequencies[1]]
+          ]
+        : [
+            [true, this.frequencies[1]],
+            [false, this.frequencies[0]]
+          ];
+
+    const palette = generatePalette(this.name, 2);
+
+    this.palette = {};
+
+    palette.forEach((color, i) => {
+      this.palette[this.top['' + i][0]] = color;
+    });
+
+    delete this.frequencies;
+  }
+}
 
 class GraphModelNumberAttribute extends GraphModelBaseAttribute {
   type: 'number' = 'number';
   max: number = -Infinity;
   min: number = Infinity;
+
+  add(value: number) {
+    if (value > this.max) this.max = value;
+    if (value < this.min) this.min = value;
+  }
 
   isConstant() {
     return this.min === this.max;
@@ -140,19 +197,21 @@ class GraphModelUnknownAttribute extends GraphModelBaseAttribute {
 
 class GraphModelConstantAttribute extends GraphModelBaseAttribute {
   type: 'constant' = 'constant';
-  value: string | number;
+  value: string | number | boolean;
 }
 
 const attributeClasses = {
   unknown: GraphModelUnknownAttribute,
   category: GraphModelCategoryAttribute,
   key: GraphModelKeyAttribute,
-  number: GraphModelNumberAttribute
+  number: GraphModelNumberAttribute,
+  boolean: GraphModelBooleanAttribute
 };
 
 export type GraphModelAttribute =
   | GraphModelBaseAttribute
   | GraphModelCategoryAttribute
+  | GraphModelBooleanAttribute
   | GraphModelNumberAttribute
   | GraphModelKeyAttribute
   | GraphModelConstantAttribute
@@ -177,6 +236,7 @@ class GraphModelAttributes {
 
     if (typeof value === 'number') probableType = 'number';
     else if (typeof value === 'string') probableType = 'category';
+    else if (typeof value === 'boolean') probableType = 'boolean';
 
     if (name === 'color') probableType = 'key';
     else if (name === 'label') probableType = 'key';
@@ -198,13 +258,10 @@ class GraphModelAttributes {
 
     attr.count++;
 
-    if (attr instanceof GraphModelNumberAttribute) {
-      if (value > attr.max) attr.max = value;
-      if (value < attr.min) attr.min = value;
-    } else if (attr instanceof GraphModelCategoryAttribute) {
-      attr.frequencies.add(value);
+    attr.add(value);
 
-      // Too much unique values to consider it a category
+    if (attr instanceof GraphModelCategoryAttribute) {
+      // Too much unique values to still consider it a category
       if (attr.frequencies.dimension > this.cutoff) {
         this.attributes[name] = attr.degradeToKeyAttribute();
       }
