@@ -9,14 +9,14 @@ import {ToolBoxActions} from '../../../hooks';
 import {SerializedGraphModelAttributes} from '../../../../lib/straighten';
 import {collectOptionByType} from './utils';
 
-function pickTextOptions(modelByStatus) {
+function pickTextOptions(defaultOption, modelByStatus) {
   const optgroups = [];
 
   optgroups.push({
     label: 'Defaults',
     options: [
       {
-        value: null,
+        value: defaultOption,
         label: 'Default label'
       }
     ]
@@ -59,20 +59,22 @@ function DebouncedSlider({defaultValue, onChange}) {
   );
 }
 
-type NodeVariablesProps = {
+type LabelVariablesProps = {
   model: SerializedGraphModelAttributes;
   variables: ToolBoxLabelVariables;
+  defaultNodeLabel: string | null;
   actions: ToolBoxActions;
 };
 
-export default function NodeVariables({
+export default function LabelVariables({
   model,
   variables,
+  defaultNodeLabel,
   actions
-}: NodeVariablesProps) {
+}: LabelVariablesProps) {
   const modelByStatus = groupBy(model, 'kind');
 
-  const textOptions = pickTextOptions(modelByStatus);
+  const textOptions = pickTextOptions(defaultNodeLabel, modelByStatus);
 
   return (
     <div className="variables-block">

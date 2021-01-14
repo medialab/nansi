@@ -57,11 +57,14 @@ export default function ToolBox() {
             <NodeVariables
               model={model.nodes}
               variables={toolBoxState.variables.nodes}
+              defaultNodeColor={model.defaultNodeColor}
+              defaultNodeSize={model.defaultNodeSize}
               actions={toolBoxActions}
             />
             <LabelVariables
               model={model.nodes}
               variables={toolBoxState.variables.labels}
+              defaultNodeLabel={model.defaultNodeLabel}
               actions={toolBoxActions}
             />
           </>

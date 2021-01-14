@@ -5,7 +5,6 @@ import {scaleLinear} from 'd3-scale';
 
 import {usePrevious, useRenderer} from '../../hooks';
 import GraphControls from './GraphControls';
-import {GraphModelExtents} from '../../../lib/straighten';
 import {createNodeReducer} from '../../../lib/reducers';
 
 import './GraphContainer.scss';
@@ -38,7 +37,6 @@ type GraphContainerProps = {
   nodeSize: any;
   nodeLabel: any;
   labelDensity: number;
-  extents: GraphModelExtents;
 };
 
 export default function GraphContainer({
@@ -46,8 +44,7 @@ export default function GraphContainer({
   nodeColor,
   nodeSize,
   nodeLabel,
-  labelDensity,
-  extents
+  labelDensity
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
   const previousNodeSize = usePrevious(nodeSize);
@@ -57,8 +54,7 @@ export default function GraphContainer({
   const nodeReducer = createNodeReducer({
     nodeColor,
     nodeSize,
-    nodeLabel,
-    extents
+    nodeLabel
   });
 
   const container = useRef(null);

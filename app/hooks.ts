@@ -75,11 +75,11 @@ export function useSetNewGraph() {
       const toolBoxState: ToolBoxState = {
         variables: {
           nodes: {
-            color: null,
-            size: null
+            color: model.defaultNodeColor,
+            size: model.defaultNodeSize
           },
           labels: {
-            text: null,
+            text: model.defaultNodeLabel,
             density: 0.25
           }
         }

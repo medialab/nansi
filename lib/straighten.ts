@@ -6,6 +6,7 @@ import louvain from 'graphology-communities-louvain';
 import inferType from 'graphology-utils/infer-type';
 import betweenness from 'graphology-metrics/centrality/betweenness';
 
+import {isNumber} from './utils';
 import {generatePalette} from './palettes';
 
 const RNG = seedrandom('nansi');
@@ -32,13 +33,6 @@ const WELL_KNOWN_EDGE_ATTRIBUTES = new Set([
 
 const CATEGORY_CUTOFF_RATIO = 0.6;
 const CATEGORY_TOP_VALUES = 15;
-
-/**
- * Helper used to assess whether the given value is truly a number.
- */
-function isNumber(value): boolean {
-  return typeof value === 'number' && !isNaN(value);
-}
 
 /**
  * Types used to represent the inferred model.
@@ -371,20 +365,15 @@ class GraphModelAttributes {
   }
 }
 
-export type GraphModelExtents = {
-  nodeSize: {
-    min: number;
-    max: number;
-  };
-};
-
 export type SerializedGraphModelAttributes = {
   [key: string]: SerializedGraphModelAttribute;
 };
 
 export type GraphModel = {
   nodes: SerializedGraphModelAttributes;
-  extents?: GraphModelExtents;
+  defaultNodeSize: 'size' | null;
+  defaultNodeColor: 'color' | null;
+  defaultNodeLabel: 'label' | null;
 };
 
 /**
@@ -410,7 +399,8 @@ export default function straighten(graph: Graph): GraphModel {
   if (inferType(graph) !== 'mixed')
     louvain.assign(graph, {attributes: {community: 'nansi-louvain'}, rng: RNG});
 
-  betweenness.assign(graph, {attributes: {centrality: 'nansi-betweenness'}});
+  if (graph.size)
+    betweenness.assign(graph, {attributes: {centrality: 'nansi-betweenness'}});
 
   // Computing extents & model
   graph.forEachNode((node, attr) => {
@@ -466,14 +456,13 @@ export default function straighten(graph: Graph): GraphModel {
       return attr;
     });
 
+  const nodeModel = nodeAttributes.serialize();
+
   const model: GraphModel = {
-    nodes: nodeAttributes.serialize(),
-    extents: {
-      nodeSize: {
-        min: minSize === Infinity ? 1 : minSize,
-        max: maxSize === -Infinity ? 1 : maxSize
-      }
-    }
+    nodes: nodeModel,
+    defaultNodeSize: 'size' in nodeModel ? 'size' : null,
+    defaultNodeColor: 'color' in nodeModel ? 'color' : null,
+    defaultNodeLabel: 'label' in nodeModel ? 'label' : null
   };
 
   return model;

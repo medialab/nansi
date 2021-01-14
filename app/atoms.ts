@@ -1,11 +1,7 @@
 import Graph from 'graphology-types';
 import {WebGLRenderer} from 'sigma';
 import {atom, selector} from 'recoil';
-import {
-  GraphModel,
-  SerializedGraphModelAttribute,
-  GraphModelExtents
-} from '../lib/straighten';
+import {GraphModel, SerializedGraphModelAttribute} from '../lib/straighten';
 
 /**
  * View state atoms.
@@ -87,7 +83,6 @@ export type GraphVariables = {
   nodeSize: SerializedGraphModelAttribute | null;
   nodeLabel: SerializedGraphModelAttribute | null;
   labelDensity: number;
-  extents: GraphModelExtents;
 };
 
 export const graphVariables = selector<GraphVariables | null>({
@@ -108,8 +103,7 @@ export const graphVariables = selector<GraphVariables | null>({
       nodeLabel: state.variables.labels.text
         ? currentModel.nodes[state.variables.labels.text]
         : null,
-      labelDensity: state.variables.labels.density,
-      extents: currentModel.extents
+      labelDensity: state.variables.labels.density
     };
   }
 });

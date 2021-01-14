@@ -1,4 +1,5 @@
 import assert from 'assert';
+import Graph from 'graphology';
 import {loadGexfResource} from './test-utils';
 import straighten from '../lib/straighten';
 import toSimple from 'graphology-operators/to-simple';
@@ -8,12 +9,37 @@ const RIO = loadGexfResource('rio');
 const BASIC = loadGexfResource('basic');
 
 describe('straighten', function () {
+  it('should return nothing if graph is null.', function () {
+    const graph = new Graph();
+
+    const model = straighten(graph);
+
+    assert.deepStrictEqual(model, {
+      nodes: {},
+      defaultNodeSize: null,
+      defaultNodeColor: null,
+      defaultNodeLabel: null
+    });
+  });
+
   it('should return the correct model with basic.', function () {
     const graph = BASIC.copy();
 
     const model = straighten(graph);
 
-    assert.deepStrictEqual(model.extents, {nodeSize: {min: 34, max: 103}});
+    assert.strictEqual(model.defaultNodeColor, 'color');
+    assert.strictEqual(model.defaultNodeSize, 'size');
+    assert.strictEqual(model.defaultNodeLabel, 'label');
+
+    assert.deepStrictEqual(model.nodes.size, {
+      count: 2,
+      type: 'number',
+      integer: true,
+      kind: 'wellKnown',
+      min: 34,
+      max: 103,
+      name: 'size'
+    });
 
     assert.deepStrictEqual(model.nodes.male, {
       name: 'male',
@@ -33,13 +59,6 @@ describe('straighten', function () {
     const graph = toSimple(ARCTIC);
 
     const model = straighten(graph);
-
-    assert.deepStrictEqual(model.extents, {
-      nodeSize: {
-        min: 3.6,
-        max: 14
-      }
-    });
 
     assert.deepStrictEqual(model.nodes, {
       label: {name: 'label', kind: 'wellKnown', count: 1715, type: 'key'},
@@ -154,10 +173,6 @@ describe('straighten', function () {
     const graph = RIO.copy();
 
     const model = straighten(graph);
-
-    assert.deepStrictEqual(model.extents, {
-      nodeSize: {min: 1, max: 20}
-    });
 
     assert.deepStrictEqual(model.nodes, {
       label: {name: 'label', kind: 'wellKnown', count: 366, type: 'key'},

@@ -1,5 +1,7 @@
 import {scaleLinear} from 'd3-scale';
 
+import {isNumber} from './utils';
+
 /**
  * Nodes.
  */
@@ -16,7 +18,6 @@ export type CreateNodeReducerOptions = {
   nodeSize?: any;
   nodeLabel?: any;
   scalingFactor?: number;
-  extents: any;
 };
 
 // Defaults
@@ -27,17 +28,12 @@ export function createNodeReducer({
   nodeColor,
   nodeSize,
   nodeLabel,
-  scalingFactor = 1,
-  extents
+  scalingFactor = 1
 }: CreateNodeReducerOptions) {
   let nodeSizeScale = null;
 
   // Creating scales
-  if (!nodeSize) {
-    nodeSizeScale = scaleLinear()
-      .domain([extents.nodeSize.min, extents.nodeSize.max])
-      .range(DEFAULT_NODE_SIZE_RANGE);
-  } else {
+  if (nodeSize) {
     nodeSizeScale = scaleLinear()
       .domain([nodeSize.min, nodeSize.max])
       .range(DEFAULT_NODE_SIZE_RANGE);
@@ -52,19 +48,22 @@ export function createNodeReducer({
 
     // Color
     if (!nodeColor) {
-      renderedNode.color = attr.color || DEFAULT_NODE_COLOR;
+      renderedNode.color = DEFAULT_NODE_COLOR;
     } else {
-      renderedNode.color =
-        nodeColor.palette[attr[nodeColor.name]] || DEFAULT_NODE_COLOR;
+      if (nodeColor.palette) {
+        renderedNode.color =
+          nodeColor.palette[attr[nodeColor.name]] || DEFAULT_NODE_COLOR;
+      } else {
+        renderedNode.color = attr[nodeColor.name] || DEFAULT_NODE_COLOR;
+      }
     }
 
     // Size
     if (!nodeSize) {
-      let v = attr.size || 1;
-      renderedNode.size = nodeSizeScale(v);
+      renderedNode.size = DEFAULT_NODE_SIZE_RANGE[0];
     } else {
       let v = attr[nodeSize.name];
-      v = typeof v === 'number' ? v : 1;
+      v = isNumber(v) ? v : 1;
       renderedNode.size = nodeSizeScale(v);
     }
 
@@ -103,17 +102,12 @@ const DEFAULT_EDGE_SIZE_RANGE = [2, 15];
 
 export function createEdgeReducer({
   edgeSize,
-  scalingFactor = 1,
-  extents
+  scalingFactor = 1
 }: CreateEdgeReducerOptions) {
   let edgeSizeScale = null;
 
   // Creating scales
-  if (!edgeSize) {
-    edgeSizeScale = scaleLinear()
-      .domain([extents.edgeSize.min, extents.edgeSize.max])
-      .range(DEFAULT_EDGE_SIZE_RANGE);
-  } else {
+  if (edgeSize) {
     edgeSizeScale = scaleLinear()
       .domain([edgeSize.min, edgeSize.max])
       .range(DEFAULT_EDGE_SIZE_RANGE);
@@ -122,17 +116,16 @@ export function createEdgeReducer({
   // Creating actual reducer
   const edgeReducer = function (key, attr): RenderedEdge {
     const renderedEdge: RenderedEdge = {
-      color: DEFAULT_NODE_COLOR,
+      color: DEFAULT_EDGE_COLOR,
       size: 1
     };
 
     // Size
     if (!edgeSize) {
-      let v = attr.size || 1;
-      renderedEdge.size = edgeSizeScale(v);
+      renderedEdge.size = DEFAULT_EDGE_SIZE_RANGE[0];
     } else {
       let v = attr[edgeSize.name];
-      v = typeof v === 'number' ? v : 1;
+      v = isNumber(v) ? v : 1;
       renderedEdge.size = edgeSizeScale(v);
     }
 

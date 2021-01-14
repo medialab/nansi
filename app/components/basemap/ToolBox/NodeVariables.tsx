@@ -7,14 +7,14 @@ import {ToolBoxActions} from '../../../hooks';
 import {SerializedGraphModelAttributes} from '../../../../lib/straighten';
 import {collectOptionByType} from './utils';
 
-function pickColorOptions(modelByStatus) {
+function pickColorOptions(defaultOption, modelByStatus) {
   const optgroups = [];
 
   optgroups.push({
     label: 'Defaults',
     options: [
       {
-        value: null,
+        value: defaultOption,
         label: 'Default color'
       }
     ]
@@ -43,14 +43,14 @@ function pickColorOptions(modelByStatus) {
   return optgroups;
 }
 
-function pickSizeOptions(modelByStatus) {
+function pickSizeOptions(defaultOption, modelByStatus) {
   const optgroups = [];
 
   optgroups.push({
     label: 'Defaults',
     options: [
       {
-        value: null,
+        value: defaultOption,
         label: 'Default size'
       }
     ]
@@ -76,18 +76,22 @@ function pickSizeOptions(modelByStatus) {
 type NodeVariablesProps = {
   model: SerializedGraphModelAttributes;
   variables: ToolBoxNodeVariables;
+  defaultNodeColor: string | null;
+  defaultNodeSize: string | null;
   actions: ToolBoxActions;
 };
 
 export default function NodeVariables({
   model,
   variables,
-  actions
+  actions,
+  defaultNodeColor,
+  defaultNodeSize
 }: NodeVariablesProps) {
   const modelByStatus = groupBy(model, 'kind');
 
-  const colorOptions = pickColorOptions(modelByStatus);
-  const sizeOptions = pickSizeOptions(modelByStatus);
+  const colorOptions = pickColorOptions(defaultNodeColor, modelByStatus);
+  const sizeOptions = pickSizeOptions(defaultNodeSize, modelByStatus);
 
   return (
     <div className="variables-block">

@@ -31,7 +31,6 @@ export default function ExportImagePanel({
       const nodeReducer = createNodeReducer({
         nodeColor: variables.nodeColor,
         nodeSize: variables.nodeSize,
-        extents: variables.extents,
         scalingFactor
       });
 

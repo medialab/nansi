@@ -31,3 +31,7 @@ export function applyLayout(graph: Graph, layout: Float64Array) {
     {attributes: ['x', 'y']}
   );
 }
+
+export function isNumber(value): boolean {
+  return typeof value === 'number' && !isNaN(value);
+}
