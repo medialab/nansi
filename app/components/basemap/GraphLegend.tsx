@@ -1,6 +1,8 @@
 import React from 'react';
 import cls from 'classnames';
 
+import {COMPUTED_METRICS_LABELS} from '../../specs';
+
 import './GraphLegend.scss';
 
 function LegendCircle({color}) {
@@ -12,7 +14,7 @@ export default function GraphLegend({attribute, graphHasTitle = false}) {
 
   return (
     <div id="GraphLegend" className={cls(graphHasTitle && 'graph-has-title')}>
-      <h2>{attribute.name}</h2>
+      <h2>{COMPUTED_METRICS_LABELS[attribute.name] || attribute.name}</h2>
       <ul>
         {attribute.top.map(([label]) => {
           return (
