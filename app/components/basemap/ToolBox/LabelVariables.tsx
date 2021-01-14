@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import ThemedSelect from '../../misc/ThemedSelect';
 import {ToolBoxLabelVariables} from '../../../atoms';
 import {ToolBoxActions} from '../../../hooks';
-import {GraphModelDeclaration} from '../../../../lib/straighten';
+import {SerializedGraphModelAttributes} from '../../../../lib/straighten';
 import {collectOptionByType} from './utils';
 
 function pickTextOptions(modelByStatus) {
@@ -60,7 +60,7 @@ function DebouncedSlider({defaultValue, onChange}) {
 }
 
 type NodeVariablesProps = {
-  model: GraphModelDeclaration;
+  model: SerializedGraphModelAttributes;
   variables: ToolBoxLabelVariables;
   actions: ToolBoxActions;
 };

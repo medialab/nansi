@@ -43,7 +43,14 @@ export type GraphModelAttributeType =
   | 'unknown'
   | 'constant';
 
-class GraphModelBaseAttribute {
+interface BaseSerializedGraphModelAttribute {
+  name: string;
+  kind: GraphModelAttributeKind;
+  type: GraphModelAttributeType;
+  count: number;
+}
+
+class BaseGraphModelAttribute {
   name: string;
   kind: GraphModelAttributeKind;
   type: GraphModelAttributeType;
@@ -55,20 +62,35 @@ class GraphModelBaseAttribute {
     this.count = count;
   }
 
+  serialize(): BaseSerializedGraphModelAttribute {
+    return {
+      name: this.name,
+      kind: this.kind,
+      type: this.type,
+      count: this.count
+    };
+  }
+
   // noops
-  add(value: any) {}
-  finalize() {}
+  add(value: any) {
+    this.count++;
+  }
 }
 
-class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
+interface SerializedGraphModelCategoryAttribute
+  extends BaseSerializedGraphModelAttribute {
+  cardinality: number;
+  top: Array<[string, number]>;
+  palette: {[key: string]: string};
+}
+
+class GraphModelCategoryAttribute extends BaseGraphModelAttribute {
   type: 'category' = 'category';
   frequencies: MultiSet<string> = new MultiSet();
-  cardinality: number = 0;
-  top?: Array<[string, number]>;
-  palette?: {[key: string]: string};
 
   add(value: string) {
     this.frequencies.add(value);
+    this.count++;
   }
 
   degradeToKeyAttribute() {
@@ -91,31 +113,38 @@ class GraphModelCategoryAttribute extends GraphModelBaseAttribute {
     return replacement;
   }
 
-  finalize() {
-    this.cardinality = this.frequencies.dimension;
-    this.top = this.frequencies.top(CATEGORY_TOP_VALUES);
+  serialize(): SerializedGraphModelCategoryAttribute {
+    const serialized = super.serialize.call(this);
 
-    const palette = generatePalette(this.name, this.top.length);
+    serialized.cardinality = this.frequencies.dimension;
+    serialized.top = this.frequencies.top(CATEGORY_TOP_VALUES);
 
-    this.palette = {};
+    const palette = generatePalette(this.name, serialized.top.length);
+
+    serialized.palette = {};
 
     palette.forEach((color, i) => {
-      this.palette[this.top[i][0]] = color;
+      serialized.palette[serialized.top[i][0]] = color;
     });
 
-    delete this.frequencies;
+    return serialized;
   }
 }
 
-class GraphModelBooleanAttribute extends GraphModelBaseAttribute {
+interface SerializedGraphModelBooleanAttribute
+  extends BaseSerializedGraphModelAttribute {
+  cardinality: number;
+  top: Array<[boolean, number]>;
+  palette: {[key: string]: string};
+}
+
+class GraphModelBooleanAttribute extends BaseGraphModelAttribute {
   type: 'boolean' = 'boolean';
   frequencies: [number, number] = [0, 0];
-  cardinality: number = 0;
-  top?: Array<[boolean, number]>;
-  palette?: {[key: string]: string};
 
   add(value: boolean) {
     this.frequencies[+value] += 1;
+    this.count++;
   }
 
   isConstant() {
@@ -134,9 +163,11 @@ class GraphModelBooleanAttribute extends GraphModelBaseAttribute {
     return replacement;
   }
 
-  finalize() {
-    this.cardinality = 2;
-    this.top =
+  serialize(): SerializedGraphModelBooleanAttribute {
+    const serialized = super.serialize.call(this);
+
+    serialized.cardinality = 2;
+    serialized.top =
       this.frequencies[0] > this.frequencies[1]
         ? [
             [false, this.frequencies[0]],
@@ -149,17 +180,23 @@ class GraphModelBooleanAttribute extends GraphModelBaseAttribute {
 
     const palette = generatePalette(this.name, 2);
 
-    this.palette = {};
+    serialized.palette = {};
 
     palette.forEach((color, i) => {
-      this.palette[this.top['' + i][0]] = color;
+      serialized.palette[serialized.top['' + i][0]] = color;
     });
 
-    delete this.frequencies;
+    return serialized;
   }
 }
 
-class GraphModelNumberAttribute extends GraphModelBaseAttribute {
+interface SerializedGraphModelNumberAttribute
+  extends BaseSerializedGraphModelAttribute {
+  min: number;
+  max: number;
+}
+
+class GraphModelNumberAttribute extends BaseGraphModelAttribute {
   type: 'number' = 'number';
   max: number = -Infinity;
   min: number = Infinity;
@@ -167,6 +204,7 @@ class GraphModelNumberAttribute extends GraphModelBaseAttribute {
   add(value: number) {
     if (value > this.max) this.max = value;
     if (value < this.min) this.min = value;
+    this.count++;
   }
 
   isConstant() {
@@ -184,19 +222,41 @@ class GraphModelNumberAttribute extends GraphModelBaseAttribute {
 
     return replacement;
   }
+
+  serialize(): SerializedGraphModelNumberAttribute {
+    const serialized = super.serialize.call(this);
+
+    serialized.min = this.min;
+    serialized.max = this.max;
+
+    return serialized;
+  }
 }
 
-class GraphModelKeyAttribute extends GraphModelBaseAttribute {
+class GraphModelKeyAttribute extends BaseGraphModelAttribute {
   type: 'key' = 'key';
 }
 
-class GraphModelUnknownAttribute extends GraphModelBaseAttribute {
+class GraphModelUnknownAttribute extends BaseGraphModelAttribute {
   type: 'unknown' = 'unknown';
 }
 
-class GraphModelConstantAttribute extends GraphModelBaseAttribute {
+interface SerializedGraphModelConstantAttribute
+  extends BaseSerializedGraphModelAttribute {
+  value: string | number | boolean;
+}
+
+class GraphModelConstantAttribute extends BaseGraphModelAttribute {
   type: 'constant' = 'constant';
   value: string | number | boolean;
+
+  serialize(): SerializedGraphModelConstantAttribute {
+    const serialized = super.serialize.call(this);
+
+    serialized.value = this.value;
+
+    return serialized;
+  }
 }
 
 const attributeClasses = {
@@ -207,8 +267,7 @@ const attributeClasses = {
   boolean: GraphModelBooleanAttribute
 };
 
-export type GraphModelAttribute =
-  | GraphModelBaseAttribute
+type GraphModelAttribute =
   | GraphModelCategoryAttribute
   | GraphModelBooleanAttribute
   | GraphModelNumberAttribute
@@ -216,16 +275,21 @@ export type GraphModelAttribute =
   | GraphModelConstantAttribute
   | GraphModelUnknownAttribute;
 
-export type GraphModelDeclaration = {[key: string]: GraphModelAttribute};
+export type SerializedGraphModelAttribute =
+  | BaseSerializedGraphModelAttribute
+  | SerializedGraphModelConstantAttribute
+  | SerializedGraphModelCategoryAttribute
+  | SerializedGraphModelNumberAttribute
+  | SerializedGraphModelBooleanAttribute;
 
-type ItemType = 'node' | 'edge';
+type GraphItemType = 'node' | 'edge';
 
 class GraphModelAttributes {
-  attributes: GraphModelDeclaration = {};
-  type: ItemType;
+  attributes: {[key: string]: GraphModelAttribute} = {};
+  type: GraphItemType;
   cutoff: number;
 
-  constructor(type: ItemType, cutoff: number) {
+  constructor(type: GraphItemType, cutoff: number) {
     this.type = type;
     this.cutoff = cutoff;
   }
@@ -255,8 +319,6 @@ class GraphModelAttributes {
       this.attributes[name] = attr;
     }
 
-    attr.count++;
-
     attr.add(value);
 
     if (attr instanceof GraphModelCategoryAttribute) {
@@ -267,7 +329,9 @@ class GraphModelAttributes {
     }
   }
 
-  finalize(): GraphModelDeclaration {
+  serialize(): SerializedGraphModelAttributes {
+    const serialized = {};
+
     for (const name in this.attributes) {
       const attr = this.attributes[name];
 
@@ -277,12 +341,12 @@ class GraphModelAttributes {
         attr.isConstant()
       ) {
         this.attributes[name] = attr.degradeToConstant();
-      } else {
-        attr.finalize();
       }
+
+      serialized[name] = this.attributes[name].serialize();
     }
 
-    return this.attributes;
+    return serialized;
   }
 }
 
@@ -293,8 +357,12 @@ export type GraphModelExtents = {
   };
 };
 
+export type SerializedGraphModelAttributes = {
+  [key: string]: SerializedGraphModelAttribute;
+};
+
 export type GraphModel = {
-  nodes: GraphModelDeclaration;
+  nodes: SerializedGraphModelAttributes;
   extents?: GraphModelExtents;
 };
 
@@ -378,7 +446,7 @@ export default function straighten(graph: Graph): GraphModel {
     });
 
   const model: GraphModel = {
-    nodes: nodeAttributes.finalize(),
+    nodes: nodeAttributes.serialize(),
     extents: {
       nodeSize: {
         min: minSize === Infinity ? 1 : minSize,

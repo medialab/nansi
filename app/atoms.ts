@@ -3,7 +3,7 @@ import {WebGLRenderer} from 'sigma';
 import {atom, selector} from 'recoil';
 import {
   GraphModel,
-  GraphModelAttribute,
+  SerializedGraphModelAttribute,
   GraphModelExtents
 } from '../lib/straighten';
 
@@ -83,9 +83,9 @@ export const toolBoxState = atom<ToolBoxState | null>({
  * Selectors.
  */
 export type GraphVariables = {
-  nodeColor: GraphModelAttribute | null;
-  nodeSize: GraphModelAttribute | null;
-  nodeLabel: GraphModelAttribute | null;
+  nodeColor: SerializedGraphModelAttribute | null;
+  nodeSize: SerializedGraphModelAttribute | null;
+  nodeLabel: SerializedGraphModelAttribute | null;
   labelDensity: number;
   extents: GraphModelExtents;
 };

@@ -15,7 +15,7 @@ describe('straighten', function () {
 
     assert.deepStrictEqual(model.extents, {nodeSize: {min: 34, max: 103}});
 
-    assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes.male)), {
+    assert.deepStrictEqual(model.nodes.male, {
       name: 'male',
       kind: 'own',
       count: 2,
@@ -41,7 +41,7 @@ describe('straighten', function () {
       }
     });
 
-    assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
+    assert.deepStrictEqual(model.nodes, {
       label: {name: 'label', kind: 'wellKnown', count: 1715, type: 'key'},
       nodedef: {name: 'nodedef', kind: 'own', count: 1715, type: 'key'},
       occurrences: {
@@ -153,7 +153,7 @@ describe('straighten', function () {
       nodeSize: {min: 1, max: 20}
     });
 
-    assert.deepStrictEqual(JSON.parse(JSON.stringify(model.nodes)), {
+    assert.deepStrictEqual(model.nodes, {
       label: {name: 'label', kind: 'wellKnown', count: 366, type: 'key'},
       Label2: {name: 'Label2', kind: 'own', count: 366, type: 'key'},
       'Nature of institution': {

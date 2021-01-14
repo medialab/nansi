@@ -4,7 +4,7 @@ import groupBy from 'lodash/groupBy';
 import ThemedSelect from '../../misc/ThemedSelect';
 import {ToolBoxNodeVariables} from '../../../atoms';
 import {ToolBoxActions} from '../../../hooks';
-import {GraphModelDeclaration} from '../../../../lib/straighten';
+import {SerializedGraphModelAttributes} from '../../../../lib/straighten';
 import {collectOptionByType} from './utils';
 
 function pickColorOptions(modelByStatus) {
@@ -74,7 +74,7 @@ function pickSizeOptions(modelByStatus) {
 }
 
 type NodeVariablesProps = {
-  model: GraphModelDeclaration;
+  model: SerializedGraphModelAttributes;
   variables: ToolBoxNodeVariables;
   actions: ToolBoxActions;
 };
