@@ -194,16 +194,23 @@ interface SerializedGraphModelNumberAttribute
   extends BaseSerializedGraphModelAttribute {
   min: number;
   max: number;
+  integer: boolean;
 }
 
 class GraphModelNumberAttribute extends BaseGraphModelAttribute {
   type: 'number' = 'number';
   max: number = -Infinity;
   min: number = Infinity;
+  integer: boolean = true;
 
   add(value: number) {
     if (value > this.max) this.max = value;
     if (value < this.min) this.min = value;
+
+    if (this.integer && !Number.isInteger(value)) {
+      this.integer = false;
+    }
+
     this.count++;
   }
 
@@ -228,6 +235,8 @@ class GraphModelNumberAttribute extends BaseGraphModelAttribute {
 
     serialized.min = this.min;
     serialized.max = this.max;
+
+    serialized.integer = this.integer;
 
     return serialized;
   }

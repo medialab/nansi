@@ -49,6 +49,7 @@ describe('straighten', function () {
         kind: 'own',
         count: 1694,
         type: 'number',
+        integer: true,
         max: 209,
         min: 1
       },
@@ -58,6 +59,7 @@ describe('straighten', function () {
         kind: 'wellKnown',
         count: 1715,
         type: 'number',
+        integer: false,
         max: 14,
         min: 3.6
       },
@@ -66,6 +68,7 @@ describe('straighten', function () {
         kind: 'wellKnown',
         count: 1715,
         type: 'number',
+        integer: false,
         max: 336.5227,
         min: -417.67944
       },
@@ -74,6 +77,7 @@ describe('straighten', function () {
         kind: 'wellKnown',
         count: 1715,
         type: 'number',
+        integer: false,
         max: 377.86423,
         min: -283.31226
       },
@@ -129,6 +133,7 @@ describe('straighten', function () {
         name: 'nansi-betweenness',
         kind: 'computed',
         type: 'number',
+        integer: false,
         count: 1715,
         max: 0.216792832820432,
         min: 0
@@ -136,6 +141,7 @@ describe('straighten', function () {
       'nansi-degree': {
         count: 1715,
         kind: 'computed',
+        integer: true,
         max: 212,
         min: 1,
         name: 'nansi-degree',
@@ -268,6 +274,7 @@ describe('straighten', function () {
         kind: 'wellKnown',
         count: 366,
         type: 'number',
+        integer: false,
         max: 20,
         min: 1
       },
@@ -276,6 +283,7 @@ describe('straighten', function () {
         kind: 'wellKnown',
         count: 366,
         type: 'number',
+        integer: false,
         max: 832.9185,
         min: -909.34393
       },
@@ -284,6 +292,7 @@ describe('straighten', function () {
         kind: 'wellKnown',
         count: 366,
         type: 'number',
+        integer: false,
         max: 568.7327,
         min: -786.7876
       },
@@ -339,6 +348,7 @@ describe('straighten', function () {
         name: 'nansi-betweenness',
         kind: 'computed',
         type: 'number',
+        integer: false,
         count: 366,
         max: 0.022883737267298917,
         min: 0
@@ -346,6 +356,7 @@ describe('straighten', function () {
       'nansi-degree': {
         count: 366,
         kind: 'computed',
+        integer: true,
         max: 60,
         min: 0,
         name: 'nansi-degree',
@@ -354,6 +365,7 @@ describe('straighten', function () {
       'nansi-indegree': {
         count: 366,
         kind: 'computed',
+        integer: true,
         max: 48,
         min: 0,
         name: 'nansi-indegree',
@@ -362,6 +374,7 @@ describe('straighten', function () {
       'nansi-outdegree': {
         count: 366,
         kind: 'computed',
+        integer: true,
         max: 47,
         min: 0,
         name: 'nansi-outdegree',
