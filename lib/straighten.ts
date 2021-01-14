@@ -72,7 +72,7 @@ class BaseGraphModelAttribute {
   }
 
   // noops
-  add(value: any) {
+  add(_: any) {
     this.count++;
   }
 }
