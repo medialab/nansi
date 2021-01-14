@@ -5,12 +5,14 @@ import graphml from 'graphology-graphml';
 import straighten, {GraphModel} from '../../lib/straighten';
 
 export type ImportFormat = 'gexf' | 'graphml' | 'json';
+export type ImportType = 'example' | 'file' | 'text';
 
 export type ImportOptions = {
-  type: 'example' | 'file' | 'text';
+  type: ImportType;
   format?: ImportFormat;
   name?: string;
   text?: string;
+  url?: string;
   file?: File;
 };
 
@@ -20,6 +22,14 @@ export type ImportCallback = (
   err: Error | null,
   result?: {graph: Graph; model: GraphModel}
 ) => void;
+
+function inferFormatFromFilename(filename: string): ImportFormat | null {
+  if (filename.endsWith('.gexf')) return 'gexf';
+  else if (filename.endsWith('.graphml')) return 'graphml';
+  else if (filename.endsWith('.json')) return 'json';
+
+  return null;
+}
 
 function importExample(
   options: ImportOptions,
@@ -57,13 +67,10 @@ function importFile(options: ImportOptions, callback: ImportSubCallback): void {
 
     const name = options.file.name;
 
-    let format: ImportFormat | null = null;
+    let format = inferFormatFromFilename(name);
 
-    if (name.endsWith('.gexf')) format = 'gexf';
-    else if (name.endsWith('.graphml')) format = 'graphml';
-    else if (name.endsWith('.json')) format = 'json';
-
-    if (!format) return callback(new Error('unknown format'));
+    if (!format)
+      return callback(new Error('nansi/app/lib/import: unknown format!'));
 
     return importText({type: 'text', text, format}, callback);
   };
@@ -71,10 +78,26 @@ function importFile(options: ImportOptions, callback: ImportSubCallback): void {
   reader.readAsText(options.file);
 }
 
+function importUrl(options: ImportOptions, callback: ImportSubCallback): void {
+  const parsed = new URL(options.url);
+
+  let format = inferFormatFromFilename(parsed.pathname);
+
+  if (!format)
+    return callback(new Error('nansi/app/lib/import: unknown format!'));
+
+  fetch(parsed.url)
+    .then(response => response.text())
+    .then(text => {
+      return importText({type: 'text', text, format}, callback);
+    });
+}
+
 const importFunctions = {
   example: importExample,
   text: importText,
-  file: importFile
+  file: importFile,
+  url: importUrl
 };
 
 export function importGraph(
