@@ -306,10 +306,12 @@ class GraphModelAttributes {
   add(name, value) {
     let probableType: GraphModelAttributeType = 'unknown';
 
+    // Inference from variable type
     if (typeof value === 'number') probableType = 'number';
     else if (typeof value === 'string') probableType = 'category';
     else if (typeof value === 'boolean') probableType = 'boolean';
 
+    // Inference from variable name
     if (name === 'color') probableType = 'key';
     else if (name === 'label') probableType = 'key';
     else if (name === 'nansi-louvain') probableType = 'category';
