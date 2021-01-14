@@ -2,7 +2,6 @@ import assert from 'assert';
 import {loadGexfResource} from './test-utils';
 import straighten from '../lib/straighten';
 import toSimple from 'graphology-operators/to-simple';
-import {constSelector} from 'recoil';
 
 const ARCTIC = loadGexfResource('arctic');
 const RIO = loadGexfResource('rio');

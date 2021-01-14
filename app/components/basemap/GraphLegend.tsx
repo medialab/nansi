@@ -10,13 +10,19 @@ function LegendCircle({color}) {
 }
 
 export default function GraphLegend({attribute, graphHasTitle = false}) {
-  if (!attribute || attribute.type !== 'category') return null;
+  if (
+    !attribute ||
+    (attribute.type !== 'category' && attribute.type !== 'boolean')
+  )
+    return null;
 
   return (
     <div id="GraphLegend" className={cls(graphHasTitle && 'graph-has-title')}>
       <h2>{COMPUTED_METRICS_LABELS[attribute.name] || attribute.name}</h2>
       <ul>
         {attribute.top.map(([label]) => {
+          label = '' + label;
+
           return (
             <li key={label}>
               <LegendCircle color={attribute.palette[label]} /> {label}

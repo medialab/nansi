@@ -20,7 +20,10 @@ function pickColorOptions(modelByStatus) {
     ]
   });
 
-  const ownOptions = collectOptionByType(modelByStatus.own, 'category');
+  const ownOptions = collectOptionByType(modelByStatus.own, [
+    'category',
+    'boolean'
+  ]);
 
   if (ownOptions.length > 0) {
     optgroups.push({

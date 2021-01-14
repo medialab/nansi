@@ -9,16 +9,25 @@ import workerPool from '../../workers/pool';
 
 import './ImportModal.scss';
 
+const EXAMPLES = [
+  {id: 'arctic', label: 'Arctic graph'},
+  {id: 'rio', label: 'RIO graph'},
+  {id: 'basic', label: 'Basic graph'},
+  {id: 'les-miserables', label: 'Les Misérables graph'},
+  {id: 'sparse-monopartite', label: 'Sparse monopartite projection graph'}
+];
+
 function ExampleList({onClick}) {
   return (
     <div className="content">
       <ul>
-        <li>
-          <a onClick={() => onClick('arctic')}>Arctic graph</a>
-        </li>
-        <li>
-          <a onClick={() => onClick('rio')}>RIO graph</a>
-        </li>
+        {EXAMPLES.map(example => {
+          return (
+            <li key={example.id}>
+              <a onClick={() => onClick(example.id)}>{example.label}</a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
