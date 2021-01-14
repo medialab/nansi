@@ -6,7 +6,7 @@ import {scaleLinear} from 'd3-scale';
 import {usePrevious, useRenderer} from '../../hooks';
 import GraphControls from './GraphControls';
 import {GraphModelExtents} from '../../../lib/straighten';
-import {createNodeReducer} from '../../lib/reducers';
+import {createNodeReducer} from '../../../lib/reducers';
 
 import './GraphContainer.scss';
 

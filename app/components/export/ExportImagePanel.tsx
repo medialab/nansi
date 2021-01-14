@@ -3,7 +3,7 @@ import {render as renderGraphToCanvas} from 'graphology-canvas';
 import {Button} from 'bloomer';
 
 import {useCanvas} from '../../hooks';
-import {createNodeReducer} from '../../lib/reducers';
+import {createNodeReducer} from '../../../lib/reducers';
 
 const SIZE_TEMPLATES = [
   {size: 512, name: 'tiny'},
