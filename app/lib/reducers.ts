@@ -1,5 +1,9 @@
 import {scaleLinear} from 'd3-scale';
 
+/**
+ * Nodes.
+ */
+
 // TODO: should be provided by sigma?
 export type RenderedNode = {
   x: number;
@@ -79,4 +83,67 @@ export function createNodeReducer({
   };
 
   return nodeReducer;
+}
+
+/**
+ * Edges.
+ */
+
+// TODO: should be provided by sigma?
+export type RenderedEdge = {
+  color?: string;
+  size?: number;
+};
+
+export type CreateEdgeReducerOptions = {
+  edgeSize?: any;
+  scalingFactor?: number;
+  extents: any;
+};
+
+// Defaults
+const DEFAULT_EDGE_COLOR = '#ccc';
+const DEFAULT_EDGE_SIZE_RANGE = [2, 15];
+
+export function createEdgeReducer({
+  edgeSize,
+  scalingFactor = 1,
+  extents
+}: CreateEdgeReducerOptions) {
+  let edgeSizeScale = null;
+
+  // Creating scales
+  if (!edgeSize) {
+    edgeSizeScale = scaleLinear()
+      .domain([extents.edgeSize.min, extents.edgeSize.max])
+      .range(DEFAULT_EDGE_SIZE_RANGE);
+  } else {
+    edgeSizeScale = scaleLinear()
+      .domain([edgeSize.min, edgeSize.max])
+      .range(DEFAULT_EDGE_SIZE_RANGE);
+  }
+
+  // Creating actual reducer
+  const edgeReducer = function (key, attr): RenderedEdge {
+    const renderedEdge: RenderedEdge = {
+      color: DEFAULT_NODE_COLOR,
+      size: 1
+    };
+
+    // Size
+    if (!edgeSize) {
+      let v = attr.size || 1;
+      renderedEdge.size = edgeSizeScale(v);
+    } else {
+      let v = attr[edgeSize.name];
+      v = typeof v === 'number' ? v : 1;
+      renderedEdge.size = edgeSizeScale(v);
+    }
+
+    renderedEdge.size *= scalingFactor;
+
+    return renderedEdge;
+  };
+
+  return edgeReducer;
 }
