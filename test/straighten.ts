@@ -7,6 +7,7 @@ import toSimple from 'graphology-operators/to-simple';
 const ARCTIC = loadGexfResource('arctic');
 const RIO = loadGexfResource('rio');
 const BASIC = loadGexfResource('basic');
+const MISERABLES = loadGexfResource('les-miserables');
 
 describe('straighten', function () {
   it('should return nothing if graph is null.', function () {
@@ -16,9 +17,11 @@ describe('straighten', function () {
 
     assert.deepStrictEqual(model, {
       nodes: {},
+      edges: {},
       defaultNodeSize: null,
       defaultNodeColor: null,
-      defaultNodeLabel: null
+      defaultNodeLabel: null,
+      defaultEdgeSize: null
     });
   });
 
@@ -30,6 +33,8 @@ describe('straighten', function () {
     assert.strictEqual(model.defaultNodeColor, 'color');
     assert.strictEqual(model.defaultNodeSize, 'size');
     assert.strictEqual(model.defaultNodeLabel, 'label');
+
+    assert.strictEqual(model.defaultEdgeSize, 'thickness');
 
     assert.deepStrictEqual(model.nodes.size, {
       count: 2,
@@ -394,6 +399,26 @@ describe('straighten', function () {
         min: 0,
         name: 'nansi-outdegree',
         type: 'number'
+      }
+    });
+  });
+
+  it('should return weighted edges if possible.', function () {
+    const graph = MISERABLES.copy();
+
+    const model = straighten(graph);
+
+    assert.strictEqual(model.defaultEdgeSize, 'weight');
+
+    assert.deepStrictEqual(model.edges, {
+      weight: {
+        name: 'weight',
+        kind: 'wellKnown',
+        type: 'number',
+        count: 157,
+        min: 2,
+        max: 31,
+        integer: true
       }
     });
   });

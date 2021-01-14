@@ -31,6 +31,8 @@ const WELL_KNOWN_EDGE_ATTRIBUTES = new Set([
   'thickness'
 ]);
 
+const DEFAULT_EDGE_SIZE_CANDIDATES = ['size', 'thickness', 'weight'];
+
 const CATEGORY_CUTOFF_RATIO = 0.6;
 const CATEGORY_TOP_VALUES = 15;
 
@@ -325,7 +327,12 @@ class GraphModelAttributes {
     if (!attr) {
       let kind: GraphModelAttributeKind = 'own';
 
-      if (this.type === 'node' && WELL_KNOWN_NODE_ATTRIBUTES.has(name))
+      if (
+        (this.type === 'node'
+          ? WELL_KNOWN_NODE_ATTRIBUTES
+          : WELL_KNOWN_EDGE_ATTRIBUTES
+        ).has(name)
+      )
         kind = 'wellKnown';
 
       if (name.startsWith('nansi-')) kind = 'computed';
@@ -371,9 +378,11 @@ export type SerializedGraphModelAttributes = {
 
 export type GraphModel = {
   nodes: SerializedGraphModelAttributes;
-  defaultNodeSize: 'size' | null;
-  defaultNodeColor: 'color' | null;
-  defaultNodeLabel: 'label' | null;
+  edges: SerializedGraphModelAttributes;
+  defaultNodeSize: string | null;
+  defaultNodeColor: string | null;
+  defaultNodeLabel: string | null;
+  defaultEdgeSize: string | null;
 };
 
 /**
@@ -395,6 +404,11 @@ export default function straighten(graph: Graph): GraphModel {
     graph.order * CATEGORY_CUTOFF_RATIO
   );
 
+  const edgeAttributes = new GraphModelAttributes(
+    'edge',
+    graph.size * CATEGORY_CUTOFF_RATIO
+  );
+
   // Computing some metrics
   if (inferType(graph) !== 'mixed')
     louvain.assign(graph, {attributes: {community: 'nansi-louvain'}, rng: RNG});
@@ -402,7 +416,7 @@ export default function straighten(graph: Graph): GraphModel {
   if (graph.size)
     betweenness.assign(graph, {attributes: {centrality: 'nansi-betweenness'}});
 
-  // Computing extents & model
+  // Computing node extents & model
   graph.forEachNode((node, attr) => {
     if (isNumber(attr.x)) {
       if (attr.x < minX) minX = attr.x;
@@ -437,6 +451,15 @@ export default function straighten(graph: Graph): GraphModel {
     }
   });
 
+  // Computing edge model
+  graph.forEachEdge((edge, attr) => {
+    // Attributes inference
+    for (const k in attr) {
+      const v = attr[k];
+      edgeAttributes.add(k, v);
+    }
+  });
+
   // Create random functions
   let randomX = RNG;
   let randomY = RNG;
@@ -457,12 +480,18 @@ export default function straighten(graph: Graph): GraphModel {
     });
 
   const nodeModel = nodeAttributes.serialize();
+  const edgeModel = edgeAttributes.serialize();
 
   const model: GraphModel = {
     nodes: nodeModel,
     defaultNodeSize: 'size' in nodeModel ? 'size' : null,
     defaultNodeColor: 'color' in nodeModel ? 'color' : null,
-    defaultNodeLabel: 'label' in nodeModel ? 'label' : null
+    defaultNodeLabel: 'label' in nodeModel ? 'label' : null,
+    edges: edgeModel,
+    defaultEdgeSize:
+      DEFAULT_EDGE_SIZE_CANDIDATES.find(candidate => {
+        return candidate in edgeModel;
+      }) || null
   };
 
   return model;
