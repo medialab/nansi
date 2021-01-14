@@ -5,7 +5,7 @@ import graphml from 'graphology-graphml';
 import straighten, {GraphModel} from '../../lib/straighten';
 
 export type ImportFormat = 'gexf' | 'graphml' | 'json';
-export type ImportType = 'example' | 'file' | 'text';
+export type ImportType = 'example' | 'file' | 'text' | 'url';
 
 export type ImportOptions = {
   type: ImportType;
@@ -86,7 +86,7 @@ function importUrl(options: ImportOptions, callback: ImportSubCallback): void {
   if (!format)
     return callback(new Error('nansi/app/lib/import: unknown format!'));
 
-  fetch(parsed.url)
+  fetch(options.url)
     .then(response => response.text())
     .then(text => {
       return importText({type: 'text', text, format}, callback);

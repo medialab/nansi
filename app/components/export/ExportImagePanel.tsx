@@ -56,14 +56,15 @@ export default function ExportImagePanel({
       <div className="column is-4">
         <div className="field">
           <label className="label">File name</label>
-          <div className="control"></div>
-          <input
-            className="input"
-            type="text"
-            placeholder="e.g. graph.png"
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              placeholder="e.g. graph.png"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </div>
         </div>
         <div className="field">
           <label className="label">Size</label>

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import cls from 'classnames';
+import {Button} from 'bloomer';
 
 import FileDrop from './FileDrop';
 import {useSetNewGraph} from '../../hooks';
@@ -21,6 +22,46 @@ function ExampleList({onClick}) {
     </div>
   );
 }
+
+function UrlImportForm({onSubmit}) {
+  const [url, setUrl] = useState('');
+
+  return (
+    <div className="columns">
+      <div className="column is-12">
+        <div className="field">
+          <div className="control">
+            <input
+              type="text"
+              className="input"
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+              placeholder="https://somewhere.com/data/hello-world.gexf"
+            />
+          </div>
+        </div>
+        <Button isColor="black" disabled={!url} onClick={() => onSubmit(url)}>
+          Fetch
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+const TABS = [
+  {
+    label: 'From file',
+    tab: 'file'
+  },
+  {
+    label: 'From example',
+    tab: 'example'
+  },
+  {
+    label: 'From url',
+    tab: 'url'
+  }
+];
 
 type ImportModalProps = {
   isOpen: boolean;
@@ -51,6 +92,11 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
     workerPool.import({type: 'example', name}, onGraphImported);
   }
 
+  function loadUrl(url) {
+    setIsLoading(true);
+    workerPool.import({type: 'url', url}, onGraphImported);
+  }
+
   function onDrop(file: File) {
     setIsLoading(true);
     workerPool.import({type: 'file', file}, onGraphImported);
@@ -61,12 +107,10 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
   if (isLoading) {
     body = <progress className="progress is-dark is-large" />;
   } else {
-    body =
-      activeTab === 'file' ? (
-        <FileDrop onDrop={onDrop} />
-      ) : (
-        <ExampleList onClick={loadExampleGraph} />
-      );
+    if (activeTab === 'file') body = <FileDrop onDrop={onDrop} />;
+    else if (activeTab === 'example')
+      body = <ExampleList onClick={loadExampleGraph} />;
+    else if (activeTab === 'url') body = <UrlImportForm onSubmit={loadUrl} />;
   }
 
   return (
@@ -77,18 +121,16 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
           <h2>New project</h2>
           <div className="tabs">
             <ul>
-              <li
-                className={cls(activeTab === 'file' && 'is-active')}
-                onClick={setActiveTabIfDifferent.bind(null, 'file')}>
-                <a>From file</a>
-              </li>
-            </ul>
-            <ul>
-              <li
-                className={cls(activeTab === 'example' && 'is-active')}
-                onClick={setActiveTabIfDifferent.bind(null, 'example')}>
-                <a>From example</a>
-              </li>
+              {TABS.map(item => {
+                return (
+                  <li
+                    key={item.tab}
+                    className={cls(activeTab === item.tab && 'is-active')}
+                    onClick={setActiveTabIfDifferent.bind(null, item.tab)}>
+                    <a>{item.label}</a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           {body}
