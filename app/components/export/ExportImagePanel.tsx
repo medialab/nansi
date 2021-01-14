@@ -26,13 +26,13 @@ export default function ExportImagePanel({
     (canvas, ctx) => {
       if (!size) return;
 
-      const nodeSizeFactor = size / rendererSize;
+      const scalingFactor = size / rendererSize;
 
       const nodeReducer = createNodeReducer({
         nodeColor: variables.nodeColor,
         nodeSize: variables.nodeSize,
         extents: variables.extents,
-        nodeSizeFactor
+        scalingFactor
       });
 
       canvas.setAttribute('width', size);

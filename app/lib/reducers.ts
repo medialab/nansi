@@ -13,7 +13,7 @@ export type CreateNodeReducerOptions = {
   nodeColor?: any;
   nodeSize?: any;
   nodeLabel?: any;
-  nodeSizeFactor?: number;
+  scalingFactor?: number;
   extents: any;
 };
 
@@ -25,7 +25,7 @@ export function createNodeReducer({
   nodeColor,
   nodeSize,
   nodeLabel,
-  nodeSizeFactor = 1,
+  scalingFactor = 1,
   extents
 }: CreateNodeReducerOptions) {
   let nodeSizeScale = null;
@@ -66,7 +66,7 @@ export function createNodeReducer({
       renderedNode.size = nodeSizeScale(v);
     }
 
-    renderedNode.size *= nodeSizeFactor;
+    renderedNode.size *= scalingFactor;
 
     // Label
     if (!nodeLabel) {
