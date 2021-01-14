@@ -7,7 +7,6 @@ import inferType from 'graphology-utils/infer-type';
 import betweenness from 'graphology-metrics/centrality/betweenness';
 
 import {generatePalette} from './palettes';
-import {values} from 'lodash';
 
 const RNG = seedrandom('nansi');
 const randomFloat = createRandomFloat(RNG);
