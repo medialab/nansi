@@ -21,6 +21,15 @@ const WELL_KNOWN_NODE_ATTRIBUTES = new Set([
   'y',
   'color'
 ]);
+
+const WELL_KNOWN_EDGE_ATTRIBUTES = new Set([
+  'size',
+  'weight',
+  'color',
+  'shape',
+  'thickness'
+]);
+
 const CATEGORY_CUTOFF_RATIO = 0.6;
 const CATEGORY_TOP_VALUES = 15;
 
