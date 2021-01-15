@@ -309,6 +309,14 @@ class GraphModelAttributes {
     this.cutoff = cutoff;
   }
 
+  has(name): boolean {
+    return this.attributes.hasOwnProperty(name);
+  }
+
+  get(name): GraphModelAttribute | undefined {
+    return this.attributes[name];
+  }
+
   add(name, value) {
     let probableType: GraphModelAttributeType = 'unknown';
 
@@ -377,6 +385,7 @@ export type SerializedGraphModelAttributes = {
 };
 
 export type GraphModel = {
+  weighted: boolean;
   nodes: SerializedGraphModelAttributes;
   edges: SerializedGraphModelAttributes;
   defaultNodeSize: string | null;
@@ -408,6 +417,19 @@ export default function straighten(graph: Graph): GraphModel {
     'edge',
     graph.size * CATEGORY_CUTOFF_RATIO
   );
+
+  // Computing edge model
+  graph.forEachEdge((edge, attr) => {
+    // Attributes inference
+    for (const k in attr) {
+      const v = attr[k];
+      edgeAttributes.add(k, v);
+    }
+  });
+
+  const weighted =
+    edgeAttributes.has('weight') &&
+    edgeAttributes.get('weight').type === 'number';
 
   // Computing some metrics
   if (inferType(graph) !== 'mixed')
@@ -451,15 +473,6 @@ export default function straighten(graph: Graph): GraphModel {
     }
   });
 
-  // Computing edge model
-  graph.forEachEdge((edge, attr) => {
-    // Attributes inference
-    for (const k in attr) {
-      const v = attr[k];
-      edgeAttributes.add(k, v);
-    }
-  });
-
   // Create random functions
   let randomX = RNG;
   let randomY = RNG;
@@ -483,6 +496,7 @@ export default function straighten(graph: Graph): GraphModel {
   const edgeModel = edgeAttributes.serialize();
 
   const model: GraphModel = {
+    weighted,
     nodes: nodeModel,
     defaultNodeSize: 'size' in nodeModel ? 'size' : null,
     defaultNodeColor: 'color' in nodeModel ? 'color' : null,

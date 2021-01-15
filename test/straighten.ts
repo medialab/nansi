@@ -16,6 +16,7 @@ describe('straighten', function () {
     const model = straighten(graph);
 
     assert.deepStrictEqual(model, {
+      weighted: false,
       nodes: {},
       edges: {},
       defaultNodeSize: null,
@@ -409,6 +410,7 @@ describe('straighten', function () {
     const model = straighten(graph);
 
     assert.strictEqual(model.defaultEdgeSize, 'weight');
+    assert.strictEqual(model.weighted, true);
 
     assert.deepStrictEqual(model.edges, {
       weight: {

@@ -26,9 +26,13 @@ function UnderlyingInformation({hint, children, raw = false}) {
 
 type GraphInformationProps = {
   graph: Graph;
+  weighted: boolean;
 };
 
-export default function GraphInformation({graph}: GraphInformationProps) {
+export default function GraphInformation({
+  graph,
+  weighted
+}: GraphInformationProps) {
   const order = comma(graph.order);
   const size = comma(graph.size);
   const type = inferType(graph);
@@ -61,17 +65,19 @@ export default function GraphInformation({graph}: GraphInformationProps) {
 
   return (
     <div id="GraphInformation">
-      {attr.title && (
-        <UnderlyingInformation raw hint={attr.title}>
-          <strong>
-            <em>«{truncate(attr.title, {length: 40, omission: '…'})}»</em>
-          </strong>
-        </UnderlyingInformation>
-      )}
       <p>
         <UnderlyingInformation hint={infos.multi.hint}>
           {infos.multi.label}
-        </UnderlyingInformation>{' '}
+        </UnderlyingInformation>
+        {', '}
+        {weighted && (
+          <>
+            <UnderlyingInformation hint="Your graph's edges may have different weights.">
+              weighted
+            </UnderlyingInformation>
+            {', '}
+          </>
+        )}
         <UnderlyingInformation hint={infos.type.hint}>
           {type}
         </UnderlyingInformation>{' '}

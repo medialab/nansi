@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useGraph, useGraphVariables} from '../../hooks';
+import {useGraph, useGraphVariables, useModel} from '../../hooks';
 
 import GraphContainer from './GraphContainer';
 import GraphInformation from './GraphInformation';
@@ -11,6 +11,7 @@ import './index.scss';
 
 export default function BasemapView() {
   const graph = useGraph();
+  const model = useModel();
   const variables = useGraphVariables();
 
   if (!graph || !variables) return null;
@@ -29,7 +30,7 @@ export default function BasemapView() {
         attribute={variables.nodeColor}
         graphHasTitle={graph.hasAttribute('title')}
       />
-      <GraphInformation graph={graph} />
+      <GraphInformation graph={graph} weighted={model.weighted} />
     </div>
   );
 }
