@@ -412,6 +412,16 @@ describe('straighten', function () {
     assert.strictEqual(model.defaultEdgeSize, 'weight');
     assert.strictEqual(model.weighted, true);
 
+    assert.deepStrictEqual(model.nodes['nansi-weighted-degree'], {
+      name: 'nansi-weighted-degree',
+      kind: 'computed',
+      type: 'number',
+      count: 77,
+      min: 0,
+      max: 144,
+      integer: true
+    });
+
     assert.deepStrictEqual(model.edges, {
       weight: {
         name: 'weight',

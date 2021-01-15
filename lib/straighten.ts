@@ -5,6 +5,9 @@ import MultiSet from 'mnemonist/multi-set';
 import louvain from 'graphology-communities-louvain';
 import inferType from 'graphology-utils/infer-type';
 import betweenness from 'graphology-metrics/centrality/betweenness';
+import weightedDegree from 'graphology-metrics/weighted-degree';
+
+const {weightedInDegree, weightedOutDegree} = weightedDegree;
 
 import {isNumber} from './utils';
 import {generatePalette} from './palettes';
@@ -433,10 +436,32 @@ export default function straighten(graph: Graph): GraphModel {
 
   // Computing some metrics
   if (inferType(graph) !== 'mixed')
-    louvain.assign(graph, {attributes: {community: 'nansi-louvain'}, rng: RNG});
+    louvain.assign(graph, {
+      attributes: {community: 'nansi-louvain'},
+      rng: RNG,
+      weighted
+    });
 
   if (graph.size)
-    betweenness.assign(graph, {attributes: {centrality: 'nansi-betweenness'}});
+    betweenness.assign(graph, {
+      attributes: {centrality: 'nansi-betweenness'},
+      weighted
+    });
+
+  if (weighted) {
+    weightedDegree.assign(graph, {
+      attributes: {weightedDegree: 'nansi-weighted-degree'}
+    });
+
+    if (graph.type !== 'undirected') {
+      weightedInDegree.assign(graph, {
+        attributes: {weightedDegree: 'nansi-weighted-indegree'}
+      });
+      weightedOutDegree.assign(graph, {
+        attributes: {weightedDegree: 'nansi-weighted-outdegree'}
+      });
+    }
+  }
 
   // Computing node extents & model
   graph.forEachNode((node, attr) => {
