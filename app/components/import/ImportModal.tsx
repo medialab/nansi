@@ -14,7 +14,9 @@ const EXAMPLES = [
   {id: 'rio', label: 'RIO graph'},
   {id: 'basic', label: 'Basic graph'},
   {id: 'les-miserables', label: 'Les Misérables graph'},
-  {id: 'sparse-monopartite', label: 'Sparse monopartite projection graph'}
+  {id: 'sparse-monopartite', label: 'Sparse monopartite projection graph'},
+  {id: 'c-elegans', label: 'Caenorhabditis elegans graph'},
+  {id: 'eurosis', label: 'EuroSiS'}
 ];
 
 function ExampleList({onClick}) {

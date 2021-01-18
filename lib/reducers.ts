@@ -37,6 +37,8 @@ export function createNodeReducer({
     nodeSizeScale = scaleLinear()
       .domain([nodeSize.min, nodeSize.max])
       .range(DEFAULT_NODE_SIZE_RANGE);
+
+    if (nodeSize.min === nodeSize.max) nodeSizeScale = () => 3;
   }
 
   // Creating actual reducer
@@ -63,7 +65,7 @@ export function createNodeReducer({
       renderedNode.size = DEFAULT_NODE_SIZE_RANGE[0];
     } else {
       let v = attr[nodeSize.name];
-      v = isNumber(v) ? v : 1;
+      v = isNumber(v) ? v : DEFAULT_NODE_SIZE_RANGE[0];
       renderedNode.size = nodeSizeScale(v);
     }
 
