@@ -5,7 +5,6 @@ import {scaleLinear} from 'd3-scale';
 
 import {SerializedGraphModelAttribute} from '../../../lib/straighten';
 import {usePrevious, useRenderer} from '../../hooks';
-import GraphControls from './GraphControls';
 import {createNodeReducer, createEdgeReducer} from '../../../lib/reducers';
 
 import './GraphContainer.scss';
@@ -15,22 +14,6 @@ const CELL_HEIGHT_RANGE = [200, 10];
 const CELL_WIDTH_RANGE = [300, 30];
 const CELL_HEIGHT_SCALE = scaleLinear().domain([0, 1]).range(CELL_HEIGHT_RANGE);
 const CELL_WIDTH_SCALE = scaleLinear().domain([0, 1]).range(CELL_WIDTH_RANGE);
-
-// Camera controls
-function rescale(renderer: WebGLRenderer): void {
-  const camera = renderer.getCamera();
-  camera.animatedReset(renderer);
-}
-
-function zoomIn(renderer: WebGLRenderer): void {
-  const camera = renderer.getCamera();
-  camera.animatedZoom(renderer);
-}
-
-function zoomOut(renderer: WebGLRenderer): void {
-  const camera = renderer.getCamera();
-  camera.animatedUnzoom(renderer);
-}
 
 type GraphContainerProps = {
   graph: Graph;
@@ -128,13 +111,6 @@ export default function GraphContainer({
   return (
     <div id="GraphContainer">
       <div ref={setContainer} style={{width: '100%', height: '100%'}}></div>
-      {renderer && (
-        <GraphControls
-          rescale={rescale.bind(null, renderer)}
-          zoomIn={zoomIn.bind(null, renderer)}
-          zoomOut={zoomOut.bind(null, renderer)}
-        />
-      )}
     </div>
   );
 }

@@ -3,7 +3,6 @@ import comma from 'comma-number';
 import density from 'graphology-metrics/density';
 import Graph from 'graphology-types';
 import inferType from 'graphology-utils/infer-type';
-import truncate from 'lodash/truncate';
 
 import Hint from '../misc/Hint';
 

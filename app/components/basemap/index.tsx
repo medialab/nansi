@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {useGraph, useGraphVariables, useModel} from '../../hooks';
+import {useGraph, useGraphVariables, useModel, useRenderer} from '../../hooks';
 
 import GraphContainer from './GraphContainer';
+import GraphControls from './GraphControls';
 import GraphInformation from './GraphInformation';
 import GraphLegend from './GraphLegend';
 import GraphSearch from './GraphSearch';
@@ -14,6 +15,7 @@ export default function BasemapView() {
   const graph = useGraph();
   const model = useModel();
   const variables = useGraphVariables();
+  const [renderer] = useRenderer();
 
   if (!graph || !variables) return null;
 
@@ -29,6 +31,7 @@ export default function BasemapView() {
         edgeSize={variables.edgeSize}
         labelDensity={variables.labelDensity}
       />
+      {renderer && <GraphControls renderer={renderer} />}
       <GraphSearch />
       <GraphLegend
         attribute={variables.nodeColor}
