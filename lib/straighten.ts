@@ -85,7 +85,7 @@ class BaseGraphModelAttribute {
   }
 }
 
-interface SerializedGraphModelCategoryAttribute
+export interface SerializedGraphModelCategoryAttribute
   extends BaseSerializedGraphModelAttribute {
   cardinality: number;
   top: Array<[string, number]>;
@@ -136,7 +136,7 @@ class GraphModelCategoryAttribute extends BaseGraphModelAttribute {
   }
 }
 
-interface SerializedGraphModelBooleanAttribute
+export interface SerializedGraphModelBooleanAttribute
   extends BaseSerializedGraphModelAttribute {
   cardinality: number;
   top: Array<[boolean, number]>;
@@ -192,7 +192,7 @@ class GraphModelBooleanAttribute extends BaseGraphModelAttribute {
   }
 }
 
-interface SerializedGraphModelNumberAttribute
+export interface SerializedGraphModelNumberAttribute
   extends BaseSerializedGraphModelAttribute {
   min: number;
   max: number;

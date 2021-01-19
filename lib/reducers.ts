@@ -1,6 +1,11 @@
 import {scaleLinear} from 'd3-scale';
 
 import {isNumber} from './utils';
+// import {
+//   SerializedGraphModelAttribute,
+//   SerializedGraphModelCategoryAttribute,
+//   SerializedGraphModelNumberAttribute
+// } from './straighten';
 
 /**
  * Nodes.
@@ -13,6 +18,7 @@ export type RenderedNode = {
   color?: string;
 };
 
+// TODO: we can do better than any...
 export type CreateNodeReducerOptions = {
   nodeColor?: any;
   nodeSize?: any;
@@ -94,16 +100,17 @@ export type RenderedEdge = {
 
 export type CreateEdgeReducerOptions = {
   edgeSize?: any;
+  edgeColor?: any;
   scalingFactor?: number;
-  extents: any;
 };
 
 // Defaults
 const DEFAULT_EDGE_COLOR = '#ccc';
-const DEFAULT_EDGE_SIZE_RANGE = [2, 15];
+const DEFAULT_EDGE_SIZE_RANGE = [1, 10];
 
 export function createEdgeReducer({
   edgeSize,
+  edgeColor,
   scalingFactor = 1
 }: CreateEdgeReducerOptions) {
   let edgeSizeScale = null;
@@ -117,10 +124,19 @@ export function createEdgeReducer({
 
   // Creating actual reducer
   const edgeReducer = function (key, attr): RenderedEdge {
-    const renderedEdge: RenderedEdge = {
-      color: DEFAULT_EDGE_COLOR,
-      size: 1
-    };
+    const renderedEdge: RenderedEdge = {};
+
+    // Color
+    if (!edgeColor) {
+      renderedEdge.color = DEFAULT_EDGE_COLOR;
+    } else {
+      if (edgeColor.palette) {
+        renderedEdge.color =
+          edgeColor.palette[attr[edgeColor.name]] || DEFAULT_NODE_COLOR;
+      } else {
+        renderedEdge.color = attr[edgeColor.name] || DEFAULT_NODE_COLOR;
+      }
+    }
 
     // Size
     if (!edgeSize) {

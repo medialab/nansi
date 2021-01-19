@@ -3,9 +3,10 @@ import Graph from 'graphology';
 import {WebGLRenderer} from 'sigma';
 import {scaleLinear} from 'd3-scale';
 
+import {SerializedGraphModelAttribute} from '../../../lib/straighten';
 import {usePrevious, useRenderer} from '../../hooks';
 import GraphControls from './GraphControls';
-import {createNodeReducer} from '../../../lib/reducers';
+import {createNodeReducer, createEdgeReducer} from '../../../lib/reducers';
 
 import './GraphContainer.scss';
 
@@ -33,9 +34,11 @@ function zoomOut(renderer: WebGLRenderer): void {
 
 type GraphContainerProps = {
   graph: Graph;
-  nodeColor: any;
-  nodeSize: any;
-  nodeLabel: any;
+  nodeColor: SerializedGraphModelAttribute | null;
+  nodeSize: SerializedGraphModelAttribute | null;
+  nodeLabel: SerializedGraphModelAttribute | null;
+  edgeColor: SerializedGraphModelAttribute | null;
+  edgeSize: SerializedGraphModelAttribute | null;
   labelDensity: number;
 };
 
@@ -44,17 +47,26 @@ export default function GraphContainer({
   nodeColor,
   nodeSize,
   nodeLabel,
+  edgeSize,
+  edgeColor,
   labelDensity
 }: GraphContainerProps) {
   const previousNodeColor = usePrevious(nodeColor);
   const previousNodeSize = usePrevious(nodeSize);
   const previousNodeLabel = usePrevious(nodeLabel);
+  const previousEdgeColor = usePrevious(edgeColor);
+  const previousEdgeSize = usePrevious(edgeSize);
   const previousLabelDensity = usePrevious(labelDensity);
 
   const nodeReducer = createNodeReducer({
     nodeColor,
     nodeSize,
     nodeLabel
+  });
+
+  const edgeReducer = createEdgeReducer({
+    edgeSize,
+    edgeColor
   });
 
   const container = useRef(null);
@@ -67,12 +79,15 @@ export default function GraphContainer({
     if (
       previousNodeColor !== nodeColor ||
       previousNodeSize !== nodeSize ||
-      previousNodeLabel !== nodeLabel
+      previousNodeLabel !== nodeLabel ||
+      previousEdgeSize !== edgeSize ||
+      previousEdgeColor !== edgeColor
     ) {
       console.log('Refreshing sigma');
 
       // TODO: use upcoming #.setNodeReducer
       renderer.settings.nodeReducer = nodeReducer;
+      renderer.settings.edgeReducer = edgeReducer;
       needToRefresh = true;
     }
 
@@ -98,7 +113,10 @@ export default function GraphContainer({
       }
 
       if (node && graph) {
-        const newRenderer = new WebGLRenderer(graph, node, {nodeReducer});
+        const newRenderer = new WebGLRenderer(graph, node, {
+          nodeReducer,
+          edgeReducer
+        });
         setRenderer(newRenderer);
       }
 

@@ -3,7 +3,7 @@ import {render as renderGraphToCanvas} from 'graphology-canvas';
 import {Button} from 'bloomer';
 
 import {useCanvas} from '../../hooks';
-import {createNodeReducer} from '../../../lib/reducers';
+import {createNodeReducer, createEdgeReducer} from '../../../lib/reducers';
 
 const SIZE_TEMPLATES = [
   {size: 512, name: 'tiny'},
@@ -34,6 +34,12 @@ export default function ExportImagePanel({
         scalingFactor
       });
 
+      const edgeReducer = createEdgeReducer({
+        edgeSize: variables.edgeSize,
+        edgeColor: variables.edgeColor,
+        scalingFactor
+      });
+
       canvas.setAttribute('width', size);
       canvas.setAttribute('height', size);
       ctx.clearRect(0, 0, size, size);
@@ -43,6 +49,11 @@ export default function ExportImagePanel({
         nodes: {
           reducer: (settings, node, attr) => {
             return nodeReducer(node, attr);
+          }
+        },
+        edges: {
+          reducer: (settings, edge, attr) => {
+            return edgeReducer(edge, attr);
           }
         }
       });

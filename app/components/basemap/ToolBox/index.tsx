@@ -16,6 +16,7 @@ import ToolBoxIcon from './ToolBoxIcon';
 import Layout from './Layout';
 import NodeVariables from './NodeVariables';
 import LabelVariables from './LabelVariables';
+import EdgeVariables from './EdgeVariables';
 
 import './ToolBox.scss';
 
@@ -65,6 +66,13 @@ export default function ToolBox() {
               model={model.nodes}
               variables={toolBoxState.variables.labels}
               defaultNodeLabel={model.defaultNodeLabel}
+              actions={toolBoxActions}
+            />
+            <EdgeVariables
+              model={model.edges}
+              variables={toolBoxState.variables.edges}
+              defaultEdgeColor={model.defaultEdgeColor}
+              defaultEdgeSize={model.defaultEdgeSize}
               actions={toolBoxActions}
             />
           </>

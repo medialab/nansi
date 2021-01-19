@@ -24,6 +24,8 @@ export default function BasemapView() {
         nodeColor={variables.nodeColor}
         nodeSize={variables.nodeSize}
         nodeLabel={variables.nodeLabel}
+        edgeColor={variables.edgeColor}
+        edgeSize={variables.edgeSize}
         labelDensity={variables.labelDensity}
       />
       <GraphLegend

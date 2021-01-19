@@ -25,3 +25,9 @@ export function collectOptionByType(list, type: string | Array<string>) {
 
   return options;
 }
+
+export function countNestedOptions(options) {
+  return options.reduce((count, group) => {
+    return count + group.options.length;
+  }, 0);
+}
