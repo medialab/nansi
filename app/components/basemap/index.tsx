@@ -32,7 +32,13 @@ export default function BasemapView() {
         labelDensity={variables.labelDensity}
       />
       {renderer && <GraphControls renderer={renderer} />}
-      <GraphSearch />
+      {renderer && (
+        <GraphSearch
+          renderer={renderer}
+          graph={graph}
+          targetAttribute={variables.nodeLabel}
+        />
+      )}
       <GraphLegend
         attribute={variables.nodeColor}
         graphHasTitle={graph.hasAttribute('title')}
