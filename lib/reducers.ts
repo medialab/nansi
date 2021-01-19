@@ -65,7 +65,7 @@ export function createNodeReducer({
       renderedNode.size = DEFAULT_NODE_SIZE_RANGE[0];
     } else {
       let v = attr[nodeSize.name];
-      v = isNumber(v) ? v : DEFAULT_NODE_SIZE_RANGE[0];
+      v = isNumber(v) ? v : nodeSize.min;
       renderedNode.size = nodeSizeScale(v);
     }
 
@@ -127,7 +127,7 @@ export function createEdgeReducer({
       renderedEdge.size = DEFAULT_EDGE_SIZE_RANGE[0];
     } else {
       let v = attr[edgeSize.name];
-      v = isNumber(v) ? v : 1;
+      v = isNumber(v) ? v : edgeSize.min;
       renderedEdge.size = edgeSizeScale(v);
     }
 
