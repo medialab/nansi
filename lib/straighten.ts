@@ -394,6 +394,7 @@ export type GraphModel = {
   defaultNodeSize: string | null;
   defaultNodeColor: string | null;
   defaultNodeLabel: string | null;
+  defaultEdgeColor: string | null;
   defaultEdgeSize: string | null;
 };
 
@@ -527,6 +528,7 @@ export default function straighten(graph: Graph): GraphModel {
     defaultNodeColor: 'color' in nodeModel ? 'color' : null,
     defaultNodeLabel: 'label' in nodeModel ? 'label' : null,
     edges: edgeModel,
+    defaultEdgeColor: 'color' in edgeModel ? 'color' : null,
     defaultEdgeSize:
       DEFAULT_EDGE_SIZE_CANDIDATES.find(candidate => {
         return candidate in edgeModel;

@@ -22,6 +22,7 @@ describe('straighten', function () {
       defaultNodeSize: null,
       defaultNodeColor: null,
       defaultNodeLabel: null,
+      defaultEdgeColor: null,
       defaultEdgeSize: null
     });
   });

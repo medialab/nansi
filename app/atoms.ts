@@ -58,6 +58,11 @@ export type ToolBoxNodeVariables = {
   size: string | null;
 };
 
+export type ToolBoxEdgeVariables = {
+  color: string | null;
+  size: string | null;
+};
+
 export type ToolBoxLabelVariables = {
   text: string | null;
   density: number;
@@ -66,6 +71,7 @@ export type ToolBoxLabelVariables = {
 export type ToolBoxState = {
   variables: {
     nodes: ToolBoxNodeVariables;
+    edges: ToolBoxEdgeVariables;
     labels: ToolBoxLabelVariables;
   };
 };
@@ -83,6 +89,8 @@ export type GraphVariables = {
   nodeSize: SerializedGraphModelAttribute | null;
   nodeLabel: SerializedGraphModelAttribute | null;
   labelDensity: number;
+  edgeColor: SerializedGraphModelAttribute | null;
+  edgeSize: SerializedGraphModelAttribute | null;
 };
 
 export const graphVariables = selector<GraphVariables | null>({
@@ -103,7 +111,13 @@ export const graphVariables = selector<GraphVariables | null>({
       nodeLabel: state.variables.labels.text
         ? currentModel.nodes[state.variables.labels.text]
         : null,
-      labelDensity: state.variables.labels.density
+      labelDensity: state.variables.labels.density,
+      edgeColor: state.variables.edges.color
+        ? currentModel.edges[state.variables.edges.color]
+        : null,
+      edgeSize: state.variables.edges.size
+        ? currentModel.edges[state.variables.edges.size]
+        : null
     };
   }
 });
