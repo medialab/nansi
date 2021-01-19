@@ -6,7 +6,7 @@ import {useCloseModal, useGraph} from '../hooks';
 import BasemapView from './basemap';
 import ImportModal from './import/ImportModal';
 import ExportModal from './export/ExportModal';
-import GraphPreloader from './lifecycle/GraphPreloader';
+import Lifecycle from './lifecycle/Lifecycle';
 
 export default function Application() {
   const modal = useRecoilValue(atoms.modal);
@@ -20,7 +20,7 @@ export default function Application() {
 
   return (
     <>
-      <GraphPreloader />
+      <Lifecycle />
       <ImportModal
         isOpen={modal === 'import'}
         close={graph !== null ? closeModal : null}
