@@ -5,6 +5,7 @@ import {useGraph, useGraphVariables, useModel} from '../../hooks';
 import GraphContainer from './GraphContainer';
 import GraphInformation from './GraphInformation';
 import GraphLegend from './GraphLegend';
+import GraphSearch from './GraphSearch';
 import ToolBox from './ToolBox';
 
 import './index.scss';
@@ -28,6 +29,7 @@ export default function BasemapView() {
         edgeSize={variables.edgeSize}
         labelDensity={variables.labelDensity}
       />
+      <GraphSearch />
       <GraphLegend
         attribute={variables.nodeColor}
         graphHasTitle={graph.hasAttribute('title')}

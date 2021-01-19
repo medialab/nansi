@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+
+#GraphSearch {
+  display: none;
+  position: absolute;
+  top: 15px;
+  height: 42px;
+  width: 400px;
+  right: 15px + 42px + 5px;
+  z-index: 10;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-const themeOverride = theme => ({
+const defaultTheme = theme => ({
   ...theme,
   borderRadius: 0,
   colors: {
@@ -15,7 +15,7 @@ function isOptionDisabled(option) {
   return !!option.disabled;
 }
 
-export default function ThemedSelect({options, value, ...props}) {
+export default function ThemedSelect({options, value, theme = null, ...props}) {
   if (typeof value !== 'undefined') {
     options.some(opt => {
       if ('value' in opt && opt.value === value) {
@@ -36,6 +36,14 @@ export default function ThemedSelect({options, value, ...props}) {
       return false;
     });
   }
+
+  const themeOverride = styles => {
+    styles = defaultTheme(styles);
+
+    if (theme) styles = theme(styles);
+
+    return styles;
+  };
 
   return (
     <Select
