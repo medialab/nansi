@@ -70,6 +70,7 @@
   "dependencies": {
     "bloomer": "^0.6.5",
     "bulma": "^0.9.1",
+    "bulmaswatch": "^0.8.1",
     "classnames": "^2.2.6",
     "comma-number": "^2.0.1",
     "d3-scale": "^3.2.3",
