@@ -2,12 +2,17 @@
 
 #GraphInformation {
   position: absolute;
-  right: 15px;
-  bottom: 15px;
+  right: $gutter;
+  bottom: $gutter;
   z-index: 10;
-  background-color: $nansi-light;
+  // background-color: $nansi-light;
+  background: white;
   color: $nansi-dark;
-  padding: 15px;
-  min-width: 300px;
-  border: 1px solid $nansi-dark;
+  padding: $gutter;
+  min-width: $gutter * 25;
+  border: 1px solid $nansi-light;
+
+  .title {
+    margin-bottom: $gutter;
+  }
 }

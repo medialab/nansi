@@ -2,7 +2,6 @@
 
 @import '../../variables.scss';
 
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 .Intro {
   color: $nansi-light;
@@ -38,7 +37,6 @@
   }
 
   .app-logo {
-    font-family: 'Lobster', cursive;
     font-size: 70px;
     .tag {
       margin-left: $gutter;

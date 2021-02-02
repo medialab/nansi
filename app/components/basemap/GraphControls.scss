@@ -2,16 +2,17 @@
 
 #GraphControls {
   position: absolute;
-  right: 15px;
-  top: 15px;
+  right: $gutter;
+  top: $gutter;
   z-index: 10;
 
   .control-button {
-    border: 1px solid $nansi-dark;
+    // border: 1px solid $nansi-dark;
     width: 42px;
     height: 42px;
     cursor: pointer;
-    background-color: $nansi-light;
+    // background-color: $nansi-light;
+    background: white;
     padding-left: 5px;
     padding-top: 5px;
 

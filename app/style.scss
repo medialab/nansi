@@ -7,6 +7,8 @@
 // Custom variables
 @import './variables.scss';
 
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 html,
 body,
 #app {
@@ -34,4 +36,8 @@ body,
 // Extending hints
 .hint--custom:after {
   width: attr(data-hint-width px, 0);
+}
+
+.app-logo {
+  font-family: 'Lobster', cursive;
 }

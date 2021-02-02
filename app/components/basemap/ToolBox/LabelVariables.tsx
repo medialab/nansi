@@ -78,7 +78,8 @@ export default function LabelVariables({
 
   return (
     <div className="variables-block">
-      <h2>Labels</h2>
+      <h6 className="title is-6 block-title">Labels</h6>
+
       <div className="columns">
         <div className="column is-4">text</div>
         <div className="column is-8">

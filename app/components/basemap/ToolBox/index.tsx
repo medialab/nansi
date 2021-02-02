@@ -38,18 +38,28 @@ export default function ToolBox() {
 
   return (
     <div id="ToolBox" className={cls(expanded && 'expanded')}>
-      <div id="ToolBoxTop" className="columns">
-        <div className="column is-10">
-          <h1>Nansi</h1>
-        </div>
-        <div className="column is-2">
-          <ToolBoxIcon
-            Icon={NewProjectIcon}
-            hint="Create a new project"
-            hintPosition="bottom"
-            onClick={() => openModal('import')}
-          />
-        </div>
+      <div id="ToolBoxTop">
+        <header className="toolbox-header">
+          <div className="main-column">
+            <h1 className="app-logo">nansi</h1>
+          </div>
+          <div className="button-container">
+            <ToolBoxIcon
+              Icon={ExportIcon}
+              hint="export and download the graph"
+              hintPosition="bottom"
+              onClick={() => openModal('export')}
+            />
+          </div>
+          <div className="button-container">
+            <ToolBoxIcon
+              Icon={NewProjectIcon}
+              hint="import a new graph"
+              hintPosition="bottom"
+              onClick={() => openModal('import')}
+            />
+          </div>
+        </header>
       </div>
       <div id="ToolBoxInner">
         {model && (
@@ -78,7 +88,7 @@ export default function ToolBox() {
           </>
         )}
       </div>
-      <div id="ToolBoxBottom" className="columns">
+      {/* <div id="ToolBoxBottom" className="columns">
         <div className="column is-10" />
         <div className="column is-2">
           <ToolBoxIcon
@@ -87,7 +97,7 @@ export default function ToolBox() {
             onClick={() => openModal('export')}
           />
         </div>
-      </div>
+      </div> */}
       <ControlButton
         Icon={expanded ? ToLeftIcon : ToRightIcon}
         onClick={() => setExpanded(!expanded)}

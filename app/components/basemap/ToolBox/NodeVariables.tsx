@@ -95,7 +95,7 @@ export default function NodeVariables({
 
   return (
     <div className="variables-block">
-      <h2>Nodes</h2>
+      <h6 className="title is-6 block-title">Nodes</h6>
       <div className="columns">
         <div className="column is-4">color</div>
         <div className="column is-8">

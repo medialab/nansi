@@ -3,31 +3,102 @@
 $nansi-toolbox-width: 350px;
 
 #ToolBox {
-  background-color: $nansi-light;
-  top: 15px;
-  left: 15px;
+  background: white;
+  top: $gutter;
+  left: $gutter;
   position: absolute;
   width: $nansi-toolbox-width;
   height: calc(100vh - 30px);
   z-index: 10;
-  border: 1px solid $nansi-dark;
+  border: 1px solid $nansi-light;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
 
   transition-property: left;
   transition-duration: 0.6s;
 
+  #ToolBoxTop{
+    display: flex;
+    min-height: $gutter * 3;
+    .toolbox-header {
+      width: 100%;
+      padding: $gutter $gutter * 3 $gutter $gutter * 2;
+      align-items: center;
+      background: $nansi-ultralight;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: stretch;
+      align-items: center;
+      .main-column {
+        flex: 1;
+      }
+      .button-container {
+        padding: 0 0 0 $gutter;
+      }
+    }
+  }    
+
+  #ToolBoxInner {
+    // background-color: $nansi-medium;
+    // border-top: 1px solid $nansi-dark;
+    // border-bottom: 1px solid $nansi-dark;
+    // height: calc(100vh - 30px - 80px - 64px);
+    flex: 1;
+    padding: $gutter;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .variables-block {
+      padding: $gutter;
+      // background-color: $nansi-light;
+      // border-top: 1px solid $nansi-light;
+      // border-bottom: 1px solid $nansi-light;
+      background: $nansi-ultralight;
+      margin-bottom: $gutter;
+
+      h2 {
+        font-weight: bold;
+        margin-bottom: $gutter / 2;
+        // border-bottom: 1px solid $nansi-dark;
+      }
+
+      .columns {
+        margin-bottom: 0px;
+        align-items: center;
+      }
+      .column {
+        &.has-short-bottom {
+          padding-bottom: 0;
+        }
+      }
+
+      #layout-reset {
+        &.inactive {
+          fill: $nansi-medium;
+        }
+      }
+    }
+  }
+
+  /**
+   * MODIFIERS
+   */ 
   &:not(.expanded) {
     left: -$nansi-toolbox-width;
   }
-
+  /**
+   * COMPONENTS
+   */ 
   .control-button {
     position: absolute;
     left: $nansi-toolbox-width + 10px;
     top: 0px;
-    border: 1px solid $nansi-dark;
+    border: 1px solid $nansi-light;
     width: 42px;
     height: 42px;
     cursor: pointer;
-    background-color: $nansi-light;
+    background-color: white;// $nansi-light;
     padding-left: 5px;
     padding-top: 5px;
 
@@ -41,47 +112,5 @@ $nansi-toolbox-width: 350px;
   h1 {
     font-weight: bold;
     font-size: 1.4em;
-  }
-
-  #ToolBoxTop,
-  #ToolBoxBottom {
-    padding: 15px;
-  }
-
-  #ToolBoxTop {
-    margin-bottom: 0px;
-  }
-
-  #ToolBoxInner {
-    background-color: $nansi-medium;
-    border-top: 1px solid $nansi-dark;
-    border-bottom: 1px solid $nansi-dark;
-    height: calc(100vh - 30px - 80px - 64px);
-    padding: 5px;
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    .variables-block {
-      padding: 5px;
-      background-color: $nansi-light;
-      border: 1px solid $nansi-dark;
-      margin-bottom: 5px;
-
-      h2 {
-        font-weight: bold;
-        margin-bottom: 10px;
-        border-bottom: 1px solid $nansi-dark;
-      }
-
-      .columns {
-        margin-bottom: 0px;
-      }
-
-      #layout-reset {
-        &.inactive {
-          fill: $nansi-medium;
-        }
-      }
-    }
   }
 }
