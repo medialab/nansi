@@ -1,11 +1,41 @@
 @import '../../variables.scss';
 
 .FileDrop {
+  transition: all .5s ease-in;
+
   cursor: pointer;
-  margin-top: 20px;
-  border: 1px solid $nansi-dark;
-  background-color: $nansi-light;
-  height: 200px;
-  width: 100%;
-  padding: 15px;
+  border: 1px dashed $nansi-medium;
+  height: $gutter * 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $gutter;
+
+  // margin-top: 20px;
+  // border: 1px solid $nansi-dark;
+  // background-color: $nansi-light;
+  // height: 200px;
+  // width: 100%;
+  // padding: 15px;
+
+  .draggable-placeholder {
+
+  }
+  .dragged-over-placeholder {
+
+  }
+
+  &.is-dragged-over {
+    background: $nansi-light;
+  }
+
+  .drop-prompt {
+    transition: all .2s ease-in;
+    font-size: 0;
+    opacity: 0;
+    &.active {
+      opacity: 1;
+      font-size: 20px;
+    }
+  }
 }

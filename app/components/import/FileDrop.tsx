@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import cx from 'classnames';
 import {useDropzone} from 'react-dropzone';
 
 import './FileDrop.scss';
@@ -19,22 +20,26 @@ export default function FileDrop({onDrop}: FileDropProps) {
   });
 
   return (
-    <div className="FileDrop" {...getRootProps()}>
+    <div className={cx("FileDrop", {'is-dragged-over': isDragActive})} {...getRootProps()}>
       <input {...getInputProps()} accept={ACCEPT} />
-      {isDragActive ? (
-        <div>
+      {/* {isDragActive ? (
+        <div className="dragged-over-placeholder">
           <em>Drop the file here!</em>
         </div>
-      ) : (
-        <div>
+      ) : ( */}
+        <div className="draggable-placeholder">
+          <p>
           <em>
-            Click to upload a file or drop the file here.
+            Drop here a network file to work with, or click on this box to open a dialog box.
             <br />
             We currently accept only <strong>.json</strong>,{' '}
             <strong>.gexf</strong> and <strong>.graphml</strong> files.
           </em>
+          </p>
+          <p className={cx('drop-prompt', {active: isDragActive})}>
+            <strong>Ready to import !</strong>
+          </p>
         </div>
-      )}
     </div>
   );
 }
