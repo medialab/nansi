@@ -13,9 +13,41 @@
       margin-bottom: 20px;
     }
   }
-}
-.modal.cant-close {
-  .modal-background {
-    cursor: default;
+
+  &.cant-close {
+    .modal-background {
+      cursor: default;
+    }
+  }
+
+  .example-list {
+    padding: 0;
+    margin: 0;
+    li {
+      &:not(:last-of-type) {
+        margin-bottom: $gutter;
+      }
+      cursor: pointer;
+      &:hover {
+        background: $nansi-light;
+      }
+    }
+    .card-header-title {
+      margin-bottom: 0;
+      margin-left: $gutter/2;
+    }
+    .card-content {
+      padding-top: 0;
+    }
+    .card-image {
+      figure {
+        margin: $gutter;
+        img {
+          background: $nansi-medium;
+          width: 8rem;
+          height: 6rem;
+        }
+      }
+    }
   }
 }

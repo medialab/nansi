@@ -16,6 +16,13 @@
     color: white;
     z-index: 50;
     position: relative;
+    &.is-title {
+      margin-bottom: $gutter / 2;
+    }
+    &.is-subtitle {
+      max-width: 20vw;
+      margin-bottom: $gutter;
+    }
   }
   .shares {
     z-index: 50;

@@ -10,23 +10,42 @@ import workerPool from '../../workers/pool';
 import './ImportModal.scss';
 
 const EXAMPLES = [
-  {id: 'arctic', label: 'Arctic graph'},
-  {id: 'rio', label: 'RIO graph'},
-  {id: 'basic', label: 'Basic graph'},
-  {id: 'les-miserables', label: 'Les Misérables graph'},
-  {id: 'sparse-monopartite', label: 'Sparse monopartite projection graph'},
-  {id: 'c-elegans', label: 'Caenorhabditis elegans graph'},
-  {id: 'eurosis', label: 'EuroSiS'}
+  {id: 'arctic', label: 'Arctic graph', description: 'Description for this example is coming soon.'},
+  {id: 'rio', label: 'RIO graph', description: 'Description for this example is coming soon.'},
+  {id: 'basic', label: 'Basic graph', description: 'Description for this example is coming soon.'},
+  {id: 'les-miserables', label: 'Les Misérables graph', description: 'Description for this example is coming soon.'},
+  {id: 'sparse-monopartite', label: 'Sparse monopartite projection graph', description: 'Description for this example is coming soon.'},
+  {id: 'c-elegans', label: 'Caenorhabditis elegans graph', description: 'Description for this example is coming soon.'},
+  {id: 'eurosis', label: 'EuroSiS', description: 'Description for this example is coming soon.'}
 ];
 
 function ExampleList({onClick}) {
   return (
-    <div className="content">
-      <ul>
+    <div className="content example-list-container">
+      <ul className="example-list">
         {EXAMPLES.map(example => {
           return (
-            <li key={example.id}>
-              <a onClick={() => onClick(example.id)}>{example.label}</a>
+            <li onClick={() => onClick(example.id)} key={example.id} className="card">
+              <div className="columns card-header">
+                <div className="column is-4">
+                  <div className="card-image">
+                    <figure className="image">
+                      <img alt="." />
+                    </figure>
+                  </div>
+                </div>
+                <div className="column is-8">
+                    <h5 className="card-header-title">
+                      {example.label}
+                    </h5>
+                    <div className="card-content">
+                      <div className="content">
+                        {example.description}
+                      </div>
+                    </div>
+                </div>
+              </div>
+              
             </li>
           );
         })}
@@ -40,7 +59,7 @@ function UrlImportForm({onSubmit}) {
 
   return (
     <div className="columns">
-      <div className="column is-12">
+      <div className="column is-10">
         <div className="field">
           <div className="control">
             <input
@@ -52,6 +71,8 @@ function UrlImportForm({onSubmit}) {
             />
           </div>
         </div>
+      </div>
+      <div className="column is-2">
         <Button isColor="black" disabled={!url} onClick={() => onSubmit(url)}>
           Fetch
         </Button>
@@ -62,15 +83,15 @@ function UrlImportForm({onSubmit}) {
 
 const TABS = [
   {
-    label: 'From file',
+    label: 'Load a file',
     tab: 'file'
   },
   {
-    label: 'From example',
+    label: 'Try an example',
     tab: 'example'
   },
   {
-    label: 'From url',
+    label: 'Fetch a URL',
     tab: 'url'
   }
 ];

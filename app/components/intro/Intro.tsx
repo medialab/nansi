@@ -16,11 +16,11 @@ export default function Intro() {
         <img src={background} />
       </div>
       <header className="header">
-        <h1 className="title is-1 app-logo">
+        <h1 className="title is-1 app-logo is-title">
           nansi
             <span className="tag">0.0.1</span>
         </h1>
-        <h2 className="title is-3">
+        <h2 className="title is-4 is-subtitle">
           a lightweight network visualization tool
           </h2>
         <div className="shares">
