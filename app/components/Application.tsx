@@ -26,6 +26,7 @@ export default function Application() {
       <ImportModal
         isOpen={modal === 'import'}
         close={graph !== null ? closeModal : null}
+        canClose={graph !== null}
       />
       <ExportModal isOpen={modal === 'export'} close={closeModal} />
       {viewComponent}

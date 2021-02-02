@@ -78,9 +78,10 @@ const TABS = [
 type ImportModalProps = {
   isOpen: boolean;
   close: () => void;
+  canClose: boolean;
 };
 
-export default function ImportModal({isOpen, close}: ImportModalProps) {
+export default function ImportModal({isOpen, close, canClose}: ImportModalProps) {
   let [activeTab, setActiveTab] = useState('file');
   const [isLoading, setIsLoading] = useState(false);
   const [isPreloadingGraph] = useIsPreloadingGraph();
@@ -134,7 +135,7 @@ export default function ImportModal({isOpen, close}: ImportModalProps) {
   }
 
   return (
-    <div id="ImportModal" className={cls('modal', isOpen && 'is-active')}>
+    <div id="ImportModal" className={cls('modal', {'is-active' : isOpen, 'cant-close': !canClose})}>
       <div className="modal-background" onClick={close} />
       <div className="modal-content">
         <div className="import-modal-box">
