@@ -14,7 +14,26 @@ const config = {
         use: {
           loader: 'worker-loader'
         }
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ]
   },
   plugins: [new DefinePlugin({NANSI_BASE_URL: JSON.stringify(NANSI_BASE_URL)})]

@@ -22,11 +22,6 @@ export default function FileDrop({onDrop}: FileDropProps) {
   return (
     <div className={cx("FileDrop", {'is-dragged-over': isDragActive})} {...getRootProps()}>
       <input {...getInputProps()} accept={ACCEPT} />
-      {/* {isDragActive ? (
-        <div className="dragged-over-placeholder">
-          <em>Drop the file here!</em>
-        </div>
-      ) : ( */}
         <div className="draggable-placeholder">
           <p>
           <em>

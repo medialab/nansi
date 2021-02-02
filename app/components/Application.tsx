@@ -7,6 +7,7 @@ import BasemapView from './basemap';
 import ImportModal from './import/ImportModal';
 import ExportModal from './export/ExportModal';
 import Lifecycle from './lifecycle/Lifecycle';
+import Intro from './intro';
 
 export default function Application() {
   const modal = useRecoilValue(atoms.modal);
@@ -20,6 +21,7 @@ export default function Application() {
 
   return (
     <>
+      {graph ===  null ? <Intro /> : null}
       <Lifecycle />
       <ImportModal
         isOpen={modal === 'import'}
