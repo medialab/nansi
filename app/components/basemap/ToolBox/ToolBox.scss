@@ -23,7 +23,7 @@ $nansi-toolbox-width: 350px;
     min-height: $gutter * 3;
     .toolbox-header {
       width: 100%;
-      padding: $gutter $gutter * 3 $gutter $gutter * 2;
+      padding: $gutter $gutter * 2 $gutter $gutter * 2;
       align-items: center;
       background: $nansi-ultralight;
       display: flex;
@@ -40,10 +40,6 @@ $nansi-toolbox-width: 350px;
   }    
 
   #ToolBoxInner {
-    // background-color: $nansi-medium;
-    // border-top: 1px solid $nansi-dark;
-    // border-bottom: 1px solid $nansi-dark;
-    // height: calc(100vh - 30px - 80px - 64px);
     flex: 1;
     padding: $gutter;
     overflow-x: hidden;
@@ -51,16 +47,12 @@ $nansi-toolbox-width: 350px;
 
     .variables-block {
       padding: $gutter;
-      // background-color: $nansi-light;
-      // border-top: 1px solid $nansi-light;
-      // border-bottom: 1px solid $nansi-light;
       background: $nansi-ultralight;
       margin-bottom: $gutter;
 
       h2 {
         font-weight: bold;
         margin-bottom: $gutter / 2;
-        // border-bottom: 1px solid $nansi-dark;
       }
 
       .columns {
@@ -98,7 +90,7 @@ $nansi-toolbox-width: 350px;
     width: 42px;
     height: 42px;
     cursor: pointer;
-    background-color: white;// $nansi-light;
+    background-color: white;
     padding-left: 5px;
     padding-top: 5px;
 
