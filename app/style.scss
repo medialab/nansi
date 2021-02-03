@@ -7,7 +7,7 @@
 // Custom variables
 @import './variables.scss';
 
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;0,700;0,900;1,500;1,700;1,900&display=swap');
 
 html,
 body,
@@ -39,5 +39,6 @@ body,
 }
 
 .app-logo {
-  font-family: 'Lobster', cursive;
+  font-family: 'Roboto', cursive;
+  font-weight: 900;
 }
