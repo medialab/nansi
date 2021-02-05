@@ -443,11 +443,11 @@ export default function straighten(graph: Graph): GraphModel {
       weighted
     });
 
-  if (graph.size)
-    betweenness.assign(graph, {
-      attributes: {centrality: 'nansi-betweenness'},
-      weighted
-    });
+  // if (graph.size)
+  //   betweenness.assign(graph, {
+  //     attributes: {centrality: 'nansi-betweenness'},
+  //     weighted
+  //   });
 
   if (weighted) {
     weightedDegree.assign(graph, {
