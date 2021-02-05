@@ -155,15 +155,15 @@ describe('straighten', function () {
           '16': '#d37794'
         }
       },
-      'nansi-betweenness': {
-        name: 'nansi-betweenness',
-        kind: 'computed',
-        type: 'number',
-        integer: false,
-        count: 1715,
-        max: 0.216792832820432,
-        min: 0
-      },
+      // 'nansi-betweenness': {
+      //   name: 'nansi-betweenness',
+      //   kind: 'computed',
+      //   type: 'number',
+      //   integer: false,
+      //   count: 1715,
+      //   max: 0.216792832820432,
+      //   min: 0
+      // },
       'nansi-degree': {
         count: 1715,
         kind: 'computed',
@@ -366,15 +366,15 @@ describe('straighten', function () {
           '15': '#ff9983'
         }
       },
-      'nansi-betweenness': {
-        name: 'nansi-betweenness',
-        kind: 'computed',
-        type: 'number',
-        integer: false,
-        count: 366,
-        max: 0.022883737267298917,
-        min: 0
-      },
+      // 'nansi-betweenness': {
+      //   name: 'nansi-betweenness',
+      //   kind: 'computed',
+      //   type: 'number',
+      //   integer: false,
+      //   count: 366,
+      //   max: 0.022883737267298917,
+      //   min: 0
+      // },
       'nansi-degree': {
         count: 366,
         kind: 'computed',
