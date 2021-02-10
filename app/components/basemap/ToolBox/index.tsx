@@ -45,20 +45,21 @@ export default function ToolBox() {
           </div>
           <div className="button-container">
             <ToolBoxIcon
-              Icon={ExportIcon}
-              hint="export and download the graph"
-              hintPosition="bottom"
-              onClick={() => openModal('export')}
-            />
-          </div>
-          <div className="button-container">
-            <ToolBoxIcon
               Icon={NewProjectIcon}
               hint="import a new graph"
               hintPosition="bottom"
               onClick={() => openModal('import')}
             />
           </div>
+          <div className="button-container">
+            <ToolBoxIcon
+              Icon={ExportIcon}
+              hint="export and download the graph"
+              hintPosition="bottom"
+              onClick={() => openModal('export')}
+            />
+          </div>
+          
         </header>
       </div>
       <div id="ToolBoxInner">
