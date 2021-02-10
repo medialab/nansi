@@ -2,8 +2,8 @@
 
 #GraphControls {
   position: absolute;
-  right: $gutter;
-  top: $gutter;
+  right: $gutter * 2;
+  top: $gutter * 2;
   z-index: 10;
 
   .control-button {

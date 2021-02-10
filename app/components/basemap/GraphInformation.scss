@@ -2,8 +2,8 @@
 
 #GraphInformation {
   position: absolute;
-  right: $gutter;
-  bottom: $gutter;
+  right: $gutter * 2;
+  bottom: $gutter * 2;
   z-index: 10;
   // background-color: $nansi-light;
   background: white;

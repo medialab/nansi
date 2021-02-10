@@ -4,11 +4,11 @@ $nansi-toolbox-width: 350px;
 
 #ToolBox {
   background: white;
-  top: $gutter;
-  left: $gutter;
+  top: $gutter * 2;
+  left: $gutter * 2;
   position: absolute;
   width: $nansi-toolbox-width;
-  height: calc(100vh - 30px);
+  height: calc(100vh - #{$gutter * 4});
   z-index: 10;
   border: 1px solid $nansi-light;
   display: flex;
