@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { Share } from 'react-twitter-widgets'
 
-import background from './background.png';
+// import background from './background.png';
 import githubLogo from './github.png';
 import medialabLogo from './logo-medialab.svg';
 
@@ -12,9 +12,9 @@ export default function Intro() {
 
   return (
     <div className={cx("Intro")}>
-      <div className="background">
+      {/* <div className="background">
         <img src={background} />
-      </div>
+      </div> */}
       <header className="header">
         <h1 className="title is-1 app-logo is-title">
           nansi
