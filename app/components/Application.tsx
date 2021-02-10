@@ -21,7 +21,7 @@ export default function Application() {
 
   return (
     <>
-      {graph ===  null ? <Intro /> : null}
+      {graph === null ? <Intro /> : null}
       <Lifecycle />
       <ImportModal
         isOpen={modal === 'import'}

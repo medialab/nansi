@@ -18,10 +18,10 @@ export default function GraphLegend({attribute, graphHasTitle = false}) {
 
   return (
     <div id="GraphLegend" className={cls(graphHasTitle && 'graph-has-title')}>
-      <h6 className="title is-6">
-        Legend
+      <h6 className="title is-6">Legend</h6>
+      <h6 className="title is-7">
+        {COMPUTED_METRICS_LABELS[attribute.name] || attribute.name}
       </h6>
-      <h6 className="title is-7">{COMPUTED_METRICS_LABELS[attribute.name] || attribute.name}</h6>
       <ul>
         {attribute.top.map(([label]) => {
           label = '' + label;

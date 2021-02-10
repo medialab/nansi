@@ -59,7 +59,6 @@ export default function ToolBox() {
               onClick={() => openModal('export')}
             />
           </div>
-          
         </header>
       </div>
       <div id="ToolBoxInner">

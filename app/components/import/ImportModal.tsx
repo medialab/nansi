@@ -10,13 +10,41 @@ import workerPool from '../../workers/pool';
 import './ImportModal.scss';
 
 const EXAMPLES = [
-  {id: 'arctic', label: 'Arctic graph', description: 'Description for this example is coming soon.'},
-  {id: 'rio', label: 'RIO graph', description: 'Description for this example is coming soon.'},
-  {id: 'basic', label: 'Basic graph', description: 'Description for this example is coming soon.'},
-  {id: 'les-miserables', label: 'Les Misérables graph', description: 'Description for this example is coming soon.'},
-  {id: 'sparse-monopartite', label: 'Sparse monopartite projection graph', description: 'Description for this example is coming soon.'},
-  {id: 'c-elegans', label: 'Caenorhabditis elegans graph', description: 'Description for this example is coming soon.'},
-  {id: 'eurosis', label: 'EuroSiS', description: 'Description for this example is coming soon.'}
+  {
+    id: 'arctic',
+    label: 'Arctic graph',
+    description: 'Description for this example is coming soon.'
+  },
+  {
+    id: 'rio',
+    label: 'RIO graph',
+    description: 'Description for this example is coming soon.'
+  },
+  {
+    id: 'basic',
+    label: 'Basic graph',
+    description: 'Description for this example is coming soon.'
+  },
+  {
+    id: 'les-miserables',
+    label: 'Les Misérables graph',
+    description: 'Description for this example is coming soon.'
+  },
+  {
+    id: 'sparse-monopartite',
+    label: 'Sparse monopartite projection graph',
+    description: 'Description for this example is coming soon.'
+  },
+  {
+    id: 'c-elegans',
+    label: 'Caenorhabditis elegans graph',
+    description: 'Description for this example is coming soon.'
+  },
+  {
+    id: 'eurosis',
+    label: 'EuroSiS',
+    description: 'Description for this example is coming soon.'
+  }
 ];
 
 function ExampleList({onClick}) {
@@ -25,7 +53,10 @@ function ExampleList({onClick}) {
       <ul className="example-list">
         {EXAMPLES.map(example => {
           return (
-            <li onClick={() => onClick(example.id)} key={example.id} className="card">
+            <li
+              onClick={() => onClick(example.id)}
+              key={example.id}
+              className="card">
               <div className="columns card-header">
                 <div className="column is-4">
                   <div className="card-image">
@@ -35,17 +66,12 @@ function ExampleList({onClick}) {
                   </div>
                 </div>
                 <div className="column is-8">
-                    <h5 className="card-header-title">
-                      {example.label}
-                    </h5>
-                    <div className="card-content">
-                      <div className="content">
-                        {example.description}
-                      </div>
-                    </div>
+                  <h5 className="card-header-title">{example.label}</h5>
+                  <div className="card-content">
+                    <div className="content">{example.description}</div>
+                  </div>
                 </div>
               </div>
-              
             </li>
           );
         })}
@@ -102,7 +128,11 @@ type ImportModalProps = {
   canClose: boolean;
 };
 
-export default function ImportModal({isOpen, close, canClose}: ImportModalProps) {
+export default function ImportModal({
+  isOpen,
+  close,
+  canClose
+}: ImportModalProps) {
   let [activeTab, setActiveTab] = useState('file');
   const [isLoading, setIsLoading] = useState(false);
   const [isPreloadingGraph] = useIsPreloadingGraph();
@@ -156,7 +186,9 @@ export default function ImportModal({isOpen, close, canClose}: ImportModalProps)
   }
 
   return (
-    <div id="ImportModal" className={cls('modal', {'is-active' : isOpen, 'cant-close': !canClose})}>
+    <div
+      id="ImportModal"
+      className={cls('modal', {'is-active': isOpen, 'cant-close': !canClose})}>
       <div className="modal-background" onClick={close} />
       <div className="modal-content">
         <div className="import-modal-box">

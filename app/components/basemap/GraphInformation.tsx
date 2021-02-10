@@ -64,9 +64,7 @@ export default function GraphInformation({
 
   return (
     <div id="GraphInformation">
-      <h5 className="title is-6">
-        Graph information
-      </h5>
+      <h5 className="title is-6">Graph information</h5>
       <p>
         <UnderlyingInformation hint={infos.multi.hint}>
           {infos.multi.label}

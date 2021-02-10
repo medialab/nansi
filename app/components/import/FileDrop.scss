@@ -1,7 +1,7 @@
 @import '../../variables.scss';
 
 .FileDrop {
-  transition: all .5s ease-in;
+  transition: all 0.5s ease-in;
 
   cursor: pointer;
   border: 1px dashed $nansi-medium;
@@ -19,10 +19,8 @@
   // padding: 15px;
 
   .draggable-placeholder {
-
   }
   .dragged-over-placeholder {
-
   }
 
   &.is-dragged-over {
@@ -30,7 +28,7 @@
   }
 
   .drop-prompt {
-    transition: all .2s ease-in;
+    transition: all 0.2s ease-in;
     font-size: 0;
     opacity: 0;
     &.active {

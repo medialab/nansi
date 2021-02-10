@@ -18,7 +18,7 @@ $nansi-toolbox-width: 350px;
   transition-property: left;
   transition-duration: 0.6s;
 
-  #ToolBoxTop{
+  #ToolBoxTop {
     display: flex;
     min-height: $gutter * 3;
     .toolbox-header {
@@ -37,7 +37,7 @@ $nansi-toolbox-width: 350px;
         padding: 0 0 0 $gutter;
       }
     }
-  }    
+  }
 
   #ToolBoxInner {
     flex: 1;
@@ -75,13 +75,13 @@ $nansi-toolbox-width: 350px;
 
   /**
    * MODIFIERS
-   */ 
+   */
   &:not(.expanded) {
     left: -$nansi-toolbox-width;
   }
   /**
    * COMPONENTS
-   */ 
+   */
   .control-button {
     position: absolute;
     left: $nansi-toolbox-width + 10px;

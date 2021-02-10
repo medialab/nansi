@@ -136,7 +136,6 @@ export default function Layout({renderer, reset}: LayoutProps) {
   return (
     <div className="variables-block">
       <h6 className="title is-6 block-title">
-
         <div className="columns">
           <div className="column is-10" style={{paddingBottom: '0px'}}>
             Layout
@@ -163,30 +162,29 @@ export default function Layout({renderer, reset}: LayoutProps) {
         </div>
       </h6>
 
-
       <div className="columns">
         <div className="column is-6 has-short-bottom">
-            <div className="columns">
-              <div className="column is-8 has-short-bottom">ForceAtlas2</div>
-              <div className="column is-4 has-short-bottom">
-                <div className="field has-addons">
-                  <p className="control">
-                    <Button
-                      isSize="small"
-                      style={{width: '30px', padding: '0px'}}
-                      disabled={isNoverlapWorking}
-                      onClick={toggleFA2}>
-                      {!isFA2Working ? (
-                        <PlayIcon width={20} height={20} />
-                      ) : (
-                        <PauseIcon width={20} height={20} />
-                      )}
-                    </Button>
-                  </p>
-                  <LayoutLoader hidden={!isFA2Working} />
-                </div>
+          <div className="columns">
+            <div className="column is-8 has-short-bottom">ForceAtlas2</div>
+            <div className="column is-4 has-short-bottom">
+              <div className="field has-addons">
+                <p className="control">
+                  <Button
+                    isSize="small"
+                    style={{width: '30px', padding: '0px'}}
+                    disabled={isNoverlapWorking}
+                    onClick={toggleFA2}>
+                    {!isFA2Working ? (
+                      <PlayIcon width={20} height={20} />
+                    ) : (
+                      <PauseIcon width={20} height={20} />
+                    )}
+                  </Button>
+                </p>
+                <LayoutLoader hidden={!isFA2Working} />
               </div>
             </div>
+          </div>
         </div>
         <div className="column is-6 has-short-bottom">
           <div className="columns">

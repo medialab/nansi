@@ -112,7 +112,7 @@ export default function EdgeVariables({
   return (
     <div className="variables-block">
       <h6 className="title is-6 block-title">Edges</h6>
-      
+
       <div className="columns">
         <div className="column is-4">color</div>
         <div className="column is-8">

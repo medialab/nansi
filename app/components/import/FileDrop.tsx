@@ -20,21 +20,24 @@ export default function FileDrop({onDrop}: FileDropProps) {
   });
 
   return (
-    <div className={cx("FileDrop", {'is-dragged-over': isDragActive})} {...getRootProps()}>
+    <div
+      className={cx('FileDrop', {'is-dragged-over': isDragActive})}
+      {...getRootProps()}>
       <input {...getInputProps()} accept={ACCEPT} />
-        <div className="draggable-placeholder">
-          <p>
+      <div className="draggable-placeholder">
+        <p>
           <em>
-            Drop here a network file to work with, or click on this box to open a dialog box.
+            Drop here a network file to work with, or click on this box to open
+            a dialog box.
             <br />
             We currently accept only <strong>.json</strong>,{' '}
             <strong>.gexf</strong> and <strong>.graphml</strong> files.
           </em>
-          </p>
-          <p className={cx('drop-prompt', {active: isDragActive})}>
-            <strong>Ready to import !</strong>
-          </p>
-        </div>
+        </p>
+        <p className={cx('drop-prompt', {active: isDragActive})}>
+          <strong>Ready to import !</strong>
+        </p>
+      </div>
     </div>
   );
 }
