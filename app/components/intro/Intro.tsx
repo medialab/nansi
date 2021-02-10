@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import {Share} from 'react-twitter-widgets';
+// import {Share} from 'react-twitter-widgets';
 
 // import background from './background.png';
 import githubLogo from './github.png';
@@ -29,7 +29,7 @@ export default function Intro() {
             className="github-link">
             <img src={githubLogo} />
           </a>
-          <Share url="https://medialab.github.io/nansi" />
+          {/* <Share url="https://medialab.github.io/nansi" /> */}
         </div>
       </header>
       <a href="https://medialab.sciencespo.fr" target="blank">
