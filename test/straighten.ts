@@ -182,13 +182,13 @@ describe('straighten', function () {
     const model = straighten(graph);
 
     assert.deepStrictEqual(model.nodes, {
-      label: {name: 'label', kind: 'wellKnown', count: 366, type: 'key'},
-      Label2: {name: 'Label2', kind: 'own', count: 366, type: 'key'},
+      label: {name: 'label', kind: 'wellKnown', type: 'key', count: 366},
+      Label2: {name: 'Label2', kind: 'own', type: 'key', count: 366},
       'Nature of institution': {
         name: 'Nature of institution',
         kind: 'own',
-        count: 366,
         type: 'category',
+        count: 366,
         cardinality: 11,
         top: [
           ['NGO', 171],
@@ -220,8 +220,8 @@ describe('straighten', function () {
       Category: {
         name: 'Category',
         kind: 'own',
-        count: 366,
         type: 'category',
+        count: 366,
         cardinality: 5,
         top: [
           ['Social Ecology', 134],
@@ -231,30 +231,30 @@ describe('straighten', function () {
           ['Others', 7]
         ],
         palette: {
-          'Social Ecology': '#da89e2',
-          'Green-economy': '#a3f9ac',
-          'Deep Ecology': '#d2d96b',
-          'New Ecologism': '#02f1e9',
-          Others: '#ffb492'
+          'Social Ecology': '#00b1df',
+          'Green-economy': '#f16b7c',
+          'Deep Ecology': '#1aeec8',
+          'New Ecologism': '#c295f7',
+          Others: '#92a339'
         }
       },
       'Latest Six Posts Frequency': {
         name: 'Latest Six Posts Frequency',
         kind: 'own',
-        count: 366,
         type: 'category',
+        count: 366,
         cardinality: 2,
         top: [
           ['Undefined', 223],
           ['Dially', 143]
         ],
-        palette: {Undefined: '#f09c54', Dially: '#3ff6c9'}
+        palette: {Undefined: '#5a94f5', Dially: '#e9b455'}
       },
       Language: {
         name: 'Language',
         kind: 'own',
-        count: 366,
         type: 'category',
+        count: 366,
         cardinality: 5,
         top: [
           ['English', 153],
@@ -264,18 +264,18 @@ describe('straighten', function () {
           ['French', 12]
         ],
         palette: {
-          English: '#cfbf53',
-          Portuguese: '#00c9ff',
-          All: '#ea6b72',
-          Spanish: '#7cc164',
-          French: '#ab8f5c'
+          English: '#f97cbb',
+          Portuguese: '#89facd',
+          All: '#9ca236',
+          Spanish: '#699bfd',
+          French: '#ffa883'
         }
       },
       'Information Resources': {
         name: 'Information Resources',
         kind: 'own',
-        count: 366,
         type: 'category',
+        count: 366,
         cardinality: 4,
         top: [
           ['Multimedia', 346],
@@ -284,52 +284,46 @@ describe('straighten', function () {
           ['Multiwiki', 1]
         ],
         palette: {
-          Multimedia: '#d27b74',
-          No: '#00a5f2',
-          'Multi-Wiki': '#c1d367',
-          Multiwiki: '#ffc0e3'
+          Multimedia: '#ecb7ff',
+          No: '#a8e07c',
+          'Multi-Wiki': '#fd866a',
+          Multiwiki: '#02bade'
         }
       },
-      color: {name: 'color', kind: 'wellKnown', count: 366, type: 'key'},
+      color: {name: 'color', kind: 'wellKnown', type: 'key', count: 366},
       size: {
         name: 'size',
         kind: 'wellKnown',
-        count: 366,
         type: 'number',
-        integer: false,
+        count: 366,
+        min: 1,
         max: 20,
-        min: 1
+        integer: false
       },
       x: {
         name: 'x',
         kind: 'wellKnown',
-        count: 366,
         type: 'number',
-        integer: false,
+        count: 366,
+        min: -909.34393,
         max: 832.9185,
-        min: -909.34393
+        integer: false
       },
       y: {
         name: 'y',
         kind: 'wellKnown',
-        count: 366,
         type: 'number',
-        integer: false,
-        max: 568.7327,
-        min: -786.7876
-      },
-      z: {
-        name: 'z',
-        kind: 'own',
         count: 366,
-        type: 'constant',
-        value: 0
+        min: -786.7876,
+        max: 568.7327,
+        integer: false
       },
+      z: {name: 'z', kind: 'own', type: 'constant', count: 366, value: 0},
       'nansi-louvain': {
         name: 'nansi-louvain',
         kind: 'computed',
-        count: 366,
         type: 'category',
+        count: 366,
         cardinality: 19,
         top: [
           [0, 90],
@@ -366,41 +360,32 @@ describe('straighten', function () {
           '15': '#ff9983'
         }
       },
-      // 'nansi-betweenness': {
-      //   name: 'nansi-betweenness',
-      //   kind: 'computed',
-      //   type: 'number',
-      //   integer: false,
-      //   count: 366,
-      //   max: 0.022883737267298917,
-      //   min: 0
-      // },
       'nansi-degree': {
-        count: 366,
-        kind: 'computed',
-        integer: true,
-        max: 60,
-        min: 0,
         name: 'nansi-degree',
-        type: 'number'
+        kind: 'computed',
+        type: 'number',
+        count: 366,
+        min: 0,
+        max: 60,
+        integer: true
       },
       'nansi-indegree': {
-        count: 366,
-        kind: 'computed',
-        integer: true,
-        max: 48,
-        min: 0,
         name: 'nansi-indegree',
-        type: 'number'
+        kind: 'computed',
+        type: 'number',
+        count: 366,
+        min: 0,
+        max: 48,
+        integer: true
       },
       'nansi-outdegree': {
-        count: 366,
-        kind: 'computed',
-        integer: true,
-        max: 47,
-        min: 0,
         name: 'nansi-outdegree',
-        type: 'number'
+        kind: 'computed',
+        type: 'number',
+        count: 366,
+        min: 0,
+        max: 47,
+        integer: true
       }
     });
   });

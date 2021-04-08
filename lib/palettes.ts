@@ -15,6 +15,7 @@ export function generatePalette(name, count) {
   return iwanthue(count, {
     colorSpace: DEFAULT_COLOR_SPACE,
     seed: name,
-    clustering: 'force-vector'
+    clustering: 'force-vector',
+    attempts: 5
   });
 }
