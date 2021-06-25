@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from 'bloomer';
+import Button from '../misc/Button';
 
 export default function ExportJsonPanel({graph, save}) {
   const [name, setName] = useState('graph.json');
@@ -34,7 +34,7 @@ export default function ExportJsonPanel({graph, save}) {
       <div>
         <Button
           onClick={() => save(graph, {name, format: 'json', minify})}
-          isColor="black">
+          color="black">
           Download
         </Button>
       </div>

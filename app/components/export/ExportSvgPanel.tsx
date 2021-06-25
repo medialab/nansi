@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from 'bloomer';
+import Button from '../misc/Button';
 
 export default function ExportSvgPanel({graph, save}) {
   const [name, setName] = useState('graph.svg');
@@ -22,7 +22,7 @@ export default function ExportSvgPanel({graph, save}) {
       <div>
         <Button
           onClick={() => save(graph, {name, format: 'svg'})}
-          isColor="black">
+          color="black">
           Download
         </Button>
       </div>

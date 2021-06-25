@@ -76,35 +76,36 @@ export function useGraphVariables() {
 
 export function useSetNewGraph() {
   return useRecoilCallback(
-    ({set}) => (graph: Graph, model: GraphModel) => {
-      // Initializing toolbox state
-      const toolBoxState: ToolBoxState = {
-        variables: {
-          nodes: {
-            color: model.defaultNodeColor,
-            size: model.defaultNodeSize
-          },
-          edges: {
-            color: model.defaultEdgeColor,
-            size: model.defaultEdgeSize
-          },
-          labels: {
-            text: model.defaultNodeLabel,
-            density: 0.25
+    ({set}) =>
+      (graph: Graph, model: GraphModel) => {
+        // Initializing toolbox state
+        const toolBoxState: ToolBoxState = {
+          variables: {
+            nodes: {
+              color: model.defaultNodeColor,
+              size: model.defaultNodeSize
+            },
+            edges: {
+              color: model.defaultEdgeColor,
+              size: model.defaultEdgeSize
+            },
+            labels: {
+              text: model.defaultNodeLabel,
+              density: 0.25
+            }
           }
-        }
-      };
+        };
 
-      // Batch updates
-      set(atoms.view, 'basemap');
-      set(atoms.modal, null);
-      set(atoms.graph, graph);
-      set(atoms.model, model);
-      set(atoms.toolBoxState, toolBoxState);
-      set(atoms.collaterals, {
-        initialLayout: exportLayout(graph)
-      });
-    },
+        // Batch updates
+        set(atoms.view, 'basemap');
+        set(atoms.modal, null);
+        set(atoms.graph, graph);
+        set(atoms.model, model);
+        set(atoms.toolBoxState, toolBoxState);
+        set(atoms.collaterals, {
+          initialLayout: exportLayout(graph)
+        });
+      },
     []
   );
 }

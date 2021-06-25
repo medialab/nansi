@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from 'bloomer';
+import Button from '../misc/Button';
 
 export default function ExportGexfPanel({graph, save}) {
   const [name, setName] = useState('graph.gexf');
@@ -22,7 +22,7 @@ export default function ExportGexfPanel({graph, save}) {
       <div>
         <Button
           onClick={() => save(graph, {name, format: 'gexf'})}
-          isColor="black">
+          color="black">
           Download
         </Button>
       </div>

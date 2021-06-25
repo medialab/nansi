@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import cls from 'classnames';
-import {Button} from 'bloomer';
+import Button from '../misc/Button';
 
 import {setGraphInQuery, clearGraphFromQuery} from '../../lib/location';
 import FileDrop from './FileDrop';
@@ -99,7 +99,7 @@ function UrlImportForm({onSubmit}) {
         </div>
       </div>
       <div className="column is-2">
-        <Button isColor="black" disabled={!url} onClick={() => onSubmit(url)}>
+        <Button color="black" disabled={!url} onClick={() => onSubmit(url)}>
           Fetch
         </Button>
       </div>

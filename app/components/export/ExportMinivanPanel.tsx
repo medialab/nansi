@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from 'bloomer';
+import Button from '../misc/Button';
 
 export default function ExportMinivanPanel({graph, save}) {
   const [name, setName] = useState('graph.bundle.json');
@@ -34,7 +34,7 @@ export default function ExportMinivanPanel({graph, save}) {
       <div>
         <Button
           onClick={() => save(graph, {name, format: 'minivan', minify})}
-          isColor="black">
+          color="black">
           Download
         </Button>
       </div>

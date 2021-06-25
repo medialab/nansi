@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {render as renderGraphToCanvas} from 'graphology-canvas';
-import {Button} from 'bloomer';
-
+import Button from '../misc/Button';
 import {useCanvas} from '../../hooks';
 import {createNodeReducer, createEdgeReducer} from '../../../lib/reducers';
 
@@ -84,8 +83,8 @@ export default function ExportImagePanel({
             return (
               <p className="control" key={t.name}>
                 <Button
-                  isSize="small"
-                  isColor={size === t.size ? 'black' : null}
+                  size="small"
+                  color={size === t.size ? 'black' : null}
                   onClick={() => {
                     if (size === t.size) return;
 
@@ -111,7 +110,7 @@ export default function ExportImagePanel({
 
               save(graph, {name, format: 'png', canvas: ref.current});
             }}
-            isColor="black">
+            color="black">
             Download
           </Button>
         </div>

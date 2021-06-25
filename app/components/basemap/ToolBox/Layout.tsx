@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {Camera, WebGLRenderer} from 'sigma';
-import {Button} from 'bloomer';
+import Button from '../../misc/Button';
 import PlayIcon from 'material-icons-svg/components/baseline/PlayArrow';
 import PauseIcon from 'material-icons-svg/components/baseline/Pause';
 import ResetIcon from 'material-icons-svg/components/baseline/SettingsBackupRestore';
@@ -62,9 +62,9 @@ function LayoutLoader({hidden = false}) {
           background: 'none',
           display: hidden ? 'none' : 'block'
         }}
-        isSize="small"
-        isColor="white"
-        isLoading></Button>
+        size="small"
+        color="white"
+        loading></Button>
     </p>
   );
 }
@@ -170,7 +170,7 @@ export default function Layout({renderer, reset}: LayoutProps) {
               <div className="field has-addons">
                 <p className="control">
                   <Button
-                    isSize="small"
+                    size="small"
                     style={{width: '30px', padding: '0px'}}
                     disabled={isNoverlapWorking}
                     onClick={toggleFA2}>
@@ -193,7 +193,7 @@ export default function Layout({renderer, reset}: LayoutProps) {
               <div className="field has-addons">
                 <p className="control">
                   <Button
-                    isSize="small"
+                    size="small"
                     style={{width: '30px', padding: '0px'}}
                     disabled={isFA2Working}
                     onClick={toggleNoverlap}>
