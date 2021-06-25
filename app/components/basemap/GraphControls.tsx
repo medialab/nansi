@@ -2,23 +2,23 @@ import React from 'react';
 import RescaleIcon from 'material-icons-svg/components/baseline/CenterFocusWeak';
 import ZoomInIcon from 'material-icons-svg/components/baseline/ZoomIn';
 import ZoomOutIcon from 'material-icons-svg/components/baseline/ZoomOut';
-import {WebGLRenderer} from 'sigma';
+import {Sigma} from 'sigma';
 
 import './GraphControls.scss';
 
-function rescale(renderer: WebGLRenderer): void {
+function rescale(renderer: Sigma): void {
   const camera = renderer.getCamera();
-  camera.animatedReset(renderer);
+  camera.animatedReset({}); // TODO: simplify when sigma typings are fixed
 }
 
-function zoomIn(renderer: WebGLRenderer): void {
+function zoomIn(renderer: Sigma): void {
   const camera = renderer.getCamera();
-  camera.animatedZoom(renderer);
+  camera.animatedZoom(1.5); // TODO: simplify when sigma typings are fixed
 }
 
-function zoomOut(renderer: WebGLRenderer): void {
+function zoomOut(renderer: Sigma): void {
   const camera = renderer.getCamera();
-  camera.animatedUnzoom(renderer);
+  camera.animatedUnzoom(1.5); // TODO: simplify when sigma typings are fixed
 }
 
 export function ControlButton({Icon, onClick}) {
@@ -30,7 +30,7 @@ export function ControlButton({Icon, onClick}) {
 }
 
 type GraphControlsProps = {
-  renderer: WebGLRenderer;
+  renderer: Sigma;
 };
 
 export default function GraphControls({renderer}: GraphControlsProps) {

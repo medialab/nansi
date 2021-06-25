@@ -74,12 +74,12 @@
     "bulmaswatch": "^0.8.1",
     "classnames": "^2.2.6",
     "comma-number": "^2.1.0",
-    "d3-scale": "^3.2.3",
+    "d3-scale": "^4.0.0",
     "file-saver": "^2.0.5",
     "graphology": "^0.20.0",
     "graphology-canvas": "^0.3.2",
     "graphology-communities-louvain": "^1.4.1",
-    "graphology-gexf": "^0.7.3",
+    "graphology-gexf": "^0.8.0",
     "graphology-graphml": "^0.3.1",
     "graphology-layout-forceatlas2": "^0.6.1",
     "graphology-layout-noverlap": "^0.3.0",
@@ -102,6 +102,6 @@
     "react-twitter-widgets": "^1.9.5",
     "recoil": "^0.1.2",
     "seedrandom": "^3.0.5",
-    "sigma": "2.0.0-alpha40"
+    "sigma": "2.0.0-beta5"
   }
 }

@@ -1,6 +1,6 @@
 import React, {useCallback, useRef} from 'react';
 import Graph from 'graphology';
-import {WebGLRenderer} from 'sigma';
+import {Sigma} from 'sigma';
 import {scaleLinear} from 'd3-scale';
 
 import {SerializedGraphModelAttribute} from '../../../lib/straighten';
@@ -96,7 +96,7 @@ export default function GraphContainer({
       }
 
       if (node && graph) {
-        const newRenderer = new WebGLRenderer(graph, node, {
+        const newRenderer = new Sigma(graph, node, {
           nodeReducer,
           edgeReducer
         });
