@@ -49,7 +49,12 @@ export default function ExportModal({isOpen, close}: ExportModalProps) {
 
   const PanelComponent = PANELS[activeTab];
 
-  const rendererSize = Math.min(renderer.width, renderer.height);
+  const rendererDimensions = renderer.getDimensions();
+
+  const rendererSize = Math.min(
+    rendererDimensions.width,
+    rendererDimensions.height
+  );
 
   return (
     <div id="ExportModal" className={cls('modal', isOpen && 'is-active')}>

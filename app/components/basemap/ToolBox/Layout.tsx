@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Camera, WebGLRenderer} from 'sigma';
+import {Camera, Sigma} from 'sigma';
 import Button from '../../misc/Button';
 import PlayIcon from 'material-icons-svg/components/baseline/PlayArrow';
 import PauseIcon from 'material-icons-svg/components/baseline/Pause';
@@ -15,7 +15,7 @@ const DEFAULT_NOVERLAP_SETTINGS = {
   ratio: 1
 };
 
-function instantiateNoverlap(renderer: WebGLRenderer, onConverged: () => void) {
+function instantiateNoverlap(renderer: Sigma, onConverged: () => void) {
   // NOTE: this is useful, keep it in sigma
   const fixedCamera = new Camera();
 
@@ -23,7 +23,7 @@ function instantiateNoverlap(renderer: WebGLRenderer, onConverged: () => void) {
     let pos = renderer.normalizationFunction(attr);
 
     // TODO: mind the changes of camera API in the future
-    pos = fixedCamera.graphToViewport(renderer, pos.x, pos.y);
+    pos = fixedCamera.framedGraphToViewport(renderer, pos);
 
     return {
       x: pos.x,
@@ -37,11 +37,13 @@ function instantiateNoverlap(renderer: WebGLRenderer, onConverged: () => void) {
   const outputReducer = (key, pos) => {
     return renderer.normalizationFunction.inverse(
       // TODO: mind the changes of camera API in the future
-      fixedCamera.viewportToGraph(renderer, pos.x, pos.y)
+      fixedCamera.viewportToFramedGraph(renderer, pos)
     );
   };
 
-  const noverlapSupervisor = new NoverlapLayoutSupervisor(renderer.graph, {
+  const graph = renderer.getGraph();
+
+  const noverlapSupervisor = new NoverlapLayoutSupervisor(graph, {
     settings: DEFAULT_NOVERLAP_SETTINGS,
     onConverged,
     inputReducer,
@@ -70,7 +72,7 @@ function LayoutLoader({hidden = false}) {
 }
 
 type LayoutProps = {
-  renderer: WebGLRenderer;
+  renderer: Sigma;
   reset: () => void;
 };
 
@@ -82,8 +84,10 @@ export default function Layout({renderer, reset}: LayoutProps) {
 
   useEffect(() => {
     if (renderer) {
-      fa2Ref.current = new FA2LayoutSupervisor(renderer.graph, {
-        settings: fa2Layout.inferSettings(renderer.graph)
+      const graph = renderer.getGraph();
+
+      fa2Ref.current = new FA2LayoutSupervisor(graph, {
+        settings: fa2Layout.inferSettings(graph)
       });
       noverlapRef.current = instantiateNoverlap(renderer, () => {
         setIsNoverlapWorking(false);

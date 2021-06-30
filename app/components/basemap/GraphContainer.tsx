@@ -69,16 +69,21 @@ export default function GraphContainer({
       console.log('Refreshing sigma');
 
       // TODO: use upcoming #.setNodeReducer
-      renderer.settings.nodeReducer = nodeReducer;
-      renderer.settings.edgeReducer = edgeReducer;
+      renderer.setSetting('nodeReducer', nodeReducer);
+      renderer.setSetting('edgeReducer', edgeReducer);
       needToRefresh = true;
     }
 
     if (previousLabelDensity !== labelDensity) {
-      renderer.settings.labelGrid.cell = {
-        width: CELL_WIDTH_SCALE(labelDensity),
-        height: CELL_HEIGHT_SCALE(labelDensity)
-      };
+      renderer.updateSetting('labelGrid', current => {
+        return {
+          ...current,
+          cell: {
+            width: CELL_WIDTH_SCALE(labelDensity),
+            height: CELL_HEIGHT_SCALE(labelDensity)
+          }
+        };
+      });
 
       // TODO: we can improve sigma to handle this
       renderer.displayedLabels = new Set();
@@ -90,7 +95,9 @@ export default function GraphContainer({
 
   const setContainer = useCallback(
     node => {
-      if (renderer && renderer.graph !== graph) {
+      const currentGraph = renderer.getGraph();
+
+      if (renderer && currentGraph !== graph) {
         renderer.kill();
         setRenderer(null);
       }

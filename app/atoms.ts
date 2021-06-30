@@ -1,5 +1,5 @@
 import Graph from 'graphology-types';
-import {WebGLRenderer} from 'sigma';
+import Sigma from 'sigma';
 import {atom, selector} from 'recoil';
 import {GraphModel, SerializedGraphModelAttribute} from '../lib/straighten';
 
@@ -29,7 +29,7 @@ export const graph = atom<Graph | null>({
   dangerouslyAllowMutability: true
 });
 
-export const renderer = atom<WebGLRenderer | null>({
+export const renderer = atom<Sigma | null>({
   key: 'renderer',
   default: null,
   dangerouslyAllowMutability: true
