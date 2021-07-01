@@ -20,25 +20,19 @@ function instantiateNoverlap(renderer: Sigma, onConverged: () => void) {
   const fixedCamera = new Camera();
 
   const inputReducer = (key, attr) => {
-    let pos = renderer.normalizationFunction(attr);
-
-    // TODO: mind the changes of camera API in the future
-    pos = fixedCamera.framedGraphToViewport(renderer, pos);
+    const pos = renderer.graphToViewport(attr, fixedCamera);
 
     return {
       x: pos.x,
       y: pos.y,
 
       // NOTE: it seems we could need access to this in sigma
-      size: renderer.nodeDataCache[key].size
+      size: renderer.getNodeDisplayData(key).size
     };
   };
 
   const outputReducer = (key, pos) => {
-    return renderer.normalizationFunction.inverse(
-      // TODO: mind the changes of camera API in the future
-      fixedCamera.viewportToFramedGraph(renderer, pos)
-    );
+    return renderer.viewportToGraph(pos, fixedCamera);
   };
 
   const graph = renderer.getGraph();

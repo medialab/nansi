@@ -86,7 +86,7 @@ export default function GraphContainer({
       });
 
       // TODO: we can improve sigma to handle this
-      renderer.displayedLabels = new Set();
+      renderer['displayedLabels'] = new Set();
       needToRefresh = true;
     }
 
