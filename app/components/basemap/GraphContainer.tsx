@@ -55,10 +55,8 @@ export default function GraphContainer({
   const container = useRef(null);
   const [renderer, setRenderer] = useRenderer();
 
-  // Should we refresh?
+  // Do we need to edit settings (it will trigger a sigma refresh on its own)
   if (renderer) {
-    let needToRefresh = false;
-
     if (
       previousNodeColor !== nodeColor ||
       previousNodeSize !== nodeSize ||
@@ -68,10 +66,8 @@ export default function GraphContainer({
     ) {
       console.log('Refreshing sigma');
 
-      // TODO: use upcoming #.setNodeReducer
       renderer.setSetting('nodeReducer', nodeReducer);
       renderer.setSetting('edgeReducer', edgeReducer);
-      needToRefresh = true;
     }
 
     if (previousLabelDensity !== labelDensity) {
@@ -87,17 +83,12 @@ export default function GraphContainer({
 
       // TODO: we can improve sigma to handle this
       renderer['displayedLabels'] = new Set();
-      needToRefresh = true;
     }
-
-    if (needToRefresh) renderer.refresh();
   }
 
   const setContainer = useCallback(
     node => {
-      const currentGraph = renderer.getGraph();
-
-      if (renderer && currentGraph !== graph) {
+      if (renderer && renderer.getGraph() !== graph) {
         renderer.kill();
         setRenderer(null);
       }
