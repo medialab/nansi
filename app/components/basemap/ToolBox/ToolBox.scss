@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../../variables.scss';
 
 $nansi-toolbox-width: 350px;
@@ -52,7 +53,7 @@ $nansi-toolbox-width: 350px;
 
       h2 {
         font-weight: bold;
-        margin-bottom: $gutter / 2;
+        margin-bottom: math.div($gutter, 2);
       }
 
       .columns {

@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../variables.scss';
 
 #ImportModal {
@@ -35,7 +36,7 @@
     .card-header-title {
       padding-top: $gutter * 3;
       margin-bottom: 0;
-      margin-left: $gutter/2;
+      margin-left: math.div($gutter, 2);
     }
     .card-content {
       padding-top: 0;
