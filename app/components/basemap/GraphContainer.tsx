@@ -1,19 +1,12 @@
 import React, {useCallback, useRef} from 'react';
 import Graph from 'graphology';
 import {Sigma} from 'sigma';
-import {scaleLinear} from 'd3-scale';
 
 import {SerializedGraphModelAttribute} from '../../../lib/straighten';
 import {usePrevious, useRenderer} from '../../hooks';
 import {createNodeReducer, createEdgeReducer} from '../../../lib/reducers';
 
 import './GraphContainer.scss';
-
-// Defaults
-const CELL_HEIGHT_RANGE = [200, 10];
-const CELL_WIDTH_RANGE = [300, 30];
-const CELL_HEIGHT_SCALE = scaleLinear().domain([0, 1]).range(CELL_HEIGHT_RANGE);
-const CELL_WIDTH_SCALE = scaleLinear().domain([0, 1]).range(CELL_WIDTH_RANGE);
 
 type GraphContainerProps = {
   graph: Graph;
@@ -55,10 +48,8 @@ export default function GraphContainer({
   const container = useRef(null);
   const [renderer, setRenderer] = useRenderer();
 
-  // Should we refresh?
+  // Should we update the renderer's settings
   if (renderer) {
-    let needToRefresh = false;
-
     if (
       previousNodeColor !== nodeColor ||
       previousNodeSize !== nodeSize ||
@@ -66,38 +57,18 @@ export default function GraphContainer({
       previousEdgeSize !== edgeSize ||
       previousEdgeColor !== edgeColor
     ) {
-      console.log('Refreshing sigma');
-
-      // TODO: use upcoming #.setNodeReducer
       renderer.setSetting('nodeReducer', nodeReducer);
       renderer.setSetting('edgeReducer', edgeReducer);
-      needToRefresh = true;
     }
 
     if (previousLabelDensity !== labelDensity) {
-      renderer.updateSetting('labelGrid', current => {
-        return {
-          ...current,
-          cell: {
-            width: CELL_WIDTH_SCALE(labelDensity),
-            height: CELL_HEIGHT_SCALE(labelDensity)
-          }
-        };
-      });
-
-      // TODO: we can improve sigma to handle this
-      renderer['displayedLabels'] = new Set();
-      needToRefresh = true;
+      renderer.setSetting('labelDensity', labelDensity);
     }
-
-    if (needToRefresh) renderer.refresh();
   }
 
   const setContainer = useCallback(
     node => {
-      const currentGraph = renderer.getGraph();
-
-      if (renderer && currentGraph !== graph) {
+      if (renderer && renderer.getGraph() !== graph) {
         renderer.kill();
         setRenderer(null);
       }

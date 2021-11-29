@@ -106,7 +106,7 @@ export type CreateEdgeReducerOptions = {
 
 // Defaults
 const DEFAULT_EDGE_COLOR = '#ccc';
-const DEFAULT_EDGE_SIZE_RANGE = [1, 10];
+const DEFAULT_EDGE_SIZE_RANGE = [0.5, 10];
 
 export function createEdgeReducer({
   edgeSize,

@@ -35,7 +35,7 @@ function pickTextOptions(defaultOption, modelByStatus) {
 }
 
 const SLIDER_MARKS = {
-  '0.25': 'default'
+  // '0.25': 'default'
 };
 
 function DebouncedSlider({defaultValue, onChange}) {
@@ -48,9 +48,9 @@ function DebouncedSlider({defaultValue, onChange}) {
 
   return (
     <Slider
-      min={0}
-      max={1}
-      step={0.01}
+      min={1}
+      max={10}
+      step={1}
       defaultValue={defaultValue}
       value={value}
       onChange={onSliderChange}
@@ -93,7 +93,7 @@ export default function LabelVariables({
       </div>
       <div className="columns">
         <div className="column is-4">density</div>
-        <div className="column is-8">
+        <div className="column is-8" style={{display: 'none'}}>
           <DebouncedSlider
             defaultValue={variables.density}
             onChange={debounce(actions.setLabelDensity, 300)}
