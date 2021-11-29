@@ -91,7 +91,7 @@ export function useSetNewGraph() {
             },
             labels: {
               text: model.defaultNodeLabel,
-              density: 0.25
+              density: 1
             }
           }
         };

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Camera, Sigma} from 'sigma';
+import Sigma from 'sigma';
 import Button from '../../misc/Button';
 import PlayIcon from 'material-icons-svg/components/baseline/PlayArrow';
 import PauseIcon from 'material-icons-svg/components/baseline/Pause';
@@ -16,11 +16,9 @@ const DEFAULT_NOVERLAP_SETTINGS = {
 };
 
 function instantiateNoverlap(renderer: Sigma, onConverged: () => void) {
-  // NOTE: this is useful, keep it in sigma
-  const fixedCamera = new Camera();
-
   const inputReducer = (key, attr) => {
-    const pos = renderer.graphToViewport(attr, fixedCamera);
+    // TODO: it seems this method has no second argument override.
+    const pos = renderer.graphToViewport(attr);
 
     return {
       x: pos.x,
@@ -32,7 +30,7 @@ function instantiateNoverlap(renderer: Sigma, onConverged: () => void) {
   };
 
   const outputReducer = (key, pos) => {
-    return renderer.viewportToGraph(pos, fixedCamera);
+    return renderer.viewportToGraph(pos);
   };
 
   const graph = renderer.getGraph();

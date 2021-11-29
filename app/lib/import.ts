@@ -48,10 +48,16 @@ function importExample(
 
 function importText(options: ImportOptions, callback: ImportSubCallback): void {
   if (options.format === 'gexf')
-    return callback(null, gexf.parse(Graph, options.text));
+    return callback(
+      null,
+      gexf.parse(Graph, options.text, {addMissingNodes: true})
+    );
 
   if (options.format === 'graphml')
-    return callback(null, graphml.parse(Graph, options.text));
+    return callback(
+      null,
+      graphml.parse(Graph, options.text, {addMissingNodes: true})
+    );
 
   if (options.format === 'json')
     return callback(null, Graph.from(JSON.parse(options.text)));

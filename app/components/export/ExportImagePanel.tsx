@@ -44,7 +44,7 @@ export default function ExportImagePanel({
       ctx.clearRect(0, 0, size, size);
       renderGraphToCanvas(graph, ctx, {
         width: size,
-        margin: size * 0.1,
+        padding: 30,
         nodes: {
           reducer: (settings, node, attr) => {
             return nodeReducer(node, attr);
