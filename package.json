@@ -102,6 +102,6 @@
     "react-twitter-widgets": "^1.9.5",
     "recoil": "^0.5.2",
     "seedrandom": "^3.0.5",
-    "sigma": "^2.1.2"
+    "sigma": "^2.4.0"
   }
 }

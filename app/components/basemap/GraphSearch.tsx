@@ -31,8 +31,11 @@ export default function GraphSearch({graph, renderer, targetAttribute}) {
   const onChange = option => {
     if (option === selectedOption) return;
 
-    if (selectedOption) renderer.unhighlightNode(selectedOption.value);
-    if (option) renderer.highlightNode(option.value);
+    // NOTE: not ideal, but should do the trick before we upgrade sigma
+    if (selectedOption) renderer.highlightedNodes.delete(selectedOption.value);
+    if (option) renderer.highlightedNodes.add(option.value);
+
+    renderer.scheduleHighlightedNodesRender();
 
     setSelectedOption(option);
   };
